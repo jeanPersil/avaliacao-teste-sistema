@@ -32,3 +32,9 @@ export function validarCampos(nome, preco, quantidade, validade) {
 
   return { sucesso: true };
 }
+
+export function validarEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+

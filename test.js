@@ -10,7 +10,7 @@ async function executarTestes() {
   // --- TESTE 1: Cadastro BEM-SUCEDIDO ---
   console.log("--- Teste 1: Cadastro Válido ---");
   const resultadoSucesso = await auth.cadastrarUsuario(
-    `teste${Date.now()}@exemplo.com`, // Use um email único
+    `teste@exemplo.com`, // Use um email único
     "senhaSegura123",
     "João da Silva",
     "999999999"

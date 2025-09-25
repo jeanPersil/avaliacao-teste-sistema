@@ -1,10 +1,22 @@
 import { supabase } from "../../banco/supabaseConfig.js";
+import { validarEmail } from "../utils/validar.js";
 
 export class Autenticacao {
   async cadastrarUsuario(email, senha, nome, telefone, role = "comum") {
     try {
       if (!email || !senha || !nome) {
         return { sucesso: false, mensagem: "Campos obrigatórios faltando" };
+      }
+
+      if (!validarEmail(email)) {
+        return { sucesso: false, mensagem: "Email invalido." };
+      }
+
+      if (senha.length < 6) {
+        return {
+          sucesso: false,
+          mensagem: "A senha deve ter no minimo 6 caracteres.",
+        };
       }
 
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -20,7 +32,7 @@ export class Autenticacao {
       }
 
       const { data: userData, error: userError } = await supabase
-        .from("users")
+        .from("usuarios")
         .insert([
           {
             id: authData.user.id,
@@ -51,4 +63,6 @@ export class Autenticacao {
       };
     }
   }
+
+  async login(email, senha) {}
 }
