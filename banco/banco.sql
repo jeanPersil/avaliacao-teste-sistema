@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS cadastro;
+CREATE DATABASE IF NOT EXISTS cityshop;
 
-USE cadastro;
+USE cityshop;
 
 CREATE TABLE clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
