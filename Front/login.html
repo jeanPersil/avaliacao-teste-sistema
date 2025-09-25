@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tela Login • CityShop</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <main class="container" aria-label="Área de login">
+    
+    
+    <section class="lado-esquerdo">
+      <header class="marca" aria-label="Identidade visual">
+        <h1>Tela Login • CityShop</h1>
+      </header>
+
+      <div class="mensagem-principal">
+        <h2>Olá, bem-vindo!</h2>
+        <p>Cadastre seus produtos.</p>
+      </div>
+
+      <ul class="destaques" aria-label="Destaques">
+        <li>• Cadastre os produtos </li>
+        <li>• Veja preços e remova-os</li>
+        <li>• Painel adm verificado</li>
+      </ul>
+
+      
+    </section>
+
+    
+    <section class="lado-direito" aria-label="Formulário de login">
+      <form id="loginForm" class="cartao" autocomplete="on">
+        <h3>Entrar no painel</h3>
+        <p class="texto-muted">Use seu email e senha para continuar.</p>
+        
+        
+        <label class="campo" for="email">
+          <span>Email</span>
+          <input id="email" name="email" type="email" placeholder="usuario@exemplo.com" required />
+        </label>
+        
+       
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <div class="input-senha">
+            <input type="password" id="senha" name="senha" placeholder="••••••••" required />
+            <span class="toggle-senha">
+              <i id="iconeSenha" class="fa fa-eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="linha entre centro">
+          
+          <a class="link" href="cadastro.html">Não tem uma conta? Cadastre-se</a>
+        </div>
+
+        <button class="botao" type="submit">Entrar</button>
+
+        </form>
+    </section>
+  </main>
+
+  <script src="login.js"></script>
+</body>
+</html>

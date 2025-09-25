@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tela Cadastro • CityShop</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="cadastro.css">
+</head>
+<body>
+  <main class="container" aria-label="Área de cadastro">
+    
+    <section class="lado-esquerdo">
+      <header class="marca" aria-label="Identidade visual">
+        <h1>Tela Cadastro • CityShop</h1>
+      </header>
+
+      <div class="mensagem-principal">
+        <h2>Crie sua conta!</h2>
+        <p>Cadastre-se para ter acesso ao painel de produtos.</p>
+      </div>
+
+      <ul class="destaques" aria-label="Benefícios do cadastro">
+        <li>• Cadastre e gerencie seus produtos</li>
+        <li>• Processo rápido e seguro</li>
+      </ul>
+    </section>
+
+    <section class="lado-direito" aria-label="Formulário de cadastro">
+      <form id="cadastroForm" class="cartao" autocomplete="on">
+        <h3>Criar uma nova conta</h3>
+        <p class="texto-muted">Preencha seus dados para continuar.</p>
+        
+        <label class="campo" for="nome">
+          <span>Nome Completo</span>
+          <input id="nome" name="nome" type="text" placeholder="Seu nome completo" required />
+        </label>
+
+        <label class="campo" for="email">
+          <span>Email</span>
+          <input id="email" name="email" type="email" placeholder="usuario@exemplo.com" required />
+        </label>
+        
+        <label class="campo" for="telefone">
+          <span>Telefone</span>
+          <input id="telefone" name="telefone" type="tel" placeholder="(00) 00000-0000" required />
+        </label>
+
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <div class="input-senha">
+            <input type="password" id="senha" name="senha" placeholder="••••••••" required />
+            <span class="toggle-senha">
+              <i id="iconeSenha" class="fa fa-eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="confirma-senha">Confirme a senha</label>
+          <div class="input-senha">
+            <input type="password" id="confirma-senha" name="confirma-senha" placeholder="••••••••" required />
+            <span class="toggle-senha">
+              <i id="iconeConfirmaSenha" class="fa fa-eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="linha entre centro">
+          <a class="link" href="login.html">Já tem uma conta? Entre</a>
+        </div>
+
+        <button class="botao" type="submit">Cadastrar</button>
+      </form>
+    </section>
+  </main>
+
+  
+  <script src="cadastro.js"></script>
+</body>
+</html>
