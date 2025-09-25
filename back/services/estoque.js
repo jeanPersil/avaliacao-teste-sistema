@@ -1,4 +1,4 @@
-import { Produto } from "./produto.js";
+import { Produto } from "../model/produto.js";
 import { supabase } from "../../banco/supabaseConfig.js";
 import { validarCampos } from "../utils/validar.js";
 
@@ -52,7 +52,6 @@ export class Estoque {
       }
 
       return { sucesso: true };
-
     } catch (erro) {
       console.error("Erro ao adicionar produto:", erro);
       return { sucesso: false, mensagem: erro };
@@ -116,7 +115,6 @@ export class Estoque {
       }
 
       return { sucesso: true };
-
     } catch (erro) {
       console.error("Erro ao editar produto:", erro);
       return { sucesso: false, mensagem: "Erro inesperado ao editar produto." };
