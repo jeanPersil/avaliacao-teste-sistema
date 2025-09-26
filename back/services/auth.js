@@ -64,5 +64,28 @@ export class Autenticacao {
     }
   }
 
-  async login(email, senha) {}
+  async login(email, senha) {
+    if (!email || !senha) {
+      return {
+        sucesso: false,
+        mensagem: "É necessario preencher o email e senha",
+      };
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: senha,
+      });
+
+      if (error) {
+        return { sucesso: false, mensagem: `Erro no login: ${error.message}` };
+      }
+
+      return { sucesso: true, mensagem: "Login realizado com sucesso!" };
+    } catch (error) {
+      console.log(`Erro ao fazer Login: ${error.message}`);
+    }
+  }
 }
+
