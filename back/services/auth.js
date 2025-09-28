@@ -65,16 +65,20 @@ export class Autenticacao {
   }
 
   async login(email, senha) {
-    if (!email || !senha) {
-      return {
-        sucesso: false,
-        mensagem: "É necessario preencher o email e senha",
-      };
-    }
-
     try {
+      if (!email || !senha) {
+        return {
+          sucesso: false,
+          mensagem: "É necessário preencher o email e senha",
+        };
+      }
+
+      if (!validarEmail(email)) {
+        return { sucesso: false, mensagem: "Email invalido." };
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
+        email,
         password: senha,
       });
 
@@ -82,10 +86,30 @@ export class Autenticacao {
         return { sucesso: false, mensagem: `Erro no login: ${error.message}` };
       }
 
-      return { sucesso: true, mensagem: "Login realizado com sucesso!" };
+      const { data: dataUser, error: errorUser } = await supabase
+        .from("usuarios")
+        .select("role")
+        .eq("id", data.user.id)
+        .single();
+
+      if (errorUser) {
+        return {
+          sucesso: false,
+          mensagem: `Erro ao buscar a role do usuário: ${errorUser.message}`,
+        };
+      }
+
+      return {
+        sucesso: true,
+        dados: data.user,
+        role: dataUser.role,
+      };
     } catch (error) {
-      console.log(`Erro ao fazer Login: ${error.message}`);
+      console.log(`Erro ao fazer login: ${error.message}`);
+      return {
+        sucesso: false,
+        mensagem: "Erro inesperado ao realizar login",
+      };
     }
   }
 }
-

@@ -51,8 +51,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         email,
         senha,
         nome,
-        telefone,
-        "admin"
+        telefone
       );
 
       if (!resposta.sucesso) {
