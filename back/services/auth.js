@@ -4,7 +4,7 @@ import { validarEmail } from "../utils/validar.js";
 export class Autenticacao {
   async cadastrarUsuario(email, senha, nome, telefone, role = "comum") {
     try {
-      if (!email || !senha || !nome) {
+      if (!email || !senha || !nome || !telefone) {
         return { sucesso: false, mensagem: "Campos obrigatórios faltando" };
       }
 
