@@ -32,7 +32,7 @@ export class Autenticacao {
       }
 
       const { data: userData, error: userError } = await supabase
-        .from("usuarios")
+        .from("users") // Mudança: era "usuarios", agora "users"
         .insert([
           {
             id: authData.user.id,
@@ -87,7 +87,7 @@ export class Autenticacao {
       }
 
       const { data: dataUser, error: errorUser } = await supabase
-        .from("usuarios")
+        .from("usuarios") 
         .select("role")
         .eq("id", data.user.id)
         .single();

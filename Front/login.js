@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
         campoSenha.getAttribute("type") === "password" ? "text" : "password";
       campoSenha.setAttribute("type", tipo);
 
-      o;
+      // Alterna os ícones
       this.classList.toggle("fa-eye");
       this.classList.toggle("fa-eye-slash");
     });
@@ -32,18 +32,25 @@ document.addEventListener("DOMContentLoaded", function () {
         const auth = new Autenticacao();
         const res = await auth.login(campoEmail.value, campoSenha.value);
 
-        if (!res.sucesso) {
-          return `Erro ao efetuar login: ${res.mensagem}`;
+        console.log("Resposta do login:", res); // Debug
+
+        if (!res || !res.sucesso) {
+          alert(
+            `Erro ao efetuar login: ${res?.mensagem || "Erro desconhecido"}`
+          );
+          return;
         }
 
         if (res.role === "admin") {
           alert("Redirecionando para tela de admin");
+          window.location.href = "./cadprodlist/listprod.html";
           return;
         }
 
-        return alert("Redirecionando para tela de usuario comums");
+        alert("Redirecionando para tela de usuário comum");
       } catch (error) {
-        alert("erro desconhecido");
+        console.error("Erro no login:", error);
+        alert(`Erro inesperado: ${error.message}`);
       }
     });
   }

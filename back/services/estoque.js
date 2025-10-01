@@ -25,12 +25,13 @@ export class Estoque {
   async adicionarProduto(nome, preco, quantidade, validade) {
     try {
       let validar = validarCampos(nome, preco, quantidade, validade);
-      let produtoExiste = await this.verificarProdutoExiste(nome);
 
       if (!validar.sucesso) {
         return { sucesso: false, mensagem: validar.error };
       }
 
+      let produtoExiste = await this.verificarProdutoExiste(nome);
+      
       if (produtoExiste) {
         return { sucesso: false, mensagem: "Este produto ja esta cadastrado." };
       }
@@ -48,13 +49,23 @@ export class Estoque {
         .select();
 
       if (error) {
-        throw new Error(error.message);
+        return {
+          sucesso: false,
+          mensagem: `Erro ao adicionar produto: ${error.message}`,
+        };
       }
 
-      return { sucesso: true };
+      if (!data || data.length === 0) {
+        return {
+          sucesso: false,
+          mensagem: "Nenhum dado foi retornado após inserção",
+        };
+      }
+
+      return { sucesso: true, mensagem: "Produto adicionado com sucesso!" };
     } catch (erro) {
       console.error("Erro ao adicionar produto:", erro);
-      return { sucesso: false, mensagem: erro };
+      return { sucesso: false, mensagem: erro.message || erro };
     }
   }
 
@@ -122,15 +133,29 @@ export class Estoque {
   }
 
   async removerProduto(id) {
-    const { data, error } = await supabase
-      .from("produtos")
-      .delete()
-      .eq("id", id);
+    try {
+      if (!id) {
+        return { sucesso: false, mensagem: "ID do produto é obrigatório" };
+      }
 
-    if (error) {
-      console.error("Erro ao remover produto:", error);
-      return false;
+      const { data, error } = await supabase
+        .from("produtos")
+        .delete()
+        .eq("id", id)
+        .select();
+
+      if (error) {
+        throw new Error(`Erro ao remover produto: ${error.message}`);
+      }
+
+      if (!data || data.length === 0) {
+        return { sucesso: false, mensagem: "Produto não encontrado" };
+      }
+
+      return { sucesso: true, mensagem: "Produto removido com sucesso" };
+    } catch (erro) {
+      console.error("Erro ao remover produto:", erro);
+      return { sucesso: false, mensagem: erro.message };
     }
-    return true;
   }
 }
