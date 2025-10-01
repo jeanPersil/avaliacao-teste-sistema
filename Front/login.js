@@ -13,45 +13,39 @@ document.addEventListener("DOMContentLoaded", function () {
         campoSenha.getAttribute("type") === "password" ? "text" : "password";
       campoSenha.setAttribute("type", tipo);
 
-      // Alterna os ícones
+      o;
       this.classList.toggle("fa-eye");
       this.classList.toggle("fa-eye-slash");
     });
   }
 
   if (formLogin) {
-    formLogin.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  formLogin.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      if (!campoEmail.value || !campoSenha.value) {
-        alert("Por favor, preencha todos os campos.");
+    if (!campoEmail.value || !campoSenha.value) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    try {
+      const auth = new Autenticacao();
+      const res = await auth.login(campoEmail.value, campoSenha.value);
+
+      if (!res.sucesso) {
+        alert(`Erro ao efetuar login: ${res.mensagem}`);
         return;
       }
 
-      try {
-        const auth = new Autenticacao();
-        const res = await auth.login(campoEmail.value, campoSenha.value);
-
-        console.log("Resposta do login:", res); // Debug
-
-        if (!res || !res.sucesso) {
-          alert(
-            `Erro ao efetuar login: ${res?.mensagem || "Erro desconhecido"}`
-          );
-          return;
-        }
-
-        if (res.role === "admin") {
-          alert("Redirecionando para tela de admin");
-          window.location.href = "./cadprodlist/listprod.html";
-          return;
-        }
-
-        alert("Redirecionando para tela de usuário comum");
-      } catch (error) {
-        console.error("Erro no login:", error);
-        alert(`Erro inesperado: ${error.message}`);
+      // Verifica a role e redireciona
+      if (res.role === "admin") {
+        window.location.href = "cadprod.html";
+      } else {
+        window.location.href = "produtos.html";
       }
-    });
+    } catch (error) {
+      alert("Erro desconhecido: " + error.message);
+    }
+  });
   }
 });
