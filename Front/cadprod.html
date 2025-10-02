@@ -14,6 +14,9 @@
     </script>
   </head>
   <body>
+    <button type="button" id="btnSair"class="btn btn-logout">Sair
+
+    </button>
     <div class="container">
       <h2>Cadastro de Produtos</h2>
       <p class="form-description">
@@ -95,6 +98,13 @@
         .addEventListener("click", function () {
           window.location.href = "listprod.html";
         });
+        document
+        .getElementById("btnSair")
+        .addEventListener("click", function () {
+          if (confirm('Tem certeza que deseja sair?')) {
+              window.location.href = "login.html"; 
+          }
+        })
     </script>
   </body>
 </html>

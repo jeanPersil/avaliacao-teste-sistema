@@ -28,6 +28,7 @@
           <button id="atualizarLista" class="btn btn-primary">
             🔄 Atualizar Lista
           </button>
+          <button type="button" id="btnSair"class="btn btn-logout">Sair
         </div>
       </div>
 
@@ -58,6 +59,14 @@
         .addEventListener("click", function () {
           window.location.href = "painelAdm.html";
         });
+
+        document
+        .getElementById("btnSair")
+        .addEventListener("click", function () {
+          if (confirm('Tem certeza que deseja sair?')) {
+              window.location.href = "login.html"; 
+          }
+        })
     </script>
 
     <script type="module" src="listarusuario.js"></script>

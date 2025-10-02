@@ -96,7 +96,7 @@ class VendasController {
       }
     } finally {
       this.btnVender.disabled = false;
-      this.btnVender.textContent = "Vender";
+      this.btnVender.textContent = "Compra";
     }
   }
 

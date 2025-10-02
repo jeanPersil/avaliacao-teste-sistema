@@ -14,8 +14,11 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Botão Sair -->
+    <button type="button" id="btnSair" class="btn btn-logout">Sair</button>
+
     <div class="container">
-      <h2>Venda de Produtos</h2>
+      <h2>Compra de Produtos</h2>
       <form id="formVenda">
         <div class="mb-3">
           <label for="produto" class="form-label">Produto</label>
@@ -51,7 +54,15 @@
       ></div>
     </div>
 
-    <!-- Corrigido: chamando o controller certo -->
     <script type="module" src="produtos.js"></script>
+    <script>
+      document
+        .getElementById("btnSair")
+        .addEventListener("click", function () {
+          if (confirm('Tem certeza que deseja sair?')) {
+            window.location.href = "login.html";
+          }
+        });
+    </script>
   </body>
 </html>

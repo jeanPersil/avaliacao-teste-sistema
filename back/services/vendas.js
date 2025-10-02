@@ -34,7 +34,7 @@ export class Vendas {
         return { sucesso: false, mensagem: "Não foi possível registrar a venda." };
       }
 
-      return { sucesso: true, mensagem: "O produto foi vendido com sucesso!" };
+      return { sucesso: true, mensagem: "O produto foi Comprado com sucesso!" };
     } catch {
       return { sucesso: false, mensagem: "Não foi possível concluir a venda." };
     }

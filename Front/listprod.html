@@ -18,6 +18,8 @@
     <title>Listagem de Produtos</title>
   </head>
   <body>
+    
+
     <div class="container">
       <div class="header-actions">
         <h2>Listagem de Produtos</h2>
@@ -28,6 +30,7 @@
           <button id="atualizarLista" class="btn btn-primary">
             🔄 Atualizar Lista
           </button>
+          <button type="button" id="btnSair"class="btn btn-logout">Sair
         </div>
       </div>
 
@@ -52,16 +55,24 @@
       </div>
     </div>
 
-    <!-- Script simples para o botão voltar -->
+    
     <script>
       document
         .getElementById("btnVoltarCadastro")
         .addEventListener("click", function () {
           window.location.href = "cadprod.html";
         });
-    </script>
+    
 
-    <!-- Script módulo para listagem -->
+      document
+        .getElementById("btnSair")
+        .addEventListener("click", function () {
+          if (confirm('Tem certeza que deseja sair?')) {
+              window.location.href = "login.html"; 
+          }
+        })
+
+   </script>
     <script type="module" src="listagemProdutos.js"></script>
   </body>
 </html>

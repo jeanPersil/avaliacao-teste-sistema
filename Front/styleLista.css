@@ -114,6 +114,35 @@ body {
     box-shadow: 0 3px 10px rgba(231, 76, 60, 0.4);
 }
 
+#btnSair {
+    position: absolute;
+    top: 20px; 
+    right: 20px; 
+    z-index: 1000; 
+    width: auto; 
+    min-width: 120px; 
+    margin: 0; 
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+
+.btn-logout {
+    background: linear-gradient(135deg, #dc3545 0%, #b3001e 100%); 
+    color: white;
+    
+}
+
+.btn-logout:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(220, 53, 69, 0.4); 
+}
+
+.btn-logout:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
+}
+
 /* Estados da tabela */
 .text-center {
     text-align: center;
