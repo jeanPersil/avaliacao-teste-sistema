@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venda de Produto</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <div class="container">
+        <h2>Venda de Produtos</h2>
+        <form id="formVenda">
+            <div class="mb-3">
+                <label for="produto" class="form-label">Produto</label>
+                <select id="produto" class="form-control" required>
+                    <option value="">Carregando produtos...</option>
+                </select>
+                <div id="infoProdutoVenda" class="mt-1"></div> 
+            </div>
+            
+            <div class="mb-3">
+                <label for="quantidadeVenda" class="form-label">Quantidade</label>
+                <input type="number" min="1" class="form-control" id="quantidadeVenda" required value="1">
+            </div>
+            
+            <button type="submit" id="btnVender" class="btn btn-success">Vender</button>
+        </form>
+
+        <div id="mensagem" class="mt-3 alert" style="display: none;" role="alert" aria-live="assertive"></div>
+    </div>
+
+    <!-- Corrigido: chamando o controller certo -->
+    <script type="module" src="produtos.js"></script>
+</body>
+</html>

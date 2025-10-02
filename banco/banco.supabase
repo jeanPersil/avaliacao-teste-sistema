@@ -1,0 +1,38 @@
+-- Tabela de clientes
+CREATE TABLE IF NOT EXISTS clientes (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    usuario VARCHAR(50),
+    telefone VARCHAR(20),
+    email VARCHAR(100) UNIQUE,
+    senha VARCHAR(100) -- Aumentei para hash
+);
+
+-- Tabela de admin
+CREATE TABLE IF NOT EXISTS admin (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    usuario VARCHAR(50),
+    telefone VARCHAR(20),
+    email VARCHAR(100) UNIQUE,
+    senha VARCHAR(100) -- Aumentei para hash
+);
+
+-- Tabela de produtos
+CREATE TABLE IF NOT EXISTS produtos (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    preco DECIMAL(10, 2),
+    quantidade INTEGER, -- Mudei para INTEGER (quantidade geralmente é inteira)
+    validade DATE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS vendas (
+    id SERIAL PRIMARY KEY,
+    cliente_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+    produto_id INTEGER REFERENCES produtos(id),
+    quantidade INTEGER,
+    total DECIMAL(10, 2),
+    data_venda TIMESTAMP DEFAULT NOW()
+);
