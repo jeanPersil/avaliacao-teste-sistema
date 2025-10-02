@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Verifica a role e redireciona
       if (res.role === "admin") {
-        window.location.href = "cadprod.html";
+        window.location.href = "paineladm.html";
       } else {
         window.location.href = "produtos.html";
       }

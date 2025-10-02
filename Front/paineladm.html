@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel do Administrador</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Painel do Administrador</h2>
+      <p class="form-description">
+        Selecione uma das opções abaixo:
+      </p>
+
+      <div class="mt-4">
+        <button
+          type="button"
+          id="btnUsuarios"
+          class="btn btn-primary"
+          style="width: 100%; margin-bottom: 15px;"
+        >
+          Ver Usuários Cadastrados
+        </button>
+
+        <button
+          type="button"
+          id="btnProdutos"
+          class="btn btn-secondary"
+          style="width: 100%;"
+        >
+          Cadastro de produtos
+        </button>
+      </div>
+    </div>
+
+    <script>
+      
+      document
+        .getElementById("btnProdutos")
+        .addEventListener("click", function () {
+          window.location.href = "cadprod.html"; 
+        });
+
+      document
+        .getElementById("btnUsuarios")
+        .addEventListener("click", function () {
+          window.location.href = "listarusuarios.html"; 
+        });
+
+      
+    </script>
+  </body>
+</html>
