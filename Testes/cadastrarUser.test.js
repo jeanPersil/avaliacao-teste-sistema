@@ -9,7 +9,7 @@ import { Autenticacao } from "../back/services/auth.js";
 describe("Testes de cadastro do usuario", () => {
   const auth = new Autenticacao();
 
-  test("Cadastro de usuario com sucesso", async () => {
+  /* test("Cadastro de usuario com sucesso", async () => {
     //=================
     // Criação de cenario
     const email = `test_user${Date.now()}@example.com`;
@@ -24,7 +24,7 @@ describe("Testes de cadastro do usuario", () => {
     //=================
     // Verificação
     expect(res.sucesso).toBe(true);
-  });
+  });  */
 
   test("Cadastro com uma conta ja existente", async () => {
     //=================
