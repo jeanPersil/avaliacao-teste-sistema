@@ -1,6 +1,6 @@
 import { Estoque } from '../back/services/estoque.js';
 
-class ListagemProdutos {
+export class ListagemProdutos {
     constructor() {
         this.estoque = new Estoque();
         this.init();
