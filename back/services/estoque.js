@@ -107,13 +107,6 @@ export class Estoque {
         throw new Error(`Erro ao editar produto: ${error.message}`);
       }
 
-      if (!data || data.length === 0) {
-        return {
-          sucesso: false,
-          mensagem: "Produto não encontrado ou nenhum campo alterado.",
-        };
-      }
-
       return { sucesso: true };
     } catch (erro) {
       console.error("Erro ao editar produto:", erro);
