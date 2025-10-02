@@ -1,42 +1,129 @@
 import { Produto } from "../model/produto.js";
 import { supabase } from "../../banco/supabaseConfig.js";
+import { validarCampos } from "../utils/validar.js";
 
 export class Estoque {
   constructor() {
     this.produtos = [];
   }
 
-  async listarProdutos() {
-    const { data, error } = await supabase.from("produtos").select("*");
+  async verificarProdutoExiste(nome) {
+    const { data, error } = await supabase
+      .from("produtos")
+      .select("id")
+      .eq("nome", nome);
+
     if (error) {
-      console.error("Erro listar produtos:", error);
-      throw new Error(error.message);
+      throw new Error(`Erro ao verificar produto: ${error.message}`);
     }
-    const produtosMapeados = data.map((p) => Produto.fromSupabase(p));
-    this.produtos = produtosMapeados;
-    return this.produtos;
+
+    if (data && data.length > 0) return true;
+
+    return false;
   }
 
-  async atualizarQuantidade(id, quantidadeVendida) {
+  async adicionarProduto(nome, preco, quantidade, validade) {
     try {
-      const pid = parseInt(id, 10);
-      console.log("➡ RPC diminuir_estoque chamada | id:", pid, "qtd vendida:", quantidadeVendida);
+      let validar = validarCampos(nome, preco, quantidade, validade);
+      let produtoExiste = await this.verificarProdutoExiste(nome);
 
-      const { data, error } = await supabase.rpc("diminuir_estoque", {
-        pid: pid,
-        qtd: quantidadeVendida,
-      });
-
-      if (error) {
-        console.error("Erro na RPC diminuir_estoque:", error);
-        return { sucesso: false, mensagem: error.message };
+      if (!validar.sucesso) {
+        return { sucesso: false, mensagem: validar.error };
       }
 
-      console.log("RPC executar com sucesso, data:", data);
+      if (produtoExiste) {
+        return { sucesso: false, mensagem: "Este produto ja esta cadastrado." };
+      }
+
+      const { data, error } = await supabase
+        .from("produtos")
+        .insert([
+          {
+            nome: nome,
+            preco: preco,
+            quantidade: quantidade,
+            validade: validade,
+          },
+        ])
+        .select();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
       return { sucesso: true };
-    } catch (err) {
-      console.error("Erro ao chamar RPC:", err);
-      return { sucesso: false, mensagem: err.message };
+    } catch (erro) {
+      console.error("Erro ao adicionar produto:", erro);
+      return { sucesso: false, mensagem: erro };
     }
+  }
+
+  async listarProdutos() {
+    try {
+      const { data, error } = await supabase.from("produtos").select("*");
+
+      if (error) {
+        throw new Error(`Erro ao buscar produtos: ${error.message}`);
+      }
+
+      if (!data) {
+        return [];
+      }
+
+      const produtosMapeados = data.map((produtoData) =>
+        Produto.fromSupabase(produtoData)
+      );
+
+      this.produtos = produtosMapeados;
+      return this.produtos;
+    } catch (erro) {
+      console.error("Erro ao listar produtos:", erro);
+      throw erro;
+    }
+  }
+
+  async editarProduto(id, nome, preco, quantidade, validade) {
+    let validar = validarCampos(nome, preco, quantidade, validade);
+
+    if (!validar.sucesso) {
+      return { sucesso: false, mensagem: validar.error };
+    }
+
+    try {
+      const dadosAtualizados = {
+        nome: nome,
+        preco: preco,
+        quantidade: quantidade,
+        validade: validade,
+      };
+
+      const { data, error } = await supabase
+        .from("produtos")
+        .update(dadosAtualizados)
+        .eq("id", id)
+        .select();
+
+      if (error) {
+        throw new Error(`Erro ao editar produto: ${error.message}`);
+      }
+
+      return { sucesso: true };
+    } catch (erro) {
+      console.error("Erro ao editar produto:", erro);
+      return { sucesso: false, mensagem: "Erro inesperado ao editar produto." };
+    }
+  }
+
+  async removerProduto(id) {
+    const { data, error } = await supabase
+      .from("produtos")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      console.error("Erro ao remover produto:", error);
+      return false;
+    }
+    return true;
   }
 }
