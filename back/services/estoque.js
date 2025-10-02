@@ -50,7 +50,6 @@ export class Estoque {
       if (error) {
         throw new Error(error.message);
       }
-
       return { sucesso: true };
     } catch (erro) {
       console.error("Erro ao adicionar produto:", erro);
@@ -115,10 +114,17 @@ export class Estoque {
   }
 
   async removerProduto(id) {
-    const { data, error } = await supabase
+    const { data: produto } = await supabase
       .from("produtos")
-      .delete()
-      .eq("id", id);
+      .select("id")
+      .eq("id", id)
+      .single();
+
+    if (!produto) {
+      return false; // Produto não existe
+    }
+
+    const { error } = await supabase.from("produtos").delete().eq("id", id);
 
     if (error) {
       console.error("Erro ao remover produto:", error);
