@@ -1,0 +1,187 @@
+/* styleLista.css */
+body {
+    padding: 20px;
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-top: 20px;
+}
+
+/* Header com título e botões */
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header-actions h2 {
+    color: #333;
+    margin: 0;
+    font-weight: 600;
+}
+
+.botoes-acao {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Tabela */
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    margin-bottom: 0;
+    background: white;
+}
+
+.table th {
+    background-color: #343a40;
+    color: white;
+    border: none;
+    padding: 15px 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    padding: 12px;
+    vertical-align: middle;
+    border-color: #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+/* Botões */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    color: white;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    padding: 6px 12px;
+    font-size: 0.875rem;
+}
+
+.btn-danger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(231, 76, 60, 0.4);
+}
+
+/* Estados da tabela */
+.text-center {
+    text-align: center;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+/* Loading state */
+.table tbody tr td[colspan] {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px;
+        margin-top: 10px;
+    }
+    
+    .header-actions {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .botoes-acao {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .botoes-acao .btn {
+        flex: 1;
+        min-width: 140px;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 8px 6px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .header-actions h2 {
+        font-size: 1.5rem;
+    }
+    
+    .botoes-acao {
+        flex-direction: column;
+    }
+    
+    .botoes-acao .btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
