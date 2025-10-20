@@ -99,3 +99,78 @@ describe("Testes de login do usuario", () => {
     expect(res.sucesso).toBe(false);
   });
 });
+
+//-----------------------------------------------------------------------------------
+/**
+ * Testes do login do usuario 2.0
+ * Autor: Iwin Lima
+ * Data: 19/10/2025
+ */
+
+describe("Testes adicionais de login do usuario", () => {
+  const auth = new Autenticacao();
+
+  test("Login com email em maiúsculas", async () => {
+    //=================
+    // Criação de cenario
+    
+    const email = "ADMIN1@GMAIL.COM";
+    const senha = "admin123";
+
+    //=================
+    // Execução
+    const res = await auth.login(email, senha);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(true);
+  });
+
+  test("Login com senha contendo espaços", async () => {
+    //=================
+    // Criação de cenario
+
+    const email = "admin1@gmail.com";
+    const senha = "admin 123";
+
+    //=================
+    // Execução
+    const res = await auth.login(email, senha);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(false);
+  });
+
+  test("Login com email null", async () => {
+    //=================
+    // Criação de cenario
+
+    const email = null;
+    const senha = "admin123";
+
+    //=================
+    // Execução
+    const res = await auth.login(email, senha);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(false);
+  });
+
+  test("Login com senha null", async () => {
+    //=================
+    // Criação de cenario
+
+    const email = "admin1@gmail.com";
+    const senha = null;
+
+    //=================
+    // Execução
+    const res = await auth.login(email, senha);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(false);
+  });
+});

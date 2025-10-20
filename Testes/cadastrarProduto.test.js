@@ -162,3 +162,148 @@ describe("Testes de cadastro do produto", () => {
     expect(res.mensagem).toBe("Todos os campos são obrigatórios");
   })
 });
+
+//-----------------------------------------------------------------------------------
+/**
+ * Testes do cadastro de produto 2.0
+ * Autor: Iwin Lima
+ * Data: 19/10/2025
+ */
+
+
+describe("Testes adicionais de cadastro do produto", () => {
+  
+  test("Cadastro de produto com quantidade zero", async () => {
+    //=================
+    // Criação de cenario
+
+    const estoque = new Estoque();
+    const nome = `Produto teste ${Date.now()}`;
+    const preco = 50.0;
+    const quantidade = 0;
+    const validade = "2025-12-31";
+
+    //=================
+    // Execução
+    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(true);
+  });
+
+  test("Cadastro de produto com preço zero", async () => {
+    //=================
+    // Criação de cenario
+
+    const estoque = new Estoque();
+    const nome = `Produto teste ${Date.now()}`;
+    const preco = 0;
+    const quantidade = 10;
+    const validade = "2025-12-31";
+
+    //=================
+    // Execução
+    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(true);
+  });
+
+  test("Cadastro de produto com validade no passado", async () => {
+    //=================
+    // Criação de cenario
+
+    const estoque = new Estoque();
+    const nome = `Produto teste ${Date.now()}`;
+    const preco = 25.50;
+    const quantidade = 5;
+    const validade = "2020-01-01";
+
+    //=================
+    // Execução
+    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(true);
+  });
+
+  test("Cadastro de produto com nome muito longo", async () => {
+    //=================
+    // Criação de cenario
+
+    const estoque = new Estoque();
+    const nome = "A".repeat(500); 
+    const preco = 25.50;
+    const quantidade = 5;
+    const validade = "2025-12-31";
+
+    //=================
+    // Execução
+    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(false);
+    
+  });
+
+  test("Cadastro de produto com caracteres especiais no nome", async () => {
+    //=================
+    // Criação de cenario
+
+    const estoque = new Estoque();
+    const nome = `Produto teste @#${Date.now()}`; 
+    const preco = 25.50;
+    const quantidade = 5;
+    const validade = "2025-12-31";
+
+    //=================
+    // Execução
+    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(true);
+  });
+
+  test("Cadastro de produto sem data de validade", async () => {
+    //=================
+    // Criação de cenario
+
+    const estoque = new Estoque();
+    const nome = `Produto teste ${Date.now()}`;
+    const preco = 25.50;
+    const quantidade = 5;
+    const validade = "";
+
+    //=================
+    // Execução
+    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(false);
+  });
+
+  test("Cadastro de produto com formato de data inválido", async () => {
+    //=================
+    // Criação de cenario
+
+    const estoque = new Estoque();
+    const nome = `Produto teste ${Date.now()}`;
+    const preco = 25.50;
+    const quantidade = 5;
+    const validade = "31-12-2025"; 
+
+    //=================
+    // Execução
+    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+
+    //=================
+    // Verificação
+    expect(res.sucesso).toBe(false);
+  });
+});

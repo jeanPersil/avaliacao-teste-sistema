@@ -46,3 +46,44 @@ describe("Testes de exclusão de produtos", () => {
     expect(res).toBe(false);
   });
 });
+
+//-----------------------------------------------------------------------------------
+/**
+ * Testes de exclusão de produtos 2.0
+ * Autor: Iwin Lima
+ * Data: 19/10/2025
+ */
+
+describe("Testes adicionais de exclusão de produtos", () => {
+  
+  test("Exclusão de produto com ID negativo", async () => {
+    //=================
+    // Criação de cenario
+
+    const estoque = new Estoque();
+    const produtoid = -1;
+
+    //=================
+    // Execução
+    const res = await estoque.removerProduto(produtoid);
+
+    //=================
+    // Verificação
+    expect(res).toBe(false);
+  });
+
+  test("Exclusão de produto com ID zero", async () => {
+    //=================
+    // Criação de cenario
+    const estoque = new Estoque();
+    const produtoid = 0;
+
+    //=================
+    // Execução
+    const res = await estoque.removerProduto(produtoid);
+
+    //=================
+    // Verificação
+    expect(res).toBe(false);
+  });
+});
