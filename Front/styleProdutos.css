@@ -1,0 +1,502 @@
+
+/* Reset e estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container principal */
+.container {
+    max-width: 800px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    margin: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* Header da compra */
+.header-compra {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header-compra h2 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.header-compra .icon {
+    margin-right: 15px;
+}
+
+.subtitle {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Card da compra */
+.card-compra {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+    margin-bottom: 30px;
+}
+
+/* Grupos de formulário */
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 10px;
+    display: block;
+    font-size: 1rem;
+}
+
+.form-label .icon {
+    margin-right: 8px;
+    width: 20px;
+}
+
+/* Campos de formulário */
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: white;
+    font-family: inherit;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Controle de quantidade */
+.quantidade-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 200px;
+}
+
+.btn-quantidade {
+    width: 45px;
+    height: 45px;
+    border: 2px solid #667eea;
+    background: white;
+    color: #667eea;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.btn-quantidade:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.quantidade-input {
+    text-align: center;
+    font-weight: 600;
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.quantidade-input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* Informações do produto */
+.info-produto {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+    margin-top: 10px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.info-value {
+    color: #6c757d;
+}
+
+/* Resumo da compra */
+.resumo-compra {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    border: 1px solid #dee2e6;
+}
+
+.resumo-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #6c757d;
+}
+
+.resumo-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #dee2e6;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #28a745;
+}
+
+/* Botão de compra */
+.btn-comprar {
+    width: 100%;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.btn-comprar:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(40, 167, 69, 0.4);
+}
+
+.btn-comprar:active:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.btn-comprar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Produtos em destaque */
+.produtos-destaque {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.produtos-destaque h4 {
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.produtos-destaque .icon {
+    margin-right: 10px;
+}
+
+.lista-destaque {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.produto-destaque {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.produto-destaque:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: #e9ecef;
+}
+
+.produto-destaque .nome {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.produto-destaque .preco {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.produto-destaque .estoque {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Botão Sair */
+.btn-logout {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    min-width: 120px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #dc3545 0%, #b3001e 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+}
+
+.btn-logout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(220, 53, 69, 0.4);
+}
+
+.btn-logout .icon {
+    margin-right: 8px;
+}
+
+/* Mensagens de alerta */
+.mensagem-alerta {
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: none;
+    margin-top: 20px;
+}
+
+.mensagem-alerta.sucesso {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.mensagem-alerta.erro {
+    background: linear-gradient(135deg, #f8d7da 0%, #f1b0b7 100%);
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+.mensagem-alerta.aviso {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    color: #856404;
+    border-left: 4px solid #ffc107;
+}
+
+/* Animações */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Loading state */
+.btn-carregando {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.btn-carregando::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: girar 1s linear infinite;
+}
+
+@keyframes girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estados de validação */
+.form-control:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: #dc3545;
+}
+
+.form-control:valid:not(:focus):not(:placeholder-shown) {
+    border-color: #28a745;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        margin: 10px;
+        padding: 20px;
+    }
+    
+    .card-compra {
+        padding: 20px;
+    }
+    
+    .header-compra h2 {
+        font-size: 2rem;
+    }
+    
+    .quantidade-container {
+        max-width: 100%;
+    }
+    
+    .lista-destaque {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn-logout {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin: 0 auto 20px auto;
+        display: block;
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .card-compra {
+        padding: 15px;
+    }
+    
+    .header-compra h2 {
+        font-size: 1.8rem;
+    }
+    
+    .btn-comprar {
+        padding: 12px 20px;
+        font-size: 1.1rem;
+    }
+    
+    .resumo-compra {
+        padding: 15px;
+    }
+    
+    .produtos-destaque {
+        padding: 20px;
+    }
+}
+
+/* Utilitários */
+.texto-centralizado {
+    text-align: center;
+}
+
+.texto-esquerda {
+    text-align: left;
+}
+
+.texto-direita {
+    text-align: right;
+}
+
+.escondido {
+    display: none !important;
+}
+
+.visivel {
+    display: block !important;
+}
