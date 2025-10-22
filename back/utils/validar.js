@@ -33,8 +33,16 @@ export function validarCampos(nome, preco, quantidade, validade) {
   return { sucesso: true };
 }
 
+export function validarTelefoneMinimo(telefone) {
+  if (!telefone || typeof telefone !== "string") {
+    return false;
+  }
+
+  const apenasNumeros = telefone.replace(/\D/g, "");
+  return apenasNumeros.length >= 10 && apenasNumeros.length <= 11;
+}
+
 export function validarEmail(email) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 }
-

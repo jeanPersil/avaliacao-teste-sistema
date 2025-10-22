@@ -1,5 +1,5 @@
 import { supabase } from "../../banco/supabaseConfig.js";
-import { validarEmail } from "../utils/validar.js";
+import { validarEmail, validarTelefoneMinimo } from "../utils/validar.js";
 
 export class Autenticacao {
   async cadastrarUsuario(email, senha, nome, telefone, role = "comum") {
@@ -10,6 +10,20 @@ export class Autenticacao {
 
       if (!validarEmail(email)) {
         return { sucesso: false, mensagem: "Email invalido." };
+      }
+
+      if (!validarTelefoneMinimo(telefone)) {
+        return {
+          sucesso: false,
+          mensagem: "Telefone invalido",
+        };
+      }
+
+      if (nome.length > 30) {
+        return {
+          sucesso: false,
+          mensagem: "Campo nome com muitos caracteres",
+        };
       }
 
       if (senha.length < 6) {
@@ -111,5 +125,45 @@ export class Autenticacao {
         mensagem: "Erro inesperado ao realizar login",
       };
     }
+  }
+
+  async buscar_usuario_id(email) {
+    const { data, error } = await supabase
+      .from("usuarios")
+      .select("id")
+      .eq("email", email)
+      .single();
+
+    if (error) {
+      return {
+        sucesso: false,
+        mensagem: "Erro ao buscar id de usuario",
+      };
+    }
+    return data;
+  }
+
+  async deletar_usuario(id) {
+    const { error: userError } = await supabase
+      .from("usuarios")
+      .delete()
+      .eq("id", id);
+
+    if (userError) {
+      return { sucesso: false, mensagem: "Erro ao deletar usuario" };
+    }
+
+    const { error } = await supabase.auth.admin.deleteUser(id);
+
+    if (error) {
+      return {
+        sucesso: false,
+        mensagem: error,
+      };
+    }
+
+    return {
+      sucesso: true,
+    };
   }
 }

@@ -50,7 +50,7 @@ export class Estoque {
       if (error) {
         throw new Error(error.message);
       }
-      return { sucesso: true };
+      return { sucesso: true, produtoId: data.id };
     } catch (erro) {
       console.error("Erro ao adicionar produto:", erro);
       return { sucesso: false, mensagem: erro };
@@ -121,7 +121,7 @@ export class Estoque {
       .single();
 
     if (!produto) {
-      return false; // Produto não existe
+      return false;
     }
 
     const { error } = await supabase.from("produtos").delete().eq("id", id);

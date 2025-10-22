@@ -40,7 +40,12 @@ describe("Testes de cadastro do produto", () => {
     const preco = 99.99;
     const quantidade = 10;
     const validade = "2025-12-31";
-    await estoque.adicionarProduto(nome, preco, quantidade, validade);
+    const prod1 = await estoque.adicionarProduto(
+      nome,
+      preco,
+      quantidade,
+      validade
+    );
 
     // segundo produto com nome duplicado
     const nomeDuplicado = nome;
@@ -135,7 +140,6 @@ describe("Testes de cadastro do produto", () => {
     expect(res.mensagem).toBe("Quantidade deve ser um número inteiro válido");
   });
 
-
   test("Cadastrar produto com campos vazios", async () => {
     //=================
     // Criação de cenario
@@ -145,7 +149,6 @@ describe("Testes de cadastro do produto", () => {
     const preco = "";
     const quantidade = "";
     const validade = "";
-
 
     //=================
     // Execução
@@ -160,7 +163,7 @@ describe("Testes de cadastro do produto", () => {
     // Verificação
     expect(res.sucesso).toBe(false);
     expect(res.mensagem).toBe("Todos os campos são obrigatórios");
-  })
+  });
 });
 
 //-----------------------------------------------------------------------------------
@@ -170,9 +173,7 @@ describe("Testes de cadastro do produto", () => {
  * Data: 19/10/2025
  */
 
-
 describe("Testes adicionais de cadastro do produto", () => {
-  
   test("Cadastro de produto com quantidade zero", async () => {
     //=================
     // Criação de cenario
@@ -185,7 +186,12 @@ describe("Testes adicionais de cadastro do produto", () => {
 
     //=================
     // Execução
-    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+    const res = await estoque.adicionarProduto(
+      nome,
+      preco,
+      quantidade,
+      validade
+    );
 
     //=================
     // Verificação
@@ -204,7 +210,12 @@ describe("Testes adicionais de cadastro do produto", () => {
 
     //=================
     // Execução
-    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+    const res = await estoque.adicionarProduto(
+      nome,
+      preco,
+      quantidade,
+      validade
+    );
 
     //=================
     // Verificação
@@ -217,13 +228,18 @@ describe("Testes adicionais de cadastro do produto", () => {
 
     const estoque = new Estoque();
     const nome = `Produto teste ${Date.now()}`;
-    const preco = 25.50;
+    const preco = 25.5;
     const quantidade = 5;
     const validade = "2020-01-01";
 
     //=================
     // Execução
-    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+    const res = await estoque.adicionarProduto(
+      nome,
+      preco,
+      quantidade,
+      validade
+    );
 
     //=================
     // Verificação
@@ -235,19 +251,23 @@ describe("Testes adicionais de cadastro do produto", () => {
     // Criação de cenario
 
     const estoque = new Estoque();
-    const nome = "A".repeat(500); 
-    const preco = 25.50;
+    const nome = "A".repeat(500);
+    const preco = 25.5;
     const quantidade = 5;
     const validade = "2025-12-31";
 
     //=================
     // Execução
-    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+    const res = await estoque.adicionarProduto(
+      nome,
+      preco,
+      quantidade,
+      validade
+    );
 
     //=================
     // Verificação
     expect(res.sucesso).toBe(false);
-    
   });
 
   test("Cadastro de produto com caracteres especiais no nome", async () => {
@@ -255,18 +275,25 @@ describe("Testes adicionais de cadastro do produto", () => {
     // Criação de cenario
 
     const estoque = new Estoque();
-    const nome = `Produto teste @#${Date.now()}`; 
-    const preco = 25.50;
+    const nome = `Produto teste @#${Date.now()}`;
+    const preco = 25.5;
     const quantidade = 5;
     const validade = "2025-12-31";
 
     //=================
     // Execução
-    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+    const res = await estoque.adicionarProduto(
+      nome,
+      preco,
+      quantidade,
+      validade
+    );
 
     //=================
     // Verificação
     expect(res.sucesso).toBe(true);
+
+    await estoque.removerProduto(res.produtoId);
   });
 
   test("Cadastro de produto sem data de validade", async () => {
@@ -275,13 +302,18 @@ describe("Testes adicionais de cadastro do produto", () => {
 
     const estoque = new Estoque();
     const nome = `Produto teste ${Date.now()}`;
-    const preco = 25.50;
+    const preco = 25.5;
     const quantidade = 5;
     const validade = "";
 
     //=================
     // Execução
-    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+    const res = await estoque.adicionarProduto(
+      nome,
+      preco,
+      quantidade,
+      validade
+    );
 
     //=================
     // Verificação
@@ -294,13 +326,18 @@ describe("Testes adicionais de cadastro do produto", () => {
 
     const estoque = new Estoque();
     const nome = `Produto teste ${Date.now()}`;
-    const preco = 25.50;
+    const preco = 25.5;
     const quantidade = 5;
-    const validade = "31-12-2025"; 
+    const validade = "31-12-2025";
 
     //=================
     // Execução
-    const res = await estoque.adicionarProduto(nome, preco, quantidade, validade);
+    const res = await estoque.adicionarProduto(
+      nome,
+      preco,
+      quantidade,
+      validade
+    );
 
     //=================
     // Verificação

@@ -15,7 +15,7 @@ describe("Testes de cadastro do usuario", () => {
     const email = `test_user${Date.now()}@example.com`;
     const senha = "senhaSegura123";
     const nome = "Usuario teste";
-    const telefone = "1234567890";
+    const telefone = "75999755192";
 
     //=================
     // Execução
@@ -49,7 +49,7 @@ describe("Testes de cadastro do usuario", () => {
     const email = "";
     const senha = "senhaSegura123";
     const nome = "Usuario teste";
-    const telefone = "1234567890";
+    const telefone = "75999755192";
 
     //=================
     // Execução
@@ -66,7 +66,7 @@ describe("Testes de cadastro do usuario", () => {
     const email = "emailinvalido";
     const senha = "senhaSegura123";
     const nome = "Usuario teste";
-    const telefone = "1234567890";
+    const telefone = "75999755192";
 
     //=================
     // Execução
@@ -86,7 +86,7 @@ describe("Testes de cadastro do usuario", () => {
       .slice(2)}@exemplo.com`;
     const senha = "";
     const nome = "Usuario teste";
-    const telefone = "1234567890";
+    const telefone = "75999755192";
 
     //=================
     // Execução
@@ -116,7 +116,7 @@ describe("Testes adicionais de cadastro do usuario", () => {
     const email = `test_${Date.now()}@example.com`;
     const senha = "123";
     const nome = "Usuario teste";
-    const telefone = "1234567890";
+    const telefone = "75999755192";
 
     //=================
     // Execução
@@ -142,7 +142,7 @@ describe("Testes adicionais de cadastro do usuario", () => {
 
     //=================
     // Verificação
-    expect(res.sucesso).toBe(true);
+    expect(res.sucesso).toBe(false);
   });
 
   test("Cadastro sem nome", async () => {
@@ -152,7 +152,7 @@ describe("Testes adicionais de cadastro do usuario", () => {
     const email = `test_${Date.now()}@example.com`;
     const senha = "senhaSegura123";
     const nome = "";
-    const telefone = "1234567890";
+    const telefone = "75999755192";
 
     //=================
     // Execução
@@ -163,14 +163,14 @@ describe("Testes adicionais de cadastro do usuario", () => {
     expect(res.sucesso).toBe(false);
   });
 
-  test("Cadastro com nome dentro do limite", async () => {
+  test("Cadastro com nome fora do limite", async () => {
     //=================
     // Criação de cenario
 
     const email = `test_${Date.now()}@example.com`;
     const senha = "senhaSegura123";
-    const nome = "A".repeat(50); 
-    const telefone = "1234567890";
+    const nome = "A".repeat(50);
+    const telefone = "75999755192";
 
     //=================
     // Execução
@@ -178,17 +178,17 @@ describe("Testes adicionais de cadastro do usuario", () => {
 
     //=================
     // Verificação
-    expect(res.sucesso).toBe(true);
+    expect(res.sucesso).toBe(false);
   });
 
   test("Cadastro com email contendo espaços", async () => {
     //=================
     // Criação de cenario
-    
+
     const email = "test user@example.com";
     const senha = "senhaSegura123";
     const nome = "Usuario teste";
-    const telefone = "1234567890";
+    const telefone = "75999755192";
 
     //=================
     // Execução
@@ -224,7 +224,7 @@ describe("Testes adicionais de cadastro do usuario", () => {
     const baseEmail = `test_${Date.now()}@example.com`;
     const senha = "senhaSegura123";
     const nome = "Usuario teste";
-    const telefone = "1234567890";
+    const telefone = "75999755192";
 
     //=================
     // Execução
