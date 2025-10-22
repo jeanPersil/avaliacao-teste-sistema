@@ -4,6 +4,9 @@
  * Testes da listagem de usuários (integração com BD)
  * Autor: Silas Gabriel
  * Data: 21/10/2025
+ * 
+ * ultima modificação: 22/10/2025
+ * por: Silas Gabriel
  */
 import { jest } from '@jest/globals';
 import { Usuario } from "../back/services/usuario.js";
