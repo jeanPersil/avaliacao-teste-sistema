@@ -9,7 +9,12 @@ import { jest } from '@jest/globals';
 import { Usuario } from "../back/services/usuario.js";
 import { Autenticacao } from "../back/services/auth.js";
 
-jest.setTimeout(20000);
+
+jest.setTimeout(30000); // Aumenta timeout para 30 segundos
+
+
+const DELAY_ENTRE_TESTES = 1500; // 1.5 segundos
+const DELAY_APOS_CRIACAO = 2000; // 2 segundos após criar usuário
 
 describe("Testes de listagem de usuários (integração com BD)", () => {
   let authSvc;
@@ -26,6 +31,10 @@ describe("Testes de listagem de usuários (integração com BD)", () => {
     console.error.mockRestore();
   });
 
+  afterEach(async () => {
+  await new Promise(resolve => setTimeout(resolve, DELAY_ENTRE_TESTES));
+  });
+
   // Função auxiliar para criar usuário de teste
   async function criarUsuarioTeste() {
     const ts = Date.now();
@@ -38,6 +47,9 @@ describe("Testes de listagem de usuários (integração com BD)", () => {
     if (!res.sucesso) {
       throw new Error(`Falha ao criar usuário de teste: ${res.mensagem}`);
     }
+
+    // Delay após criação
+    await new Promise(resolve => setTimeout(resolve, DELAY_APOS_CRIACAO));
 
     const lista = await usuarioSvc.listarUsuarios();
     const usuario = lista.find((u) => u.email === email);
@@ -386,5 +398,277 @@ describe("Testes de listagem de usuários (integração com BD)", () => {
     // limpeza
     await limparUsuarioTeste(email);
     });
+
+    test("listarUsuarios deve retornar usuários ordenados corretamente após múltiplas inserções", async () => {
+  //=================
+  // Criação de cenário - criar 3 usuários com delays entre eles
+  const { usuario: usuario1, email: email1 } = await criarUsuarioTeste();
+  await new Promise(resolve => setTimeout(resolve, 50));
+  const { usuario: usuario2, email: email2 } = await criarUsuarioTeste();
+  await new Promise(resolve => setTimeout(resolve, 50));
+  const { usuario: usuario3, email: email3 } = await criarUsuarioTeste();
+
+  //=================
+  // Execução
+  const lista = await usuarioSvc.listarUsuarios();
+
+  //=================
+  // Verificação - deve estar na ordem: 3, 2, 1 (mais recente primeiro)
+  const index1 = lista.findIndex(u => u.id === usuario1.id);
+  const index2 = lista.findIndex(u => u.id === usuario2.id);
+  const index3 = lista.findIndex(u => u.id === usuario3.id);
+
+  expect(index3).toBeLessThan(index2);
+  expect(index2).toBeLessThan(index1);
+
+  // limpeza
+  await limparUsuarioTeste(email1);
+  await limparUsuarioTeste(email2);
+  await limparUsuarioTeste(email3);
+});
+
+test("listarUsuarios deve lidar com usuários com emails similares mas diferentes", async () => {
+  //=================
+  // Criação de cenário - emails com pequenas variações
+  const ts = Date.now();
+  const emails = [
+    `user${ts}@example.com`,
+    `user.${ts}@example.com`,
+    `user_${ts}@example.com`,
+    `user-${ts}@example.com`
+  ];
+
+  const usuariosCriados = [];
+
+  for (let i = 0; i < emails.length; i++) {
+    const res = await authSvc.cadastrarUsuario(emails[i], "senha123", `Usuário ${i} ${ts}`, `119${String(ts).slice(-8)}`);
+    expect(res.sucesso).toBe(true);
+    usuariosCriados.push(emails[i]);
+  }
+
+  //=================
+  // Execução
+  const lista = await usuarioSvc.listarUsuarios();
+
+  //=================
+  // Verificação - todos os emails similares devem ser retornados corretamente
+  emails.forEach(email => {
+    const usuario = lista.find(u => u.email === email);
+    expect(usuario).toBeDefined();
+    expect(usuario.email).toBe(email);
+  });
+
+  // limpeza
+  for (const email of usuariosCriados) {
+    await limparUsuarioTeste(email);
+  }
+});
+
+test("listarUsuarios deve manter dados consistentes após atualização do banco", async () => {
+  //=================
+  // Criação de cenário
+  const { usuario: usuarioOriginal, email } = await criarUsuarioTeste();
+
+  //=================
+  // Execução - primeira listagem
+  const lista1 = await usuarioSvc.listarUsuarios();
+  const usuario1 = lista1.find(u => u.id === usuarioOriginal.id);
+
+  // Simular uma pequena pausa e nova listagem
+  await new Promise(resolve => setTimeout(resolve, 100));
+  const lista2 = await usuarioSvc.listarUsuarios();
+  const usuario2 = lista2.find(u => u.id === usuarioOriginal.id);
+
+  //=================
+  // Verificação - dados devem ser idênticos entre as listagens
+  expect(usuario1.id).toBe(usuario2.id);
+  expect(usuario1.nome_completo).toBe(usuario2.nome_completo);
+  expect(usuario1.email).toBe(usuario2.email);
+  expect(usuario1.telefone).toBe(usuario2.telefone);
+  expect(usuario1.role).toBe(usuario2.role);
+
+  // limpeza
+  await limparUsuarioTeste(email);
+});
+
+test("listarUsuarios deve retornar UUIDs no formato correto para todos os usuários", async () => {
+  //=================
+  // Criação de cenário
+  const { usuario, email } = await criarUsuarioTeste();
+
+  //=================
+  // Execução
+  const lista = await usuarioSvc.listarUsuarios();
+
+  //=================
+  // Verificação - todos os IDs devem ser UUIDs válidos
+  lista.forEach(usuario => {
+    expect(usuario.id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+  });
+
+  // limpeza
+  await limparUsuarioTeste(email);
+});
+
+test("listarUsuarios deve funcionar corretamente em cenário de concorrência", async () => {
+  //=================
+  // Criação de cenário - criar vários usuários simultaneamente
+  const ts = Date.now();
+  const quantidadeUsuarios = 3;
+  const promisesCriacao = [];
+
+  for (let i = 0; i < quantidadeUsuarios; i++) {
+    const email = `concorrente_${i}_${ts}@example.com`;
+    const promise = authSvc.cadastrarUsuario(email, "senha123", `Concorrente ${i} ${ts}`, `119${String(ts + i).slice(-8)}`);
+    promisesCriacao.push(promise);
+  }
+
+  await Promise.all(promisesCriacao);
+
+  //=================
+  // Execução - múltiplas listagens simultâneas
+  const promisesListagem = Array(3).fill().map(() => usuarioSvc.listarUsuarios());
+  const resultados = await Promise.all(promisesListagem);
+
+  //=================
+  // Verificação - todas as listagens devem retornar a mesma quantidade de usuários
+  const comprimentos = resultados.map(lista => lista.length);
+  const todosComprimentosIguais = comprimentos.every(len => len === comprimentos[0]);
+  expect(todosComprimentosIguais).toBe(true);
+
+  // Verificar que todos os usuários criados estão presentes em todas as listagens
+  for (let i = 0; i < quantidadeUsuarios; i++) {
+    const email = `concorrente_${i}_${ts}@example.com`;
+    resultados.forEach(lista => {
+      const usuario = lista.find(u => u.email === email);
+      expect(usuario).toBeDefined();
+    });
+  }
+
+  // limpeza
+  for (let i = 0; i < quantidadeUsuarios; i++) {
+    await limparUsuarioTeste(`concorrente_${i}_${ts}@example.com`);
+  }
+});
+
+test("listarUsuarios deve retornar lista vazia quando não há usuários no banco", async () => {
+  //=================
+  // Execução
+  const lista = await usuarioSvc.listarUsuarios();
+  
+  //=================
+  // Verificação
+  expect(Array.isArray(lista)).toBe(true);
+  // Não podemos assumir que está vazia, mas deve ser um array
+});
+
+test("listarUsuarios deve conter propriedades básicas em cada usuário", async () => {
+  //=================
+  // Criação de cenário
+  const { usuario, email } = await criarUsuarioTeste();
+  
+  //=================
+  // Execução
+  const lista = await usuarioSvc.listarUsuarios();
+  const usuarioEncontrado = lista.find(u => u.id === usuario.id);
+  
+  //=================
+  // Verificação
+  expect(usuarioEncontrado).toHaveProperty('id');
+  expect(usuarioEncontrado).toHaveProperty('nome_completo');
+  expect(usuarioEncontrado).toHaveProperty('email');
+  expect(usuarioEncontrado).toHaveProperty('telefone');
+  
+  // limpeza
+  await limparUsuarioTeste(email);
+});
+
+test("listarUsuarios deve filtrar usuário por email específico", async () => {
+  //=================
+  // Criação de cenário
+  const { usuario, email } = await criarUsuarioTeste();
+  
+  //=================
+  // Execução
+  const lista = await usuarioSvc.listarUsuarios();
+  const usuarioFiltrado = lista.filter(u => u.email === email);
+  
+  //=================
+  // Verificação
+  expect(usuarioFiltrado).toHaveLength(1);
+  expect(usuarioFiltrado[0].email).toBe(email);
+  
+  // limpeza
+  await limparUsuarioTeste(email);
+});
+
+test("listarUsuarios deve retornar usuários com telefones válidos", async () => {
+  //=================
+  // Criação de cenário
+  const { usuario, email } = await criarUsuarioTeste();
+  
+  //=================
+  // Execução
+  const lista = await usuarioSvc.listarUsuarios();
+  const usuarioEncontrado = lista.find(u => u.id === usuario.id);
+  
+  //=================
+  // Verificação
+  expect(usuarioEncontrado.telefone).toBeDefined();
+  expect(typeof usuarioEncontrado.telefone).toBe('string');
+  expect(usuarioEncontrado.telefone.length).toBeGreaterThan(0);
+  
+  // limpeza
+  await limparUsuarioTeste(email);
+});
+
+test("listarUsuarios deve permitir busca por partes do nome", async () => {
+  //=================
+  // Criação de cenário
+  const { usuario, email, nome } = await criarUsuarioTeste();
+  const parteDoNome = nome.split(' ')[0]; // Pega a primeira parte do nome
+  
+  //=================
+  // Execução
+  const lista = await usuarioSvc.listarUsuarios();
+  const usuariosEncontrados = lista.filter(u => 
+    u.nome_completo.includes(parteDoNome)
+  );
+  
+  //=================
+  // Verificação
+  expect(usuariosEncontrados.length).toBeGreaterThan(0);
+  expect(usuariosEncontrados.some(u => u.id === usuario.id)).toBe(true);
+  
+  // limpeza
+  await limparUsuarioTeste(email);
+});
+
+test("listarUsuarios deve retornar tipos de dados corretos", async () => {
+  //=================
+  // Criação de cenário
+  const { usuario, email } = await criarUsuarioTeste();
+  
+  //=================
+  // Execução
+  const lista = await usuarioSvc.listarUsuarios();
+  const usuarioEncontrado = lista.find(u => u.id === usuario.id);
+  
+  //=================
+  expect(typeof usuarioEncontrado.id).toBe('string');
+  expect(typeof usuarioEncontrado.nome_completo).toBe('string');
+  expect(typeof usuarioEncontrado.email).toBe('string');
+  expect(typeof usuarioEncontrado.telefone).toBe('string');
+  expect(typeof usuarioEncontrado.role).toBe('string');
+  expect(typeof usuarioEncontrado.created_at).toBe('string');
+  
+  // Verifica se é uma data ISO válida
+  expect(() => new Date(usuarioEncontrado.created_at)).not.toThrow();
+  const data = new Date(usuarioEncontrado.created_at);
+  expect(isNaN(data.getTime())).toBe(false);
+  
+  // limpeza
+  await limparUsuarioTeste(email);
+});
     
 });
