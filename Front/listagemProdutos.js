@@ -41,7 +41,7 @@ export class ListagemProdutos {
             }
 
             this.renderizarProdutos(produtos);
-            this.adicionarEventosRemover();
+            this.adicionarEventosAcoes();
 
         } catch (erro) {
             console.error('Erro ao carregar produtos:', erro);
@@ -105,9 +105,14 @@ export class ListagemProdutos {
                 <td class="${classeEstoque}">${textoQuantidade}</td>
                 <td class="${classeValidade}">${dataFormatada}</td>
                 <td>
-                    <button class="btn btn-danger btn-sm btn-remover" data-id="${produto.id}" title="Remover produto">
-                        🗑 Remover
-                    </button>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-warning btn-sm btn-editar" data-id="${produto.id}" title="Editar produto">
+                            ✏️ Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm btn-remover" data-id="${produto.id}" title="Remover produto">
+                            🗑 Remover
+                        </button>
+                    </div>
                 </td>
             `;
             
@@ -132,15 +137,25 @@ export class ListagemProdutos {
         }
     }
 
-    adicionarEventosRemover() {
+    adicionarEventosAcoes() {
+        // Eventos para botões de remover
         const botoesRemover = document.querySelectorAll('.btn-remover');
-        
         botoesRemover.forEach(botao => {
             botao.addEventListener('click', async (e) => {
                 e.stopPropagation();
                 const id = e.target.getAttribute('data-id');
                 const nomeProduto = e.target.closest('tr').querySelector('td:nth-child(2)').textContent;
                 await this.removerProduto(id, nomeProduto);
+            });
+        });
+
+        // Eventos para botões de editar
+        const botoesEditar = document.querySelectorAll('.btn-editar');
+        botoesEditar.forEach(botao => {
+            botao.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const id = e.target.getAttribute('data-id');
+                await this.editarProduto(id);
             });
         });
     }
@@ -166,10 +181,35 @@ export class ListagemProdutos {
         }
     }
 
-    editarProduto(id) {
-        // Função para futura implementação de edição
-        console.log('Editar produto ID:', id);
-        alert(`Funcionalidade de edição para o produto ${id} será implementada em breve!`);
+    async editarProduto(id) {
+        try {
+            console.log(`Editando produto ID: ${id}`);
+            
+            // Busca os dados do produto
+            const produtos = await this.estoque.listarProdutos();
+            const produto = produtos.find(p => p.id == id);
+            
+            if (!produto) {
+                this.mostrarMensagemTemporaria('Produto não encontrado!', 'error');
+                return;
+            }
+
+            // Redireciona para a página de cadastro com os dados do produto
+            const params = new URLSearchParams({
+                editar: 'true',
+                id: produto.id,
+                nome: produto.nome,
+                preco: produto.preco,
+                quantidade: produto.quantidade,
+                validade: produto.validade || ''
+            });
+
+            window.location.href = `cadprod.html?${params.toString()}`;
+
+        } catch (erro) {
+            console.error('Erro ao editar produto:', erro);
+            this.mostrarMensagemTemporaria('Erro ao carregar dados do produto: ' + erro.message, 'error');
+        }
     }
 
     mostrarMensagemTemporaria(mensagem, tipo) {
