@@ -52,7 +52,7 @@ export class ListagemProdutos {
                         ${erro.message}
                         <br><br>
                         <button class="btn btn-sm btn-warning" onclick="location.reload()">
-                            🔄 Tentar Novamente
+                             Tentar Novamente
                         </button>
                     </td>
                 </tr>
@@ -107,10 +107,10 @@ export class ListagemProdutos {
                 <td>
                     <div class="btn-group" role="group">
                         <button class="btn btn-warning btn-sm btn-editar" data-id="${produto.id}" title="Editar produto">
-                            ✏️ Editar
+                             Editar
                         </button>
                         <button class="btn btn-danger btn-sm btn-remover" data-id="${produto.id}" title="Remover produto">
-                            🗑 Remover
+                             Remover
                         </button>
                     </div>
                 </td>

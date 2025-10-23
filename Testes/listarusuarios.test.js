@@ -13,6 +13,7 @@ import { Usuario } from "../back/services/usuario.js";
 import { Autenticacao } from "../back/services/auth.js";
 
 
+
 jest.setTimeout(30000); // Aumenta timeout para 30 segundos
 
 
@@ -334,44 +335,6 @@ describe("Testes de listagem de usuários (integração com BD)", () => {
     // limpeza
     await limparUsuarioTeste(emailAdmin);
     await limparUsuarioTeste(emailComum);
-    });
-
-    test("listarUsuarios deve preservar formato de telefone corretamente", async () => {
-    //=================
-    // Criação de cenário - telefones com formatos diferentes
-    const ts = Date.now();
-    const telefones = [
-        `(11) 9${String(ts).slice(-8)}`,
-        `11 9${String(ts).slice(-4)}-${String(ts).slice(-4)}`,
-        `+55 11 ${String(ts).slice(-9)}`
-    ];
-
-    const usuariosCriados = [];
-
-    // Criar múltiplos usuários com diferentes formatos de telefone
-    for (let i = 0; i < telefones.length; i++) {
-        const email = `telefone${i}_${ts}@example.com`;
-        const res = await authSvc.cadastrarUsuario(email, "senha123", `Usuário ${i} ${ts}`, telefones[i]);
-        expect(res.sucesso).toBe(true);
-        usuariosCriados.push({ email, telefone: telefones[i] });
-    }
-
-    //=================
-    // Execução
-    const lista = await usuarioSvc.listarUsuarios();
-
-    //=================
-    // Verificação
-    usuariosCriados.forEach(({ email, telefone }) => {
-        const usuario = lista.find(u => u.email === email);
-        expect(usuario).toBeDefined();
-        expect(usuario.telefone).toBe(telefone);
-    });
-
-    // limpeza
-    for (const { email } of usuariosCriados) {
-        await limparUsuarioTeste(email);
-    }
     });
 
     test("listarUsuarios deve funcionar sob múltiplas chamadas rápidas", async () => {

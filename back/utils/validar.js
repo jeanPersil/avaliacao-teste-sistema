@@ -29,6 +29,10 @@ export function validarCampos(nome, preco, quantidade, validade) {
   if (quantidade < 0) {
     return { sucesso: false, error: "Quantidade não pode ser negativa" };
   }
+  
+  if(!validarvalidade(validade)){
+    return{sucesso: false, error: "Produto está vencido"}
+  }
 
   return { sucesso: true };
 }
@@ -37,4 +41,30 @@ export function validarEmail(email) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 }
+
+function validarvalidade(dataValidade) {
+  // Verifica se o campo está vazio ou nulo
+  if (!dataValidade) return false;
+
+  // Converte a string em um objeto Date
+  const validade = new Date(dataValidade);
+  if (isNaN(validade.getTime())) return false; // formato inválido
+
+  // Data atual (zerando horas para comparar apenas dia/mês/ano)
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+
+  // Retorna true se a validade ainda não passou
+  return validade >= hoje;
+}
+
+export function validarTelefoneMinimo(telefone) {
+  if (!telefone || typeof telefone !== "string") {
+    return false;
+  }
+
+  const apenasNumeros = telefone.replace(/\D/g, "");
+  return apenasNumeros.length >= 10 && apenasNumeros.length <= 11;
+}
+
 

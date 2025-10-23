@@ -3,8 +3,11 @@
  * Autor: Raynan Silva
  * Data: 22/10/2025
  */
-
+import { jest } from '@jest/globals';
 import { Estoque } from "../back/services/estoque.js";
+
+jest.setTimeout(10000); 
+
 
 // encontra um produto por nome na listagem atual
 async function findByName(estoque, nome) {

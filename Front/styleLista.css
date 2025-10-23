@@ -253,6 +253,82 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilos específicos para tabela de usuários */
+.table td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Para IDs longos - mostrar apenas parte do ID */
+.truncate-id {
+    font-family: monospace;
+    font-size: 0.8rem;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Para emails longos */
+.truncate-email {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Para nomes longos */
+.truncate-name {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Para telefones */
+.truncate-phone {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Tooltip para conteúdo truncado */
+[data-bs-toggle="tooltip"] {
+    cursor: help;
+}
+
+/* Melhorias responsivas para tabela */
+@media (max-width: 768px) {
+    .table td {
+        max-width: 120px;
+        font-size: 0.85rem;
+    }
+    
+    .truncate-id {
+        max-width: 80px;
+        font-size: 0.75rem;
+    }
+    
+    .truncate-email {
+        max-width: 130px;
+    }
+    
+    .truncate-name {
+        max-width: 100px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Em telas muito pequenas, ocultar colunas menos importantes */
+    .table th:nth-child(1), /* ID */
+    .table td:nth-child(1) {
+        display: none;
+    }
+    
+    .table th:nth-child(4), /* Telefone */
+    .table td:nth-child(4) {
+        display: none;
+    }
+}
 /* Responsividade */
 @media (max-width: 768px) {
     body {

@@ -142,7 +142,7 @@ describe("Testes adicionais de cadastro do usuario", () => {
 
     //=================
     // Verificação
-    expect(res.sucesso).toBe(true);
+    expect(res.sucesso).toBe(false);
   });
 
   test("Cadastro sem nome", async () => {

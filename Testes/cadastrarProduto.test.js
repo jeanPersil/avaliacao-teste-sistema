@@ -227,7 +227,7 @@ describe("Testes adicionais de cadastro do produto", () => {
 
     //=================
     // Verificação
-    expect(res.sucesso).toBe(true);
+    expect(res.sucesso).toBe(false);
   });
 
   test("Cadastro de produto com nome muito longo", async () => {

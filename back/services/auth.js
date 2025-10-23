@@ -1,5 +1,6 @@
 import { supabase } from "../../banco/supabaseConfig.js";
-import { validarEmail } from "../utils/validar.js";
+import { validarEmail, validarTelefoneMinimo } from "../utils/validar.js";
+
 
 export class Autenticacao {
   async cadastrarUsuario(email, senha, nome, telefone, role = "comum") {
@@ -17,6 +18,10 @@ export class Autenticacao {
           sucesso: false,
           mensagem: "A senha deve ter no minimo 6 caracteres.",
         };
+      }
+      
+      if(!validarTelefoneMinimo (telefone)){
+        return{ sucesso: false, messagem: "O telefone esta invalido!"}
       }
 
       const { data: authData, error: authError } = await supabase.auth.signUp({
