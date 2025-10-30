@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
       alert("Cadastro realizado com sucesso! Redirecionando para login...");
       setTimeout(() => {
-        window.location.href = "login.html";
+        window.location.href = "../index.html";
       }, 1500);
     });
   }

@@ -36,12 +36,10 @@ document.addEventListener("DOMContentLoaded", function () {
         alert(`Erro ao efetuar login: ${res.mensagem}`);
         return;
       }
-
-      // Verifica a role e redireciona
       if (res.role === "admin") {
-        window.location.href = "paineladm.html";
+        window.location.href = "Front/paineladm.html";
       } else {
-        window.location.href = "produtos.html";
+        window.location.href = "Front/produtos.html";
       }
     } catch (error) {
       alert("Erro desconhecido: " + error.message);
