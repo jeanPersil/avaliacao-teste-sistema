@@ -1,4 +1,4 @@
-import { Estoque } from '../back/services/estoque.js';
+import { Estoque } from '../../back/services/estoque.js';
 
 export class ListagemProdutos {
     constructor() {

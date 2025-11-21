@@ -1,5 +1,5 @@
 
-import { Estoque } from '../back/services/estoque.js';
+import { Estoque } from '../../back/services/estoque.js';
 
 const form = document.getElementById('formProduto');
 const btnCadastrar = document.getElementById('btnCadastrar');

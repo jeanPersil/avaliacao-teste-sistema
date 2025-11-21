@@ -1,7 +1,10 @@
 
-import { Estoque } from "../back/services/estoque.js";
-import { Vendas } from "../back/services/vendas.js";
-import { supabase } from "../banco/supabaseConfig.js";
+import { Estoque } from "../../back/services/estoque.js";
+import { Vendas } from "../../back/services/vendas.js";
+import { supabase } from "../../banco/supabaseConfig.js";
+
+
+
 
 class VendasController {
   constructor() {

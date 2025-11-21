@@ -1,4 +1,4 @@
-import { Usuario } from "../back/services/usuario.js";
+import { Usuario } from "../../back/services/usuario.js";
 
 export class ListagemUsuarios {
   constructor() {
