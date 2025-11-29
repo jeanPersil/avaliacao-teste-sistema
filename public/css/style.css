@@ -359,3 +359,116 @@ h3 {
 #formEdicao button[type="button"]:hover {
   background-color: #bbb;
 }
+
+@media (max-width: 1024px) {
+  .layout {
+    height: auto;
+    min-height: 100vh;
+
+    grid-template-columns: 1fr;
+
+    grid-template-rows: auto auto 1fr auto;
+
+    grid-template-areas:
+      "cabecalho"
+      "menu"
+      "conteudo"
+      "rodape";
+  }
+
+  .menu {
+    border-right: none;
+    border-bottom: 1px solid var(--menu-border);
+    padding: 10px;
+    text-align: center;
+  }
+
+  .menu ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .conteudo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow-x: auto;
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    height: auto;
+    min-height: 100vh;
+
+    grid-template-columns: 1fr;
+
+    grid-template-rows: auto auto 1fr auto;
+
+    grid-template-areas:
+      "cabecalho"
+      "menu"
+      "conteudo"
+      "rodape";
+  }
+
+  .menu {
+    border-right: none;
+    border-bottom: 1px solid var(--menu-border);
+    padding: 10px;
+    text-align: center;
+  }
+
+  .menu ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .conteudo {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .tabela-produtos thead,
+  .tabela-usuarios thead {
+    display: none;
+  }
+
+  /* Transforma a Linha em um Cartão */
+  .tabela-produtos tbody tr,
+  .tabela-usuarios tbody tr {
+    display: block;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px; /* Espaço entre os produtos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Transforma as Células em Linhas do cartão */
+  .tabela-produtos td,
+  .tabela-usuarios td {
+    display: flex; /* Flex para alinhar */
+    justify-content: space-between; /* Espalha o conteúdo */
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 10px 15px;
+    text-align: right; /* Conteúdo alinhado à direita */
+  }
+
+  /* Remove a borda da última célula (botões) */
+  .tabela-produtos td:last-child,
+  .tabela-usuarios td:last-child {
+    border-bottom: none;
+    justify-content: center; /* Centraliza os botões */
+    padding-top: 15px;
+  }
+}

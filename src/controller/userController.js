@@ -101,9 +101,7 @@ class UserController {
         sameSite: "strict",
       });
 
-      return res.status(200).json({
-        redirect: "/",
-      });
+      return res.redirect("/");
     } catch (error) {
       console.error(error);
       return res.status(500).json({

@@ -1,13 +1,14 @@
-import { listar_usuarios } from "./api.js";
+import { listar_usuarios, excluirUsuario } from "./api.js";
 import { formatarData } from "./utils.js";
+
+const tabela = document.getElementById("tabelaDeUsuarios");
 
 let paginaAtual = 1;
 const limitePorPagina = 6;
 let totalPaginas = 1;
+let listaUsuario = [];
 
 function exibirUsuarios(usuarios) {
-  const tabela = document.getElementById("tabelaDeUsuarios");
-
   if (!tabela) {
     console.error("Elemento #tabelaDeUsuarios não encontrado!");
     return;
@@ -28,12 +29,34 @@ function exibirUsuarios(usuarios) {
       <td>${usuario.role}</td>
       <td>${formatarData(usuario.created_at) || "N/A"}</td>
       <td>
-        <button class="btn-acao btn-deletar">Excluir</button>
+        <button class="btn-acao btn-deletar"  data-id="${
+          usuario.id
+        }">Excluir</button>
       </td>
     `;
     tabela.appendChild(tr);
   });
 }
+
+tabela.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("btn-deletar")) {
+    const usuarioId = e.target.getAttribute("data-id");
+
+    if (!confirm("Tem certeza que deseja excluir este usuario?")) {
+      return;
+    }
+
+    const res = await excluirUsuario(usuarioId);
+
+    if (res.error) {
+      alert(res.error);
+      return;
+    }
+
+    alert("Usuario excluido com sucesso!");
+    window.location.reload();
+  }
+});
 
 function atualizarPaginacao(paginacao) {
   const navPaginacao = document.getElementById("paginacao-lista"); // ✅ ID CORRETO
@@ -110,19 +133,19 @@ async function carregarUsuarios(pagina = 1, limite = 7) {
   try {
     console.log(`Carregando página ${pagina}...`);
 
-    const resultado = await listar_usuarios(pagina, limite);
+    listaUsuario = await listar_usuarios(pagina, limite);
 
-    if (resultado.error) {
-      console.error("Erro:", resultado.error);
+    if (listaUsuario.error) {
+      console.error("Erro:", listaUsuario.error);
       exibirUsuarios([]);
       return;
     }
 
-    console.log("Usuários carregados:", resultado.usuarios);
-    console.log("Dados paginação:", resultado.paginacao);
+    console.log("Usuários carregados:", listaUsuario.usuarios);
+    console.log("Dados paginação:", listaUsuario.paginacao);
 
-    exibirUsuarios(resultado.usuarios);
-    atualizarPaginacao(resultado.paginacao);
+    exibirUsuarios(listaUsuario.usuarios);
+    atualizarPaginacao(listaUsuario.paginacao);
   } catch (error) {
     console.error("Erro ao carregar usuários:", error);
     exibirUsuarios([]);

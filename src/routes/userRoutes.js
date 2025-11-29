@@ -6,7 +6,7 @@ const userController = new UserController();
 
 router.post("/login", userController.login);
 
-router.post("/logout", userController.logout);
+router.get("/logout", userController.logout);
 
 router.get("/", userController.listarUsuarios);
 

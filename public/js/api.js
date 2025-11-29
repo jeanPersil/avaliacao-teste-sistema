@@ -54,7 +54,30 @@ export const listar_usuarios = async (pagina, limite) => {
   }
 };
 
-export const excluirUsuario = (id) => {};
+export const excluirUsuario = async (id) => {
+  try {
+    await axios.delete(`${url}/user/${id}`);
+
+    return { success: true };
+    
+  } catch (error) {
+    if (error.response) {
+      console.error("Erro na requisição:", error.response.data);
+      return {
+        error: error.response.data.details || "Erro ao deletar produto",
+      };
+    } else if (error.request) {
+      console.error("Erro de conexão:", error.request);
+      return {
+        error:
+          "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+      };
+    } else {
+      console.error("Erro desconhecido:", error.message);
+      return { error: "Ocorreu um erro inesperado." };
+    }
+  }
+};
 
 // === CRUD PARA OS PRODUTOS ===
 
