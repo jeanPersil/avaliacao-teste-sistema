@@ -64,6 +64,8 @@
   grid-area: conteudo;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   background: var(--content-background);
   color: var(--content-foreground);
   padding: 20px;
