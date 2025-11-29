@@ -1,32 +1,42 @@
 import express from "express";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const router = express.Router();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function sendPage(res, filename) {
+  res.sendFile(path.join(__dirname, "..", "..", "public", "pages", filename));
+}
+
 router.get("/", (req, res) => {
-  path.join(import.meta.dirname("..", "..", "public", "index.html"));
+  sendPage(res, "index.html");
 });
 
-router.get("/cadastro",(req, res) => {
-  path.join(import.meta.dirname("..", "..", "public", "cadastro.html"))
-})
+router.get("/cadastro", (req, res) => {
+  sendPage(res, "cadastro.html");
+});
 
 router.get("/painelAdmin", (req, res) => {
-  path.join(import.meta.dirname("..", "..", "public", "paineladm.html"))
-})
+  sendPage(res, "paineladm.html");
+});
 
 router.get("/cadprod", (req, res) => {
-  path.join(import.meta.dirname("..", "..", "public", "cadprod.html"))
-})
+  sendPage(res, "cadprod.html");
+});
 
-router.get("/listprod",(req, res) =>{
-  path.join(import.meta.dirname("..", "..", "public", "listprod.html"))
-})
+router.get("/listprod", (req, res) => {
+  sendPage(res, "listprod.html");
+});
 
-router.get("/produtos", (req, res) =>{
-  path.join(import.meta.dirname("..", "..", "public", "produtos.html"))
-})
+router.get("/produtos", (req, res) => {
+  sendPage(res, "produtos.html");
+});
 
-
+router.get("/listaUsuarios", (req, res) => {
+  sendPage(res, "listarusuarios.html");
+});
 
 export default router;

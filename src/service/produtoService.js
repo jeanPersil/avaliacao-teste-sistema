@@ -1,5 +1,6 @@
 import { Produto } from "../produto.js";
 import supabase from "../config.js";
+import { formatarData } from "../utils/validar.js";
 
 class ProdutoService {
   async verificarProdutoExiste(nome) {
@@ -40,31 +41,90 @@ class ProdutoService {
     return true;
   }
 
-  async listarProdutos() {
+  async listarProdutos(pagina, limite) {
     try {
-      const { data, error } = await supabase
+      const inicio = (pagina - 1) * limite;
+      const fim = inicio + limite - 1;
+
+      const { data, error, count } = await supabase
         .from("produtos")
-        .select("*")
-        .order("created_at", { ascending: false });
+        .select("*", { count: "exact" })
+        .order("created_at", { ascending: false })
+        .range(inicio, fim);
 
       if (error) {
         throw new Error(`Erro ao buscar produtos: ${error.message}`);
       }
 
       if (!data) {
-        return [];
+        return {
+          produtos: [],
+          total: 0,
+          totalPaginas: 0,
+          paginaAtual: pagina,
+          limite: limite,
+        };
       }
 
-      const produtosMapeados = data.map((produtoData) =>
-        Produto.fromSupabase(produtoData)
-      );
+      const produtosMapeados = data.map((produtoData) => {
+        const produto = Produto.fromSupabase(produtoData);
+
+        if (produto.validade) {
+          produto.validade = formatarData(produto.validade);
+        }
+
+        return produto;
+      });
+
+      const totalPaginas = Math.ceil(count / limite);
 
       this.produtos = produtosMapeados;
-      return this.produtos;
+
+      return {
+        produtos: this.produtos,
+        total: count,
+        totalPaginas: totalPaginas,
+        paginaAtual: pagina,
+        limite: limite,
+      };
     } catch (erro) {
       console.error("Erro ao listar produtos:", erro);
       throw erro;
     }
+  }
+
+  async editarProduto(id, dados) {
+    const { data, error } = await supabase
+      .from("produtos")
+      .update(dados)
+      .eq("id", id)
+      .select();
+
+    if (error) {
+      throw new Error(`Erro ao editar produto: ${error.message}`);
+    }
+
+    return { sucesso: true };
+  }
+
+  async removerProduto(id) {
+    const { data: produto } = await supabase
+      .from("produtos")
+      .select("id")
+      .eq("id", id)
+      .single();
+
+    if (!produto) {
+      return false;
+    }
+
+    const { error } = await supabase.from("produtos").delete().eq("id", id);
+
+    if (error) {
+      console.error("Erro ao remover produto:", error);
+      return false;
+    }
+    return true;
   }
 }
 

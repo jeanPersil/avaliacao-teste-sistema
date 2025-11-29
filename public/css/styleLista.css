@@ -1,0 +1,344 @@
+:root {
+  --menu-background: #fcfcfc;
+  --menu-foreground: #202020;
+  --menu-border: #e5e5e5;
+
+  --header-background: #3b5bb0;
+  --header-foreground: #111111;
+
+  --content-background: #f7f7f7;
+  --content-foreground: #111111;
+
+  --footer-background: #efefef;
+  --footer-foreground: #111111;
+
+  --hover-gradient-start: #07e7e3;
+  --hover-gradient-end: #32dac3;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.layout {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 80px 1fr 60px;
+
+  grid-template-areas:
+    "menu cabecalho"
+    "menu conteudo"
+    "menu rodape";
+}
+
+/* MENU (sidebar) */
+.menu {
+  grid-area: menu;
+  background: var(--menu-background);
+
+  color: var(--menu-foreground);
+  border-right: 1px solid var(--menu-border);
+  padding: 20px;
+}
+
+/* HEADER */
+.cabecalho {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  grid-area: cabecalho;
+  background: var(--header-background);
+  color: var(--header-foreground);
+  padding: 0 20px;
+  border-bottom: 1px solid var(--menu-border);
+}
+
+/* CONTEÚDO PRINCIPAL */
+.conteudo {
+  grid-area: conteudo;
+  display: flex;
+  flex-direction: column;
+  background: var(--content-background);
+  color: var(--content-foreground);
+  padding: 20px;
+}
+
+/* RODAPÉ */
+.rodape {
+  grid-area: rodape;
+  background: var(--footer-background);
+  color: var(--footer-foreground);
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  border-top: 1px solid var(--menu-border);
+}
+
+.rodape h1 {
+  color: #000000;
+  font-size: 10pt;
+  margin: 10px;
+}
+
+/* LISTAS DO MENU */
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* LINKS DO MENU */
+a {
+  display: block;
+  text-decoration: none;
+  padding: 10px;
+  font-weight: 300;
+  transition: 0.3s ease;
+  color: var(--menu-foreground);
+}
+
+/* HOVER DO LINK */
+a:hover {
+  background-color: hsl(235, 100%, 95%);
+  border-radius: 10px;
+  color: rgb(0, 0, 255);
+}
+
+.user {
+  padding: 10px;
+}
+.user h1 {
+  color: black;
+}
+
+.user h2 {
+  color: rgb(108, 108, 108);
+  font-size: 10pt;
+}
+
+h1 {
+  font-size: 1;
+  color: white;
+}
+
+h3 {
+  font-size: 10pt;
+  color: white;
+}
+
+/* TABELA */
+/* TABELA DE USUÁRIOS - MESMO ESTILO DA TABELA DE PRODUTOS */
+.tabela-usuarios {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  font-size: 15px;
+  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Cabeçalho */
+.tabela-usuarios thead {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+}
+
+.tabela-usuarios th {
+  padding: 14px;
+  text-align: left;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+/* Linhas do corpo */
+.tabela-usuarios tbody tr {
+  transition: background 0.25s, transform 0.2s;
+  cursor: default;
+}
+
+.tabela-usuarios tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.tabela-usuarios tbody tr:hover {
+  background: rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Células */
+.tabela-usuarios td {
+  padding: 12px 14px;
+  color: #4a4a4a;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Borda suave nas células */
+.tabela-usuarios th,
+.tabela-usuarios td {
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.tabela-usuarios th:last-child,
+.tabela-usuarios td:last-child {
+  border-right: none;
+}
+
+/* Botões de ação */
+.btn-acao {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão editar */
+.btn-editar {
+  background: #2563eb;
+  color: #fff;
+}
+
+.btn-editar:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+
+/* Botão deletar */
+.btn-deletar {
+  background: #ef4444;
+  color: #fff;
+}
+
+.btn-deletar:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+.paginacao ul {
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.paginacao a {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s;
+}
+
+.paginacao a:hover {
+  background-color: #f0f0f0;
+}
+
+.paginacao a.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.paginacao a.disabled {
+  color: #ccc;
+  pointer-events: none;
+  border-color: #eee;
+}
+
+/* cards de infos rapidas */
+
+.infosRapidas {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.totalUsuarios,
+.adm {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: white;
+  border: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.totalUsuarios::before,
+.adm::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+}
+
+.totalUsuarios::before {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.adm::before {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.totalUsuarios:hover,
+.adm:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.totalUsuarios h1,
+.adm h1 {
+  color: #2d3748;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.totalUsuarios h2,
+.adm h2 {
+  color: #1a202c;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.totalUsuarios::after {
+  content: "👥";
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 2rem;
+  opacity: 0.1;
+}
+
+.adm::after {
+  content: "⚙️";
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 2rem;
+  opacity: 0.1;
+}

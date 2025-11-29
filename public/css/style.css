@@ -1,0 +1,253 @@
+:root {
+  --menu-background: #fcfcfc;
+  --menu-foreground: #202020;
+  --menu-border: #e5e5e5;
+
+  --header-background: #3b5bb0;
+  --header-foreground: #111111;
+
+  --content-background: #f7f7f7;
+  --content-foreground: #111111;
+
+  --footer-background: #efefef;
+  --footer-foreground: #111111;
+
+  --hover-gradient-start: #07e7e3;
+  --hover-gradient-end: #32dac3;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.layout {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 80px 1fr 60px;
+
+  grid-template-areas:
+    "menu cabecalho"
+    "menu conteudo"
+    "menu rodape";
+}
+
+/* MENU (sidebar) */
+.menu {
+  grid-area: menu;
+  background: var(--menu-background);
+
+  color: var(--menu-foreground);
+  border-right: 1px solid var(--menu-border);
+  padding: 20px;
+}
+
+/* HEADER */
+.cabecalho {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  grid-area: cabecalho;
+  background: var(--header-background);
+  color: var(--header-foreground);
+  padding: 0 20px;
+  border-bottom: 1px solid var(--menu-border);
+}
+
+/* CONTEÚDO PRINCIPAL */
+.conteudo {
+  grid-area: conteudo;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--content-background);
+  color: var(--content-foreground);
+  padding: 20px;
+}
+
+/* RODAPÉ */
+.rodape {
+  grid-area: rodape;
+  background: var(--footer-background);
+  color: var(--footer-foreground);
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  border-top: 1px solid var(--menu-border);
+}
+
+.rodape h1 {
+  color: #000000;
+  font-size: 10pt;
+  margin: 10px;
+}
+
+/* LISTAS DO MENU */
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* LINKS DO MENU */
+a {
+  display: block;
+  text-decoration: none;
+  padding: 10px;
+  font-weight: 300;
+  transition: 0.3s ease;
+  color: var(--menu-foreground);
+}
+
+/* HOVER DO LINK */
+a:hover {
+  background-color: hsl(235, 100%, 95%);
+  border-radius: 10px;
+  color: rgb(0, 0, 255);
+}
+
+.user {
+  padding: 10px;
+}
+.user h1 {
+  color: black;
+}
+
+.user h2 {
+  color: rgb(108, 108, 108);
+  font-size: 10pt;
+}
+
+h1 {
+  font-size: 1;
+  color: white;
+}
+
+h3 {
+  font-size: 10pt;
+  color: white;
+}
+
+/* TABELA */
+.tabela-produtos {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  border: var(--borda);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+  margin-top: 20px;
+  font-size: 15px;
+  color: #000000;
+}
+
+.tabela-produtos thead {
+  background: linear-gradient(135deg, var(--fundo1), var(--fundo2));
+}
+
+.tabela-produtos th {
+  padding: 14px;
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #000000;
+  background-color: #dddddd;
+  font-size: 14px;
+}
+
+.tabela-produtos tbody tr {
+  transition: 0.2s;
+}
+
+.tabela-produtos tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tabela-produtos td {
+  padding: 12px 14px;
+  color: #4a4a4a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tabela-produtos th,
+.tabela-produtos td {
+  border: 3px solid rgba(137, 137, 137, 0.12);
+}
+
+/* Hover suave na linha */
+.tabela-produtos tbody tr:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Botões de ação */
+.btn-acao {
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+  font-weight: 600;
+}
+
+/* Botão editar */
+.btn-editar {
+  background: #1e3a8a;
+  color: #fff;
+}
+
+.btn-editar:hover {
+  filter: brightness(1.15);
+}
+
+/* Botão deletar */
+.btn-deletar {
+  background: #dc2626;
+  color: #fff;
+}
+
+.btn-deletar:hover {
+  filter: brightness(1.15);
+}
+
+.paginacao ul {
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.paginacao a {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s;
+}
+
+.paginacao a:hover {
+  background-color: #f0f0f0;
+}
+
+.paginacao a.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.paginacao a.disabled {
+  color: #ccc;
+  pointer-events: none;
+  border-color: #eee;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel do Administrador</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body class="layout">
+    <aside class="menu">
+      <div class="user">
+        <h1>Painel de admin</h1>
+        <h2>Gerenciamento</h2>
+      </div>
+
+      <hr class="e" />
+
+      <ul>
+        <li><a href="/painelAdmin">Produtos</a></li>
+        <li><a href="/cadprod">Adicionar Produto</a></li>
+        <li><a href="/listaUsuarios">Usuarios</a></li>
+        <li><a href="/user/logout"> Logout </a></li>
+      </ul>
+    </aside>
+
+    <header class="cabecalho">
+      <h1>Lista de Produtos</h1>
+      <h3>Gerencie todos os produtos</h3>
+    </header>
+
+    <main class="conteudo">
+      <table class="tabela-produtos">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Quantidade</th>
+            <th>Validade</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody id="tabelaDeProdutos"></tbody>
+      </table>
+
+      <nav class="paginacao" aria-label="Navegação de páginas">
+        <ul id="paginacao-lista">
+          <!-- A paginação será gerada dinamicamente aqui -->
+        </ul>
+      </nav>
+    </main>
+
+    <footer class="rodape"><h1>Desenvolvido by tenis</h1></footer>
+
+    <script type="module" src="js/listagemProdutos.js"></script>
+  </body>
+</html>

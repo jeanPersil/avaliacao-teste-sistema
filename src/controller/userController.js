@@ -41,6 +41,38 @@ class UserController {
     }
   }
 
+  async listarUsuarios(req, res) {
+    try {
+      const pagina = parseInt(req.query.pagina) || 1;
+      const limite = parseInt(req.query.limite) || 10;
+
+      if (pagina < 1 || limite < 1 || limite > 100) {
+        return res.status(400).json({
+          detail: "Parâmetros de paginação inválidos",
+        });
+      }
+
+      const resultado = await userService.listarUsuarios(pagina, limite);
+
+      res.status(200).json({
+        usuarios: resultado.usuarios,
+        paginacao: {
+          paginaAtual: resultado.paginaAtual,
+          totalItens: resultado.total,
+          totalPaginas: resultado.totalPaginas,
+          limitePorPagina: resultado.limite,
+          hasProxima: resultado.paginaAtual < resultado.totalPaginas,
+          hasAnterior: resultado.paginaAtual > 1,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        detail: "erro no servidor",
+      });
+    }
+  }
+
   async logout(req, res) {
     try {
       res.clearCookie("authToken", {

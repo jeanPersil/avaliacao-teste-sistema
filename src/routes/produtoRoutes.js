@@ -5,7 +5,9 @@ const produtoController = new ProdutoController();
 
 const router = express.Router();
 
-router.post("/", produtoController.adicionarProduto);
-router.get("/", produtoController.listarProdutos);
+router.post("/", produtoController.adicionar);
+router.get("/", produtoController.listar);
+router.put("/", produtoController.editar);
+router.delete("/:id", produtoController.excluir);
 
 export default router;
