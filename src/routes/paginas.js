@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-
+import AuthMiddleware from "../middleware/autenticacao.js";
 const router = express.Router();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -15,28 +15,36 @@ router.get("/", (req, res) => {
   sendPage(res, "index.html");
 });
 
-router.get("/cadastro", (req, res) => {
+router.get("/cadastro", AuthMiddleware.verificar_autenticacao, (req, res) => {
   sendPage(res, "cadastro.html");
 });
 
-router.get("/painelAdmin", (req, res) => {
-  sendPage(res, "paineladm.html");
-});
+router.get(
+  "/painelAdmin",
+  AuthMiddleware.verificar_autenticacao,
+  (req, res) => {
+    sendPage(res, "paineladm.html");
+  }
+);
 
-router.get("/cadprod", (req, res) => {
+router.get("/cadprod", AuthMiddleware.verificar_autenticacao, (req, res) => {
   sendPage(res, "cadprod.html");
 });
 
-router.get("/listprod", (req, res) => {
+router.get("/listprod", AuthMiddleware.verificar_autenticacao, (req, res) => {
   sendPage(res, "listprod.html");
 });
 
-router.get("/produtos", (req, res) => {
-  sendPage(res, "produtos.html");
-});
+router.get(
+  "/listaUsuarios",
+  AuthMiddleware.verificar_autenticacao,
+  (req, res) => {
+    sendPage(res, "listarusuarios.html");
+  }
+);
 
-router.get("/listaUsuarios", (req, res) => {
-  sendPage(res, "listarusuarios.html");
+router.get("/produtos", AuthMiddleware.verificar_autenticacao, (req, res) => {
+  sendPage(res, "produtos.html");
 });
 
 export default router;
