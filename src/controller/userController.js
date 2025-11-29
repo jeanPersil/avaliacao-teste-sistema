@@ -73,6 +73,26 @@ class UserController {
     }
   }
 
+  async excluir(req, res) {
+    try {
+      const usuarioId = req.params.id;
+
+      await userService.excluirUsuario(usuarioId);
+
+      return res.sendStatus(200);
+    } catch (error) {
+      if (error.message.includes("user é admin")) {
+        return res.status(401).json({
+          details: "Não é possivel excluir o administrador do sistema",
+        });
+      }
+      console.error(error);
+      return res.status(500).json({
+        detail: "erro no servidor",
+      });
+    }
+  }
+
   async logout(req, res) {
     try {
       res.clearCookie("authToken", {

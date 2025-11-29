@@ -10,4 +10,6 @@ router.post("/logout", userController.logout);
 
 router.get("/", userController.listarUsuarios);
 
+router.delete("/:id", userController.excluir);
+
 export default router;
