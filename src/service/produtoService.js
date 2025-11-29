@@ -1,6 +1,5 @@
 import { Produto } from "../produto.js";
 import supabase from "../config.js";
-import { formatarData } from "../utils/validar.js";
 
 class ProdutoService {
   async verificarProdutoExiste(nome) {
@@ -68,10 +67,6 @@ class ProdutoService {
 
       const produtosMapeados = data.map((produtoData) => {
         const produto = Produto.fromSupabase(produtoData);
-
-        if (produto.validade) {
-          produto.validade = formatarData(produto.validade);
-        }
 
         return produto;
       });

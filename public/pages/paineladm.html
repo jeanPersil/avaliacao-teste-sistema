@@ -54,8 +54,49 @@
       </nav>
     </main>
 
-    <footer class="rodape"><h1>Desenvolvido by tenis</h1></footer>
+    <!-- Modal de Edição -->
+    <div id="modalEdicao" class="modal">
+      <div class="modal-content">
+        <h2>Editar Produto</h2>
+        <form id="formEdicao">
+          <input type="hidden" id="editId" />
+          <div class="grupo-input">
+            <label for="editNome">Nome</label>
+            <input type="text" id="editNome" placeholder="Nome" required />
+          </div>
 
+          <div class="precoEquantidade">
+            <div>
+              <label for="editPreco">Preco</label>
+              <input
+                type="number"
+                id="editPreco"
+                step="0.01"
+                placeholder="Preço"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="editQuantidade">Quantidade</label>
+              <input
+                type="number"
+                id="editQuantidade"
+                placeholder="Quantidade"
+                required
+              />
+            </div>
+          </div>
+          <label for="editValidade">Data de Validade</label>
+          <input type="date" id="editValidade" />
+          <button type="submit">Salvar</button>
+          <button type="button" class="btn-cancelar">Cancelar</button>
+        </form>
+      </div>
+    </div>
+
+    <footer class="rodape"><h1>Desenvolvido by tenis</h1></footer>
+    <script type="module" src="js/modalEditar.js"></script>
     <script type="module" src="js/listagemProdutos.js"></script>
   </body>
 </html>

@@ -1,5 +1,4 @@
 import supabase from "../config.js";
-import { formatarData } from "../utils/validar.js";
 
 class UserService {
   async logarUsuario(email, password) {
@@ -53,15 +52,11 @@ class UserService {
         };
       }
 
-      const usuariosFormatados = data.map((usuario) => ({
-        ...usuario,
-        created_at: formatarData(usuario.created_at),
-      }));
-
       const totalPaginas = Math.ceil(count / limite);
 
+      console.log(data);
       return {
-        usuarios: usuariosFormatados,
+        usuarios: data,
         total: count,
         totalPaginas: totalPaginas,
         paginaAtual: pagina,

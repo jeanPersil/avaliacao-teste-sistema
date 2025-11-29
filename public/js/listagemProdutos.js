@@ -1,12 +1,15 @@
-import { listarProduto } from "./api.js";
+import { listarProduto, excluirProduto } from "./api.js";
+import { abrirModalEdicao } from "./modalEditar.js";
+import { formatarData } from "./utils.js";
+
+const tabela = document.getElementById("tabelaDeProdutos");
 
 let paginaAtual = 1;
 const limitePorPagina = 7;
 let totalPaginas = 1;
+let listaProdutos = [];
 
 function exibirProdutos(produtos) {
-  const tabela = document.getElementById("tabelaDeProdutos");
-
   if (!tabela) {
     console.error("Elemento #tabelaDeProdutos não encontrado!");
     return;
@@ -26,26 +29,50 @@ function exibirProdutos(produtos) {
       <td>${produto.nome || "N/A"}</td>
       <td>R$ ${produto.preco ? produto.preco.toFixed(2) : "0.00"}</td>
       <td>${produto.quantidade || 0}</td>
-      <td>${produto.validade || "N/A"}</td>
+      <td>${formatarData(produto.validade) || "N/A"}</td>
       <td>
-        <button class="editar">Editar</button>
-        <button class="excluir">Excluir</button>
+        <button class="btn-editar" data-id="${produto.id}" >Editar</button>
+        <button class="btn-deletar" data-id="${produto.id}">Excluir</button>
       </td>
     `;
     tabela.appendChild(tr);
   });
 }
 
+tabela.addEventListener("click", async function (e) {
+  if (e.target.classList.contains("btn-editar")) {
+    const productId = e.target.getAttribute("data-id");
+    const produto = listaProdutos.produtos.find((p) => p.id == productId);
+    abrirModalEdicao(produto);
+  }
+
+  if (e.target.classList.contains("btn-deletar")) {
+    const productId = e.target.getAttribute("data-id");
+
+    if (!confirm("Tem certeza que deseja excluir este produto?")) {
+      return;
+    }
+
+    const res = await excluirProduto(productId);
+
+    if (res.error) {
+      alert(res.error);
+      return;
+    }
+
+    alert("Produto excluido com sucesso!");
+    window.location.reload();
+  }
+});
+
 function atualizarPaginacao(paginacao) {
   const navPaginacao = document.querySelector(".paginacao ul");
 
   if (!navPaginacao || !paginacao) return;
 
-  // Atualizar variáveis globais
   paginaAtual = paginacao.paginaAtual;
   totalPaginas = paginacao.totalPaginas;
 
-  // Limpar paginação anterior
   navPaginacao.innerHTML = "";
 
   // Botão Anterior
@@ -113,21 +140,17 @@ function adicionarEventosPaginacao() {
 
 async function carregarProdutos(pagina = 1, limite = 5) {
   try {
-    console.log(`Carregando página ${pagina}...`);
+    listaProdutos = await listarProduto(pagina, limite);
+    console.log(listaProdutos);
 
-    const resultado = await listarProduto(pagina, limite);
-
-    if (resultado.error) {
-      console.error("Erro:", resultado.error);
+    if (listaProdutos.error) {
+      console.error("Erro:", listaProdutos.error);
       exibirProdutos([]);
       return;
     }
 
-    console.log("Produtos carregados:", resultado.produtos);
-    console.log("Dados paginação:", resultado.paginacao);
-
-    exibirProdutos(resultado.produtos);
-    atualizarPaginacao(resultado.paginacao);
+    exibirProdutos(listaProdutos.produtos);
+    atualizarPaginacao(listaProdutos.paginacao);
   } catch (error) {
     console.error("Erro ao carregar produtos:", error);
     exibirProdutos([]);

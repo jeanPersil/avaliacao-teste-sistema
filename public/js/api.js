@@ -54,6 +54,8 @@ export const listar_usuarios = async (pagina, limite) => {
   }
 };
 
+// === CRUD PARA OS PRODUTOS ===
+
 export const adicionar_produto = async (nome, preco, quantidade, validade) => {
   try {
     const dados = { nome, preco, quantidade, validade };
@@ -96,6 +98,55 @@ export const listarProduto = async (pagina, limite) => {
       console.error("Erro na requisição:", error.response.data);
       return {
         error: error.response.data.details || "Erro ao listar produtos",
+      };
+    } else if (error.request) {
+      console.error("Erro de conexão:", error.request);
+      return {
+        error:
+          "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+      };
+    } else {
+      console.error("Erro desconhecido:", error.message);
+      return { error: "Ocorreu um erro inesperado." };
+    }
+  }
+};
+
+export const editarProduto = async (id, nome, preco, quantidade, validade) => {
+  try {
+    const dados = { id, nome, preco, quantidade, validade };
+    await axios.put(`${url}/produto`, dados);
+
+    return { success: true };
+  } catch (error) {
+    if (error.response) {
+      console.error("Erro na requisição:", error.response.data);
+      return {
+        error: error.response.data.details || "Erro ao editar produto",
+      };
+    } else if (error.request) {
+      console.error("Erro de conexão:", error.request);
+      return {
+        error:
+          "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+      };
+    } else {
+      console.error("Erro desconhecido:", error.message);
+      return { error: "Ocorreu um erro inesperado." };
+    }
+  }
+};
+
+export const excluirProduto = async (id) => {
+  try {
+    await axios.delete(`${url}/produto/${id}`);
+
+    return { success: true };
+  } catch (error) {
+    if (error.response) {
+      console.error("Erro na requisição:", error.response.data);
+      return {
+        error: error.response.data.details || "Erro ao deletar produto",
       };
     } else if (error.request) {
       console.error("Erro de conexão:", error.request);

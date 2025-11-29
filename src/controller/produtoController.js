@@ -27,7 +27,7 @@ class ProdutoController {
       }
       console.error(error);
       return res.status(500).json({
-        detail: "erro no servidor",
+        details: "erro no servidor",
       });
     }
   }
@@ -41,13 +41,13 @@ class ProdutoController {
       // Validar parâmetros
       if (pagina < 1) {
         return res.status(400).json({
-          detail: "O parâmetro 'pagina' deve ser maior que 0",
+          details: "O parâmetro 'pagina' deve ser maior que 0",
         });
       }
 
       if (limite < 1 || limite > 100) {
         return res.status(400).json({
-          detail: "O parâmetro 'limite' deve estar entre 1 e 100",
+          details: "O parâmetro 'limite' deve estar entre 1 e 100",
         });
       }
 
@@ -67,7 +67,7 @@ class ProdutoController {
     } catch (error) {
       console.error(error);
       return res.status(500).json({
-        detail: "erro no servidor",
+        details: "erro no servidor",
       });
     }
   }
@@ -92,9 +92,14 @@ class ProdutoController {
 
       return res.sendStatus(200);
     } catch (error) {
+      if (error.message.includes("numeric field overflow")) {
+        return res.status(401).json({
+          details: "Quantidade de caracteres invalida.",
+        });
+      }
       console.error(error);
       return res.status(500).json({
-        detail: "erro no servidor",
+        details: "erro no servidor",
       });
     }
   }
@@ -109,7 +114,7 @@ class ProdutoController {
     } catch (error) {
       console.error(error);
       return res.status(500).json({
-        detail: "erro no servidor",
+        details: "erro no servidor",
       });
     }
   }

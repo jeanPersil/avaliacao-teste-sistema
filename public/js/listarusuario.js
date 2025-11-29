@@ -1,4 +1,5 @@
 import { listar_usuarios } from "./api.js";
+import { formatarData } from "./utils.js";
 
 let paginaAtual = 1;
 const limitePorPagina = 7;
@@ -25,7 +26,7 @@ function exibirUsuarios(usuarios) {
       <td>${usuario.nome_completo}</td>
       <td>${usuario.email}</td>
       <td>${usuario.role}</td>
-      <td>${usuario.created_at || "N/A"}</td>
+      <td>${formatarData(usuario.created_at) || "N/A"}</td>
       <td>
         <button class="btn-acao btn-deletar">Excluir</button>
       </td>
