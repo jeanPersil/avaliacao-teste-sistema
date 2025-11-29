@@ -135,95 +135,86 @@ h3 {
 }
 
 /* TABELA */
+/* Container da Tabela - Simples e Limpo */
 .tabela-produtos {
   width: 100%;
-  border-collapse: collapse;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(8px);
-  border: var(--borda);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: var(--sombra);
+  border-collapse: collapse; /* Remove espaços entre células */
+  background-color: #ffffff;
+  border-radius: 8px; /* Cantos levemente arredondados */
+  overflow: hidden; /* Garante que o radius funcione */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Sombra suave apenas para dar profundidade */
   margin-top: 20px;
   font-size: 15px;
-  color: #000000;
+  font-family: sans-serif;
 }
 
+/* Cabeçalho (Header) */
 .tabela-produtos thead {
-  background: linear-gradient(135deg, var(--fundo1), var(--fundo2));
+  background-color: var(--header-background); /* Cinza bem clarinho */
+  border-bottom: 2px solid #e9ecef; /* Linha de separação mais forte no topo */
 }
 
 .tabela-produtos th {
-  padding: 14px;
+  padding: 16px;
   text-align: left;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  color: #000000;
-  background-color: #dddddd;
-  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff; /* Cinza escuro (não preto total) para não cansar a vista */
+  text-transform: uppercase; /* Letras maiúsculas para dar autoridade ao título */
+  font-size: 12px; /* Fonte levemente menor para hierarquia */
+  letter-spacing: 0.5px;
 }
 
-.tabela-produtos tbody tr {
-  transition: 0.2s;
-}
-
-.tabela-produtos tbody tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.04);
-}
-
+/* Corpo da Tabela */
 .tabela-produtos td {
-  padding: 12px 14px;
-  color: #4a4a4a;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 16px;
+  color: #212529;
+  border-bottom: 1px solid #f1f3f5;
+  vertical-align: middle;
 }
 
-.tabela-produtos th,
-.tabela-produtos td {
-  border: 3px solid rgba(137, 137, 137, 0.12);
+.tabela-produtos tr:last-child td {
+  border-bottom: none;
 }
 
-/* Hover suave na linha */
 .tabela-produtos tbody tr:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background-color: #f1f3f5; /* Destaque sutil na linha */
+  transition: background-color 0.2s ease;
 }
 
-/* Botões de ação */
+/* --- Botões de Ação (Mantendo simples) --- */
 .btn-acao {
-  padding: 6px 12px;
-  border-radius: 5px;
+  padding: 8px 14px;
+  border-radius: 6px;
   font-size: 13px;
   cursor: pointer;
   border: none;
-  transition: 0.2s;
-  font-weight: 600;
+  font-weight: 500;
+  margin-right: 5px;
 }
 
-/* Botão editar */
 .btn-editar {
-  background: #1e3a8a;
-  padding: 6px 12px;
+  background-color: #e0e7ff; /* Azul bem claro */
+  color: #3730a3; /* Azul escuro */
+  padding: 6px 10px;
   border-radius: 7px;
-  color: #fff;
 }
 
 .btn-editar:hover {
-  filter: brightness(1.15);
+  background-color: #c7d2fe;
   cursor: pointer;
 }
 
-/* Botão deletar */
 .btn-deletar {
-  background: #dc2626;
-  padding: 6px 12px;
+  background-color: #fee2e2; /* Vermelho bem claro */
+  color: #991b1b; /* Vermelho escuro */
+  padding: 6px 10px;
   border-radius: 7px;
-  color: #fff;
 }
 
 .btn-deletar:hover {
-  filter: brightness(1.15);
+  background-color: #fecaca;
   cursor: pointer;
 }
-
 .paginacao ul {
   display: flex;
   list-style: none;

@@ -2,7 +2,7 @@ import { listar_usuarios } from "./api.js";
 import { formatarData } from "./utils.js";
 
 let paginaAtual = 1;
-const limitePorPagina = 7;
+const limitePorPagina = 6;
 let totalPaginas = 1;
 
 function exibirUsuarios(usuarios) {

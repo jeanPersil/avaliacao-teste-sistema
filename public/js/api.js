@@ -54,6 +54,8 @@ export const listar_usuarios = async (pagina, limite) => {
   }
 };
 
+export const excluirUsuario = (id) => {};
+
 // === CRUD PARA OS PRODUTOS ===
 
 export const adicionar_produto = async (nome, preco, quantidade, validade) => {

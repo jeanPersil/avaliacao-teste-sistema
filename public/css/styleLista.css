@@ -133,100 +133,77 @@ h3 {
 }
 
 /* TABELA */
-/* TABELA DE USUÁRIOS - MESMO ESTILO DA TABELA DE PRODUTOS */
+/* Container da Tabela de Usuários - Estilo Clean */
 .tabela-usuarios {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   margin-top: 20px;
   font-size: 15px;
-  color: #333;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: sans-serif;
 }
 
 /* Cabeçalho */
 .tabela-usuarios thead {
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  background-color: var(--header-background); /* Cinza claro */
+  border-bottom: 2px solid #e9ecef;
 }
 
 .tabela-usuarios th {
-  padding: 14px;
+  padding: 16px;
   text-align: left;
   font-weight: 600;
   color: #ffffff;
-  font-size: 14px;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
 }
 
-/* Linhas do corpo */
-.tabela-usuarios tbody tr {
-  transition: background 0.25s, transform 0.2s;
-  cursor: default;
+/* Corpo */
+.tabela-usuarios td {
+  padding: 14px 16px;
+  color: #212529;
+  border-bottom: 1px solid #f1f3f5;
+  vertical-align: middle;
 }
 
-.tabela-usuarios tbody tr:nth-child(even) {
-  background: rgba(0, 0, 0, 0.02);
+/* Remove borda da última linha */
+.tabela-usuarios tr:last-child td {
+  border-bottom: none;
 }
 
+/* Hover na linha */
 .tabela-usuarios tbody tr:hover {
-  background: rgba(99, 102, 241, 0.1);
-  transform: translateY(-2px);
+  background-color: #f1f3f5;
+  transition: background-color 0.2s ease;
 }
 
-/* Células */
-.tabela-usuarios td {
-  padding: 12px 14px;
-  color: #4a4a4a;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+/* Ajuste específico de largura para Usuários (Opcional, mas recomendado) */
+.tabela-usuarios th:nth-child(2), /* Coluna Email */
+.tabela-usuarios td:nth-child(2) {
+  width: 35%; /* Dá mais espaço para o email */
 }
 
-/* Borda suave nas células */
-.tabela-usuarios th,
-.tabela-usuarios td {
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.tabela-usuarios th:last-child,
-.tabela-usuarios td:last-child {
-  border-right: none;
-}
-
-/* Botões de ação */
-.btn-acao {
-  padding: 6px 14px;
+.tabela-usuarios .btn-acao {
+  padding: 8px 14px;
   border-radius: 6px;
   font-size: 13px;
   cursor: pointer;
   border: none;
-  transition: 0.2s;
-  font-weight: 600;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
 }
 
-/* Botão editar */
-.btn-editar {
-  background: #2563eb;
-  color: #fff;
+/* Botão Excluir (Vermelho Pastel) */
+.tabela-usuarios .btn-deletar {
+  background-color: #fee2e2;
+  color: #991b1b;
 }
 
-.btn-editar:hover {
-  filter: brightness(1.2);
-  transform: translateY(-1px);
-}
-
-/* Botão deletar */
-.btn-deletar {
-  background: #ef4444;
-  color: #fff;
-}
-
-.btn-deletar:hover {
-  filter: brightness(1.2);
-  transform: translateY(-1px);
+.tabela-usuarios .btn-deletar:hover {
+  background-color: #fecaca;
 }
 .paginacao ul {
   display: flex;
@@ -260,85 +237,4 @@ h3 {
   color: #ccc;
   pointer-events: none;
   border-color: #eee;
-}
-
-/* cards de infos rapidas */
-
-.infosRapidas {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-.totalUsuarios,
-.adm {
-  flex: 1;
-  padding: 10px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  background: white;
-  border: none;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.totalUsuarios::before,
-.adm::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-}
-
-.totalUsuarios::before {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.adm::before {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-}
-
-.totalUsuarios:hover,
-.adm:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.totalUsuarios h1,
-.adm h1 {
-  color: #2d3748;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.totalUsuarios h2,
-.adm h2 {
-  color: #1a202c;
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.totalUsuarios::after {
-  content: "👥";
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  font-size: 2rem;
-  opacity: 0.1;
-}
-
-.adm::after {
-  content: "⚙️";
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  font-size: 2rem;
-  opacity: 0.1;
 }
