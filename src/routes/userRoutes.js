@@ -4,6 +4,8 @@ import UserController from "../controller/userController.js";
 const router = express.Router();
 const userController = new UserController();
 
+router.post("/cadastrar", userController.cadastrar);
+
 router.post("/login", userController.login);
 
 router.get("/logout", userController.logout);

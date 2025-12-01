@@ -1,7 +1,32 @@
 const url = "http://localhost:3000";
 
+export const cadastrarUsuario = async (email, senha, nome, telefone) => {
+  try {
+    const data = { email, senha, nome, telefone };
+    await axios.post(`${url}/user/cadastrar`, data);
+    return true;
+
+    
+  } catch (error) {
+    if (error.response) {
+      console.error("Erro na requisição:", error.response.data);
+      return {
+        error: error.response.data.details || "Erro ao cadastrar usuario",
+      };
+    } else if (error.request) {
+      console.error("Erro de conexão:", error.request);
+      return {
+        error:
+          "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+      };
+    } else {
+      console.error("Erro desconhecido:", error.message);
+      return { error: "Ocorreu um erro inesperado." };
+    }
+  }
+};
+
 export const efetuarLogin = async (email, password) => {
-  console.log(`Login e senha recebidos ${email}, ${password}`);
   try {
     const data = { email, password };
     const response = await axios.post(`${url}/user/login`, data);
@@ -59,7 +84,6 @@ export const excluirUsuario = async (id) => {
     await axios.delete(`${url}/user/${id}`);
 
     return { success: true };
-    
   } catch (error) {
     if (error.response) {
       console.error("Erro na requisição:", error.response.data);

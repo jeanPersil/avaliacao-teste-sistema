@@ -1,14 +1,42 @@
 export function validarCampos(nome, preco, quantidade, validade) {
+  const erro = (msg) => {
+    throw new Error("Campos inválidos: " + msg);
+  };
+
+  if (nome.length > 30) {
+    erro("Quantidade de caracteres invalidos no campo nome");
+  }
+
+  if (preco.length > 30) {
+    erro("Quantidade de caracteres invalidos no campo preco");
+  }
+
+  if (quantidade.length > 30) {
+    erro("Quantidade de caracteres invalidos no campo preco");
+  }
+
+  // Campos obrigatórios
   if (!nome || preco == null || quantidade == null || !validade) {
-    return { sucesso: false, error: "Todos os campos são obrigatórios" };
+    erro("Todos os campos são obrigatórios");
   }
 
+  // Validar nome
   if (typeof nome !== "string" || nome.trim().length === 0) {
-    return { sucesso: false, error: "Nome deve ser um texto válido" };
+    erro("Nome deve ser um texto válido");
   }
 
+  // Validar caracteres especiais no nome
+  if (!/^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s]+$/.test(nome)) {
+    erro("Nome não pode conter caracteres especiais");
+  }
+
+  // Preço
   if (typeof preco !== "number" || isNaN(preco)) {
-    return { sucesso: false, error: "Preço deve ser um número válido" };
+    erro("Preço deve ser um número válido");
+  }
+
+  if (preco < 0) {
+    erro("Preço não pode ser negativo");
   }
 
   if (
@@ -16,54 +44,102 @@ export function validarCampos(nome, preco, quantidade, validade) {
     isNaN(quantidade) ||
     !Number.isInteger(quantidade)
   ) {
-    return {
-      sucesso: false,
-      error: "Quantidade deve ser um número inteiro válido",
-    };
-  }
-
-  if (preco < 0) {
-    return { sucesso: false, error: "Preço não pode ser negativo" };
+    erro("Quantidade deve ser um número inteiro válido");
   }
 
   if (quantidade < 0) {
-    return { sucesso: false, error: "Quantidade não pode ser negativa" };
+    erro("Quantidade não pode ser negativa");
   }
 
+  // Validade
   if (!validarvalidade(validade)) {
-    return { sucesso: false, error: "Produto está vencido" };
+    erro("Produto está vencido");
   }
 
-  return { sucesso: true };
+  return true;
 }
 
 export function validarEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
+
+  if (email.length > 50) {
+    throw new Error(
+      "Email inválido: Email com uma quantidade de caracters muito grande"
+    );
+  }
+
+  if (!regex.test(email)) {
+    throw new Error("Email inválido");
+  }
+
+  return true;
+}
+
+export function validarCamposCadastro(email, senha, nome, telefone) {
+  if (!email || !senha || !nome || !telefone) {
+    throw new error("Campos faltando");
+  }
+
+  return;
+}
+
+export function validarSenha(senha) {
+  if (senha.length > 20) {
+    throw new Error("Senha invalida: Senha grande");
+  }
+
+  if (senha.length < 6) {
+    throw new Error("Senha invalida: Senha curta");
+  }
+
+  return;
 }
 
 function validarvalidade(dataValidade) {
-  // Verifica se o campo está vazio ou nulo
   if (!dataValidade) return false;
 
-  // Converte a string em um objeto Date
   const validade = new Date(dataValidade);
-  if (isNaN(validade.getTime())) return false; // formato inválido
+  if (isNaN(validade.getTime())) return false;
 
-  // Data atual (zerando horas para comparar apenas dia/mês/ano)
   const hoje = new Date();
   hoje.setHours(0, 0, 0, 0);
 
-  // Retorna true se a validade ainda não passou
   return validade >= hoje;
 }
 
-export function validarTelefoneMinimo(telefone) {
-  if (!telefone || typeof telefone !== "string") {
-    return false;
+export function validarNomeCompleto(nome) {
+  nome = nome.trim();
+
+  if (nome.length < 5) {
+    throw new Error("Nome inválido: muito curto");
   }
 
-  const apenasNumeros = telefone.replace(/\D/g, "");
-  return apenasNumeros.length >= 10 && apenasNumeros.length <= 11;
+  if (nome.length > 50) {
+    throw new Error("Nome inválido: muito longo");
+  }
+
+  if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nome)) {
+    throw new Error("Nome inválido: use apenas letras");
+  }
+
+  const partes = nome.split(/\s+/);
+  if (partes.length < 2) {
+    throw new Error("Nome inválido: insira nome e sobrenome");
+  }
+
+  return true;
 }
 
+export function validarNumero(valor) {
+  if (valor.length < 10 || valor.length > 11)
+    throw new Error(
+      "Número inválido: Digite somente os numeros do seu telefone."
+    );
+
+  if (!/^\d+$/.test(valor))
+    throw new Error(
+      "Número inválido: Digite somente os numeros do seu telefone."
+    );
+
+  return;
+}

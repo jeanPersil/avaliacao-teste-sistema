@@ -7,17 +7,21 @@ class ProdutoController {
   async adicionar(req, res) {
     try {
       const { nome, preco, quantidade, validade } = req.body;
-      console.log(preco);
-      const validacao = validarCampos(nome, preco, quantidade, validade);
 
-      if (!validacao.sucesso) {
-        return res.status(400).json({ details: validacao.error });
-      }
+      validarCampos(nome, preco, quantidade, validade);
 
       await produtoService.adicionarProduto(nome, preco, quantidade, validade);
 
       return res.sendStatus(201);
     } catch (error) {
+      if (error.message.includes("numeric field overflow")) {
+        return res
+          .status(401)
+          .json({ details: "Quantidade ou preço inválido" });
+      }
+      if (error.message.includes("Campos inválidos")) {
+        return res.status(401).json({ details: error.message });
+      }
       if (
         error.message.includes("Este produto atualmente ja esta cadastrado")
       ) {
@@ -34,11 +38,9 @@ class ProdutoController {
 
   async listar(req, res) {
     try {
-      // Obter parâmetros de paginação da query string
       const pagina = parseInt(req.query.pagina) || 1;
       const limite = parseInt(req.query.limite) || 10;
 
-      // Validar parâmetros
       if (pagina < 1) {
         return res.status(400).json({
           details: "O parâmetro 'pagina' deve ser maior que 0",
@@ -96,6 +98,10 @@ class ProdutoController {
         return res.status(401).json({
           details: "Quantidade de caracteres invalida.",
         });
+      }
+
+      if (error.message.includes("Campos inválidos")) {
+        return res.status(401).json({ details: error.message });
       }
       console.error(error);
       return res.status(500).json({

@@ -1,5 +1,4 @@
-import { Autenticacao } from "../back/services/auth.js";
-const autenticacao = new Autenticacao();
+import { cadastrarUsuario, efetuarLogin } from "./api.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   const toggleSenha = document.getElementById("iconeSenha");
@@ -37,31 +36,37 @@ document.addEventListener("DOMContentLoaded", async function () {
       evento.preventDefault();
 
       const nome = document.getElementById("nome").value;
+      const sobrenome = document.getElementById("sobrenome").value;
       const email = document.getElementById("email").value;
       const telefone = document.getElementById("telefone").value;
-      const senha = campoSenha.value;
+      const senha = campoSenha.value.trim();
       const confirmaSenha = campoConfirmaSenha.value;
+      const nomeCompleto = `${nome} ${sobrenome}`;
 
       if (senha !== confirmaSenha) {
         alert("As senhas não coincidem. Por favor, tente novamente.");
         return;
       }
 
-      let resposta = await autenticacao.cadastrarUsuario(
+      const res = await cadastrarUsuario(
         email,
-        senha,
-        nome,
+        confirmaSenha,
+        nomeCompleto,
         telefone
       );
 
-      if (!resposta.sucesso) {
-        alert(`Erro ao cadastrar usuario: ${resposta.mensagem}`);
+      if (res.error) {
+        alert(res.error); 
         return;
       }
-      alert("Cadastro realizado com sucesso! Redirecionando para login...");
-      setTimeout(() => {
-        window.location.href = "../index.html";
-      }, 1500);
+
+      const login = await efetuarLogin(email, confirmaSenha);
+
+      alert(
+        "Sua conta foi criada! Você será redirecionado para a tela de compras..."
+      );
+
+      window.location.href = login;
     });
   }
 });

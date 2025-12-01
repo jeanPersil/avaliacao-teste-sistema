@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
   sendPage(res, "index.html");
 });
 
-router.get("/cadastro", AuthMiddleware.verificar_autenticacao, (req, res) => {
+router.get("/cadastro", (req, res) => {
   sendPage(res, "cadastro.html");
 });
 

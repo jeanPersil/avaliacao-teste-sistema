@@ -1,15 +1,76 @@
 import UserService from "../service/userService.js";
+import {
+  validarEmail,
+  validarNumero,
+  validarSenha,
+  validarNomeCompleto,
+} from "../utils/validar.js";
 
 const userService = new UserService();
 
 class UserController {
+  async cadastrar(req, res) {
+    try {
+      const { email, senha, nome, telefone } = req.body;
+
+      if (!email || !senha || !nome || !telefone) {
+        return res.status(401).json({
+          details: "Campos obrigatorios faltando",
+        });
+      }
+
+      validarEmail(email);
+
+      validarSenha(senha);
+
+      validarNumero(telefone);
+
+      validarNomeCompleto(nome);
+
+      await userService.cadastrarUsuario(email, senha, nome, telefone, "comum");
+
+      return res.sendStatus(200);
+    } catch (error) {
+      if (error.message.includes("Nome inválido")) {
+        return res.status(401).json({
+          details: "Nome Completo invalido",
+        });
+      }
+      if (error.message.includes("Senha invalida")) {
+        return res.status(401).json({
+          details: error.message,
+        });
+      }
+
+      if (error.message.includes("Email inválido")) {
+        return res.status(401).json({
+          details: error.message,
+        });
+      }
+      if (error.message.includes("Número inválido")) {
+        return res.status(401).json({
+          details: error.message,
+        });
+      }
+      if (error.message.includes("User already registered")) {
+        return res.status(401).json({
+          details: "Ja existe uma conta cadastrada com este email",
+        });
+      }
+      console.error(error);
+      return res.status(500).json({
+        details: "erro no servidor",
+      });
+    }
+  }
+
   async login(req, res) {
     try {
       const { email, password } = req.body;
 
       if (!email.trim() || !password.trim()) {
         return res.status(400).json({
-          detail: "Email e senha devem ser preenchidos.",
+          details: "Email e senha devem ser preenchidos.",
         });
       }
 
@@ -36,7 +97,7 @@ class UserController {
       }
       console.error(error);
       return res.status(500).json({
-        detail: "erro no servidor",
+        details: "erro no servidor",
       });
     }
   }
@@ -48,7 +109,7 @@ class UserController {
 
       if (pagina < 1 || limite < 1 || limite > 100) {
         return res.status(400).json({
-          detail: "Parâmetros de paginação inválidos",
+          details: "Parâmetros de paginação inválidos",
         });
       }
 
@@ -68,7 +129,7 @@ class UserController {
     } catch (error) {
       console.error(error);
       return res.status(500).json({
-        detail: "erro no servidor",
+        details: "erro no servidor",
       });
     }
   }
@@ -88,7 +149,7 @@ class UserController {
       }
       console.error(error);
       return res.status(500).json({
-        detail: "erro no servidor",
+        details: "erro no servidor",
       });
     }
   }
@@ -105,7 +166,7 @@ class UserController {
     } catch (error) {
       console.error(error);
       return res.status(500).json({
-        detail: "erro no servidor",
+        details: "erro no servidor",
       });
     }
   }

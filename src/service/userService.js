@@ -1,8 +1,34 @@
 import supabase from "../config.js";
 
 class UserService {
-  async cadastrarUsuario() {}
+  async cadastrarUsuario(email, senha, nome, telefone, role) {
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: email,
+      password: senha,
+    });
 
+    if (authError) throw new Error(authError.message);
+
+    const { data: userData, error: userError } = await supabase
+      .from("usuarios")
+      .insert([
+        {
+          id: authData.user.id,
+          nome_completo: nome,
+          telefone: telefone,
+          email: email,
+          role: role,
+        },
+      ])
+      .select();
+
+    if (userError) {
+      await supabase.auth.admin.deleteUser(authData.user.id);
+      throw new Error(userError.message);
+    }
+
+    return true;
+  }
   async logarUsuario(email, password) {
     const { data: login, error } = await supabase.auth.signInWithPassword({
       email,
