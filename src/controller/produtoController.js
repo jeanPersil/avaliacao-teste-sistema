@@ -124,6 +124,60 @@ class ProdutoController {
       });
     }
   }
+
+  async venda(req, res) {
+    const token = req.cookies.authToken;
+    const { produtoId, quantidade } = req.body;
+
+    console.log(`
+      token: ${token}
+      produtoId : ${produtoId}
+      quantidade: ${quantidade}
+      
+      `);
+
+    if (!token || !produtoId || !quantidade || quantidade <= 0) {
+      return res.status(400).json({
+        details:
+          "Dados de requisição inválidos (token, ID do produto ou quantidade faltando/inválida).",
+      });
+    }
+
+    try {
+      await produtoService.registrarVenda(produtoId, quantidade, token);
+
+      return res.sendStatus(200);
+    } catch (error) {
+      console.error("Erro no registro de venda:", error.message);
+
+      if (error.message.includes("Produto não foi encontrado")) {
+        return res.status(404).json({
+          details: "Produto não encontrado.",
+        });
+      }
+
+      if (error.message.includes("Estoque insuficiente")) {
+        return res.status(409).json({
+          details:
+            "Estoque insuficiente. A quantidade solicitada não está disponível.",
+        });
+      }
+
+      if (
+        error.message.includes("JWT") ||
+        error.message.includes("invalid claim")
+      ) {
+        return res.status(401).json({
+          details:
+            "Token de autenticação inválido ou expirado. Faça login novamente.",
+        });
+      }
+
+      return res.status(500).json({
+        details: error.message,
+      });
+    }
+  }
 }
 
 export default ProdutoController;

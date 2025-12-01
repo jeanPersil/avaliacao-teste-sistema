@@ -9,5 +9,5 @@ router.post("/", produtoController.adicionar);
 router.get("/", produtoController.listar);
 router.put("/", produtoController.editar);
 router.delete("/:id", produtoController.excluir);
-
+router.post("/venda", produtoController.venda);
 export default router;

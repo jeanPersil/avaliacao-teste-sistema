@@ -2,21 +2,6 @@ import { Produto } from "../produto.js";
 import supabase from "../config.js";
 
 class ProdutoService {
-  async verificarProdutoExiste(nome) {
-    const { data, error } = await supabase
-      .from("produtos")
-      .select("id")
-      .eq("nome", nome);
-
-    if (error) {
-      throw new Error(`Erro ao verificar produto: ${error.message}`);
-    }
-
-    if (data && data.length > 0) return true;
-
-    return false;
-  }
-
   async adicionarProduto(nome, preco, quantidade, validade) {
     let produtoExiste = await this.verificarProdutoExiste(nome);
 
@@ -120,6 +105,66 @@ class ProdutoService {
       return false;
     }
     return true;
+  }
+
+  async registrarVenda(produtoId, quantidade, token) {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser(token);
+
+    if (error) throw new Error(error.message);
+
+    const produto = await this.buscarProdutoPorId(produtoId);
+
+    if (!produto) throw new Error("Produto não foi encontrado");
+
+    if (produto.quantidade < quantidade)
+      throw new Error("Estoque insuficiente.");
+
+    const { error: vendaErro } = await supabase.from("vendas").insert([
+      {
+        cliente_id: user.id,
+        produto_id: produtoId,
+        quantidade,
+        total: produto.preco * quantidade,
+        data_venda: new Date().toISOString(),
+      },
+    ]);
+
+    if (vendaErro) {
+      return {
+        sucesso: false,
+        mensagem: "Não foi possível registrar a venda.",
+      };
+    }
+    return;
+  }
+
+  async verificarProdutoExiste(nome) {
+    const { data, error } = await supabase
+      .from("produtos")
+      .select("id")
+      .eq("nome", nome);
+
+    if (error) {
+      throw new Error(`Erro ao verificar produto: ${error.message}`);
+    }
+
+    if (data && data.length > 0) return true;
+
+    return false;
+  }
+
+  async buscarProdutoPorId(produtoId) {
+    const { data, error } = await supabase
+      .from("produtos")
+      .select("*")
+      .eq("id", produtoId)
+      .single();
+
+    if (error) throw error;
+    return data;
   }
 }
 
