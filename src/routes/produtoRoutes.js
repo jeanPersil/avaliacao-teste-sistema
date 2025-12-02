@@ -8,6 +8,6 @@ const router = express.Router();
 router.post("/", produtoController.adicionar);
 router.get("/", produtoController.listar);
 router.put("/", produtoController.editar);
-router.delete("/:id", produtoController.excluir);
 router.post("/venda", produtoController.venda);
+router.delete("/:id", produtoController.excluir);
 export default router;

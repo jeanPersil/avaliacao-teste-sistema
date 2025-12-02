@@ -122,23 +122,26 @@ class ProdutoService {
     if (produto.quantidade < quantidade)
       throw new Error("Estoque insuficiente.");
 
-    const { error: vendaErro } = await supabase.from("vendas").insert([
+    const { error: vendaErro } = await supabase.from("compras").insert([
       {
-        cliente_id: user.id,
+        cliente_Id: user.id,
         produto_id: produtoId,
         quantidade,
         total: produto.preco * quantidade,
-        data_venda: new Date().toISOString(),
       },
     ]);
 
     if (vendaErro) {
       return {
         sucesso: false,
-        mensagem: "Não foi possível registrar a venda.",
+        mensagem: `Falha ao registrar venda: ${vendaErro.message}`,
       };
     }
-    return;
+
+    return {
+      sucesso: true,
+      mensagem: "Venda registrada com sucesso.",
+    };
   }
 
   async verificarProdutoExiste(nome) {

@@ -5,8 +5,6 @@ export const cadastrarUsuario = async (email, senha, nome, telefone) => {
     const data = { email, senha, nome, telefone };
     await axios.post(`${url}/user/cadastrar`, data);
     return true;
-
-    
   } catch (error) {
     if (error.response) {
       console.error("Erro na requisição:", error.response.data);
@@ -103,16 +101,12 @@ export const excluirUsuario = async (id) => {
   }
 };
 
-// === CRUD PARA OS PRODUTOS ===
-
 export const adicionar_produto = async (nome, preco, quantidade, validade) => {
   try {
     const dados = { nome, preco, quantidade, validade };
     console.log(dados);
 
     const response = await axios.post(`${url}/produto`, dados);
-
-    return response.data; // ← TEM QUE TER ESTE RETURN
   } catch (error) {
     if (error.response) {
       console.error("Erro na requisição:", error.response.data);
@@ -196,6 +190,33 @@ export const excluirProduto = async (id) => {
       console.error("Erro na requisição:", error.response.data);
       return {
         error: error.response.data.details || "Erro ao deletar produto",
+      };
+    } else if (error.request) {
+      console.error("Erro de conexão:", error.request);
+      return {
+        error:
+          "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+      };
+    } else {
+      console.error("Erro desconhecido:", error.message);
+      return { error: "Ocorreu um erro inesperado." };
+    }
+  }
+};
+
+export const realizarVenda = async (produtoId, quantidade) => {
+  try {
+    const dados = { produtoId, quantidade };
+    await axios.post(`${url}/produto/venda`, dados, {
+      withCredentials: true,
+    });
+
+    return;
+  } catch (error) {
+    if (error.response) {
+      console.error("Erro na requisição:", error.response.data);
+      return {
+        error: error.response.data.details || "Erro ao efetuar compra",
       };
     } else if (error.request) {
       console.error("Erro de conexão:", error.request);

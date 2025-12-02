@@ -1,12 +1,7 @@
-import { Estoque } from "../src/back/services/estoque.js";
-import { Vendas } from "../src/back/services/vendas.js";
-import { supabase } from "../src/banco/supabaseConfig.js";
+import { listarProduto, realizarVenda } from "./api.js";
 
 class VendasController {
   constructor() {
-    this.estoqueService = new Estoque();
-    this.vendasService = new Vendas();
-
     this.selectProduto = document.getElementById("produto");
     this.formVenda = document.getElementById("formVenda");
     this.mensagem = document.getElementById("mensagem");
@@ -63,7 +58,15 @@ class VendasController {
     this.selectProduto.disabled = true;
 
     try {
-      const produtos = await this.estoqueService.listarProdutos();
+      const resposta = await listarProduto(1, 100);
+
+      if (resposta.error) {
+        throw new Error(resposta.error);
+      }
+
+      // Extraímos o array de produtos da resposta da API
+      const produtos = resposta.produtos || [];
+
       console.log("Produtos carregados:", produtos);
       this.produtosDisponiveis = produtos;
 
@@ -86,16 +89,17 @@ class VendasController {
       this.selectProduto.innerHTML =
         '<option value="">Erro ao carregar produtos</option>';
       this.selectProduto.disabled = true;
+      // Mostra o erro na tela se houver mensagem
+      this.mostrarMensagem(error.message || "Erro de conexão", "erro");
     }
   }
 
   carregarProdutosDestaque(produtos) {
     this.listaProdutosDestaque.innerHTML = "";
 
-    // Mostra apenas produtos com estoque
     const produtosComEstoque = produtos
       .filter((produto) => produto.quantidade > 0)
-      .slice(0, 6); // Limita a 6 produtos
+      .slice(0, 6);
 
     produtosComEstoque.forEach((produto) => {
       const produtoElement = document.createElement("div");
@@ -174,7 +178,6 @@ class VendasController {
     this.quantidadeResumo.textContent = quantidade;
     this.totalCompra.textContent = `R$ ${total.toFixed(2)}`;
 
-    // Validação de estoque
     if (quantidade > this.produtoSelecionado.quantidade) {
       this.totalCompra.style.color = "#dc3545";
       this.btnVender.disabled = true;
@@ -216,45 +219,32 @@ class VendasController {
     this.btnVender.textContent = "Processando...";
 
     try {
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
+      // AJUSTE: Removida a verificação manual do Supabase.
+      // A função realizarVenda() da API usa 'withCredentials: true',
+      // então o backend validará a sessão.
 
-      if (userError || !user) {
-        this.mostrarMensagem(
-          "Usuário não autenticado. Faça login novamente.",
-          "erro"
-        );
-        return;
-      }
+      const resultado = await realizarVenda(produtoId, quantidade);
 
-      const resultado = await this.vendasService.registrarVenda(
-        produtoId,
-        quantidade,
-        user.id
-      );
+      // AJUSTE: Lógica de verificação de sucesso baseada na API fornecida
+      // Se tiver 'error' no objeto retornado, falhou. Se for undefined ou vazio, sucesso.
+      if (resultado && resultado.error) {
+        this.mostrarMensagem(resultado.error, "erro");
+      } else {
+        // Sucesso
+        this.mostrarMensagem("Venda realizada com sucesso!", "sucesso");
 
-      this.mostrarMensagem(
-        resultado.mensagem,
-        resultado.sucesso ? "sucesso" : "erro"
-      );
-
-      if (resultado.sucesso) {
         // Resetar formulário após sucesso
-        await this.carregarProdutos();
+        await this.carregarProdutos(); // Recarrega para atualizar estoque
         this.selectProduto.value = "";
         this.inputQuantidade.value = "1";
         this.limparInfoProduto();
 
-        // Focar no select de produtos para próxima compra
         setTimeout(() => this.selectProduto.focus(), 500);
       }
     } catch (error) {
       console.error("Erro ao processar venda:", error);
       this.mostrarMensagem("Erro inesperado ao processar a venda.", "erro");
     } finally {
-      // Restaurar estado normal do botão
       this.btnVender.disabled = false;
       this.btnVender.classList.remove("btn-carregando");
       this.btnVender.textContent = "Finalizar Compra";
@@ -266,7 +256,6 @@ class VendasController {
     this.mensagem.className = `mensagem-alerta ${tipo}`;
     this.mensagem.textContent = texto;
 
-    // Rolagem suave para a mensagem
     this.mensagem.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
     setTimeout(() => {
@@ -275,12 +264,10 @@ class VendasController {
   }
 }
 
-// Inicialização quando o DOM estiver carregado
 document.addEventListener("DOMContentLoaded", () => {
   new VendasController();
 });
 
-// Adicionar estilos dinâmicos para texto
 const style = document.createElement("style");
 style.textContent = `
   .texto-sucesso { color: #28a745; font-weight: 600; }

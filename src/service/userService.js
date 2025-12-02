@@ -82,7 +82,6 @@ class UserService {
 
       const totalPaginas = Math.ceil(count / limite);
 
-      console.log(data);
       return {
         usuarios: data,
         total: count,
