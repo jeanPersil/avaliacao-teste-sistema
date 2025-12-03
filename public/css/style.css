@@ -37,9 +37,11 @@
 
 /* MENU (sidebar) */
 .menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   grid-area: menu;
   background: var(--menu-background);
-
   color: var(--menu-foreground);
   border-right: 1px solid var(--menu-border);
   padding: 20px;
@@ -97,7 +99,8 @@ ul {
 
 /* LINKS DO MENU */
 a {
-  display: block;
+  display: flex;
+  gap: 10px;
   text-decoration: none;
   padding: 10px;
   font-weight: 300;
@@ -377,6 +380,9 @@ h3 {
   }
 
   .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-right: none;
     border-bottom: 1px solid var(--menu-border);
     padding: 10px;
