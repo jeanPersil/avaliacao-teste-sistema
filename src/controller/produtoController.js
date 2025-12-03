@@ -77,11 +77,7 @@ class ProdutoController {
   async editar(req, res) {
     try {
       const { id, nome, preco, quantidade, validade } = req.body;
-      const validacao = validarCampos(nome, preco, quantidade, validade);
-
-      if (!validacao.sucesso) {
-        return res.status(400).json({ details: validacao.error });
-      }
+      validarCampos(nome, preco, quantidade, validade);
 
       const dadosAtualizados = {
         nome: nome,

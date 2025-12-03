@@ -15,7 +15,6 @@ export function validarCampos(nome, preco, quantidade, validade) {
     erro("Quantidade de caracteres invalidos no campo preco");
   }
 
-  // Campos obrigatórios
   if (!nome || preco == null || quantidade == null || !validade) {
     erro("Todos os campos são obrigatórios");
   }
@@ -56,7 +55,7 @@ export function validarCampos(nome, preco, quantidade, validade) {
     erro("Produto está vencido");
   }
 
-  return true;
+  return;
 }
 
 export function validarEmail(email) {

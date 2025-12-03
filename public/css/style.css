@@ -151,6 +151,27 @@ h3 {
   font-family: sans-serif;
 }
 
+.aviso-baixo {
+  color: #c77d00;
+  font-weight: bold;
+}
+
+.aviso-zero {
+  color: red;
+  font-weight: bold;
+}
+
+.aviso-validade-proxima {
+  color: #d17b00;
+  font-weight: bold;
+}
+
+.aviso-vencido {
+  color: red;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 /* Cabeçalho (Header) */
 .tabela-produtos thead {
   background-color: var(--header-background); /* Cinza bem clarinho */
@@ -166,6 +187,7 @@ h3 {
   font-size: 12px; /* Fonte levemente menor para hierarquia */
   letter-spacing: 0.5px;
 }
+
 
 /* Corpo da Tabela */
 .tabela-produtos td {

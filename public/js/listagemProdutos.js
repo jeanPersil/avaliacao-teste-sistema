@@ -23,15 +23,43 @@ function exibirProdutos(produtos) {
   }
 
   produtos.forEach((produto) => {
+    let estoqueAviso = "";
+    let validadeAviso = "";
+
+    // ⚠ Estoque
+    if (produto.quantidade == 0) {
+      estoqueAviso = `<span class="aviso-zero">⚠ Sem estoque</span>`;
+    } else if (produto.quantidade < 10) {
+      estoqueAviso = `<span class="aviso-baixo">⚠ Quantidade baixa</span>`;
+    }
+
+    // ⚠ Validade
+    const hoje = new Date();
+    const validadeData = new Date(produto.validade);
+
+    const diffDias = Math.ceil((validadeData - hoje) / (1000 * 60 * 60 * 24));
+
+    if (diffDias < 0) {
+      validadeAviso = `<span class="aviso-vencido">⚠ Produto vencido</span>`;
+    } else if (diffDias <= 7) {
+      validadeAviso = `<span class="aviso-validade-proxima">⚠ Validade próxima (${diffDias} dias)</span>`;
+    }
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${produto.id}</td>
       <td>${produto.nome || "N/A"}</td>
       <td>R$ ${produto.preco ? produto.preco.toFixed(2) : "0.00"}</td>
-      <td>${produto.quantidade || 0}</td>
-      <td>${formatarData(produto.validade) || "N/A"}</td>
       <td>
-        <button class="btn-editar" data-id="${produto.id}" >Editar</button>
+        ${produto.quantidade || 0}
+        <p>${estoqueAviso}</p>
+      </td>
+      <td>
+        ${formatarData(produto.validade) || "N/A"}
+        <p>${validadeAviso}</p>
+      </td>
+      <td>
+        <button class="btn-editar" data-id="${produto.id}">Editar</button>
         <button class="btn-deletar" data-id="${produto.id}">Excluir</button>
       </td>
     `;
