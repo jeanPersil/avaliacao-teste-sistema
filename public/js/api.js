@@ -106,7 +106,9 @@ export const adicionar_produto = async (nome, preco, quantidade, validade) => {
     const dados = { nome, preco, quantidade, validade };
     console.log(dados);
 
-    const response = await axios.post(`${url}/produto`, dados);
+    await axios.post(`${url}/produto`, dados);
+
+    return { success: true };
   } catch (error) {
     if (error.response) {
       console.error("Erro na requisição:", error.response.data);
@@ -211,12 +213,39 @@ export const realizarVenda = async (produtoId, quantidade) => {
       withCredentials: true,
     });
 
-    return;
+    return { success: true };
   } catch (error) {
     if (error.response) {
       console.error("Erro na requisição:", error.response.data);
       return {
         error: error.response.data.details || "Erro ao efetuar compra",
+      };
+    } else if (error.request) {
+      console.error("Erro de conexão:", error.request);
+      return {
+        error:
+          "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+      };
+    } else {
+      console.error("Erro desconhecido:", error.message);
+      return { error: "Ocorreu um erro inesperado." };
+    }
+  }
+};
+
+export const enviarFeedback = async (tipo, mensagem) => {
+  try {
+    const dados = { tipo, mensagem };
+    await axios.post(`${url}/user/feedback`, dados, {
+      withCredentials: true,
+    });
+
+    return { success: true };
+  } catch (error) {
+    if (error.response) {
+      console.error("Erro na requisição:", error.response.data);
+      return {
+        error: error.response.data.details || "Erro ao enviar feedback",
       };
     } else if (error.request) {
       console.error("Erro de conexão:", error.request);

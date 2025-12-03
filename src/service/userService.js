@@ -126,6 +126,32 @@ class UserService {
 
     return true;
   }
+
+  async feedbackUsuario(token, tipo, mensagem) {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser(token);
+
+    if (error || !user) {
+      return res.status(401).json({ message: "Token inválido ou expirado." });
+    }
+
+    const { error: errorFeedback } = await supabase
+      .from("feedbacks")
+      .insert([
+        {
+          usuario_id: user.id,
+          tipo: tipo,
+          mensagem: mensagem,
+        },
+      ])
+      .select();
+
+    if (errorFeedback) throw new Error(errorFeedback.message);
+
+    return;
+  }
 }
 
 export default UserService;

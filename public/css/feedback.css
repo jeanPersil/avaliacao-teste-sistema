@@ -1,0 +1,516 @@
+:root {
+  --menu-background: #fcfcfc;
+  --menu-foreground: #202020;
+  --menu-border: #e5e5e5;
+
+  --header-background: #3b5bb0;
+  --header-foreground: #111111;
+
+  --content-background: #f7f7f7;
+  --content-foreground: #111111;
+
+  --footer-background: #efefef;
+  --footer-foreground: #111111;
+
+  --hover-gradient-start: #07e7e3;
+  --hover-gradient-end: #32dac3;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.layout {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 80px 1fr 60px;
+
+  grid-template-areas:
+    "menu cabecalho"
+    "menu conteudo"
+    "menu rodape";
+}
+
+/* MENU (sidebar) */
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  grid-area: menu;
+  background: var(--menu-background);
+  color: var(--menu-foreground);
+  border-right: 1px solid var(--menu-border);
+  padding: 20px;
+}
+
+/* HEADER */
+.cabecalho {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  grid-area: cabecalho;
+  background: var(--header-background);
+  color: var(--header-foreground);
+  padding: 0 20px;
+  border-bottom: 1px solid var(--menu-border);
+}
+
+/* CONTEÚDO PRINCIPAL */
+.conteudo {
+  grid-area: conteudo;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  align-items: stretch;
+  background: var(--content-background);
+  color: var(--content-foreground);
+  padding: 20px;
+}
+
+/* RODAPÉ */
+.rodape {
+  grid-area: rodape;
+  background: var(--footer-background);
+  color: var(--footer-foreground);
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  border-top: 1px solid var(--menu-border);
+}
+
+.rodape h1 {
+  color: #000000;
+  font-size: 10pt;
+  margin: 10px;
+}
+
+/* LISTAS DO MENU */
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* LINKS DO MENU */
+a {
+  display: flex;
+  gap: 10px;
+  text-decoration: none;
+  padding: 10px;
+  font-weight: 300;
+  transition: 0.3s ease;
+  color: var(--menu-foreground);
+}
+
+/* HOVER DO LINK */
+a:hover {
+  background-color: hsl(235, 100%, 95%);
+  border-radius: 10px;
+  color: rgb(0, 0, 255);
+}
+
+.user {
+  padding: 10px;
+}
+.user h1 {
+  color: black;
+}
+
+.user h2 {
+  color: rgb(108, 108, 108);
+  font-size: 10pt;
+}
+
+h1 {
+  font-size: 1;
+  color: white;
+}
+
+h3 {
+  font-size: 10pt;
+  color: white;
+}
+
+.report {
+  padding: 10px;
+  background-color: rgb(43, 197, 23);
+  color: white;
+  font-weight: bold;
+  border-radius: 7px;
+}
+
+.report:hover {
+  cursor: pointer;
+}
+
+/* Adicione isso ao seu CSS */
+.lista-cards {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Isso centraliza o card se a tela for gigante (>1200px) */
+  gap: 15px; /* Espaço entre um card e outro */
+}
+
+.feedback-card {
+  width: 100%; /* Ocupa 100% da lista-cards */
+  max-width: 130000px; /* Mas para de crescer se a tela for muito larga */
+
+  /* Resto das propriedades... */
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 16px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Tipo */
+.feedback-tipo {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
+
+.feedback-tipo.bug {
+  background-color: #e63946;
+}
+
+.feedback-tipo.melhoria {
+  background-color: #457b9d;
+}
+
+.feedback-status {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.feedback-status.pendente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.feedback-status.em_analise {
+  background-color: #cfe2ff;
+  color: #084298;
+}
+
+.feedback-status.em_andamento {
+  background-color: #ffe5b4;
+  color: #a65b00;
+}
+
+.feedback-status.finalizado {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.feedback-status.cancelado {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.feedback-status.recusado {
+  background-color: #e2e3e5;
+  color: #41464b;
+}
+
+/* Mensagem */
+.feedback-mensagem {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+
+  max-height: 150px; /* Altura máxima da área de texto */
+  overflow-y: auto; /* Cria barra de rolagem se passar da altura */
+  padding-right: 5px; /* Espaço para a barra de rolagem não colar no texto */
+}
+
+.feedback-mensagem::-webkit-scrollbar {
+  width: 6px;
+}
+.feedback-mensagem::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+/* Rodapé */
+.feedback-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Container geral dos filtros */
+/* Container Pai */
+.filtros {
+  width: 100%;
+  max-width: 12000px;
+  margin-bottom: 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Container que segura Status e Categoria juntos */
+.filtros .row {
+  display: flex;
+  flex-direction: row !important; /* O !important garante que sobrescreve qualquer regra antiga */
+  gap: 20px;
+}
+
+/* Estilo individual de cada par Label + Select */
+.grupo-input {
+  display: flex;
+  flex-direction: column; /* Label em cima do Input */
+  gap: 6px;
+}
+
+.filtros label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-left: 2px;
+}
+
+.filtros select {
+  padding: 10px 16px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  font-size: 14px;
+  min-width: 200px;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Botão Reportar (Opcional: estilo básico para ficar bonito) */
+.report {
+  padding: 10px 20px;
+  background-color: rgb(43, 197, 23);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  height: fit-content; /* Garante que não estique */
+}
+
+.filtros select:hover {
+  border-color: #bbb;
+}
+
+.filtros select:focus {
+  border-color: var(--header-background);
+  box-shadow: 0 0 0 3px rgba(59, 91, 176, 0.1);
+}
+
+/* --- 1. Alteração no Card (Preview) --- */
+.feedback-card {
+  /* Adicione cursor pointer para indicar clique */
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feedback-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border-color: #3b5bb0; /* Azul do header */
+}
+
+.feedback-mensagem {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* --- 2. Estilo do Modal (Janela Flutuante) --- */
+.modal-overlay {
+  display: none; /* Começa invisível */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro transparente */
+  z-index: 1000; /* Fica em cima de tudo */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.aberto {
+  display: flex; /* Aparece quando tem a classe 'aberto' */
+}
+
+.modal-box {
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  animation: surgimento 0.3s ease;
+}
+
+@keyframes surgimento {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-titulo {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.modal-texto-completo {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #eee;
+  max-height: 300px;
+  overflow-y: auto;
+  line-height: 1.5;
+  white-space: pre-wrap; /* Mantém parágrafos originais */
+}
+
+.modal-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-fechar {
+  padding: 10px 20px;
+  background: #e5e5e5;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-salvar {
+  padding: 10px 20px;
+  background: #3b5bb0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-salvar:hover {
+  background: #2a4a90;
+}
+
+/* Estilo para inputs dentro dos modais */
+.input-modal {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  font-family: sans-serif;
+  font-size: 14px;
+  resize: vertical; /* Permite o usuário aumentar a caixa de texto */
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-modal:focus {
+  border-color: #3b5bb0; /* Azul do tema */
+  box-shadow: 0 0 0 3px rgba(59, 91, 176, 0.1);
+}
+
+
+.report-modal {
+  display: none; 
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro */
+  z-index: 1000;
+
+  /* --- A MÁGICA DA CENTRALIZAÇÃO --- */
+  justify-content: center; /* Centraliza Horizontalmente */
+  align-items: center; /* Centraliza Verticalmente */
+}
+
+/* 2. Estado Aberto */
+/* O JS vai adicionar essa classe '.aberto' na div */
+.report-modal.aberto {
+  display: flex; /* Torna visível e ativa o flexbox */
+}
+
+/* 3. A Caixa Branca (Filho) */
+.modal-box {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+  /* Importante: Não use margin: auto aqui, o pai já está centralizando */
+  display: flex;
+  flex-direction: column;
+  animation: aparecer 0.3s ease-out;
+}
+
+@keyframes aparecer {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

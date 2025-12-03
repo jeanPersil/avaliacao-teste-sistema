@@ -47,4 +47,8 @@ router.get("/produtos", AuthMiddleware.verificar_autenticacao, (req, res) => {
   sendPage(res, "produtos.html");
 });
 
+router.get("/feedback", AuthMiddleware.verificar_autenticacao, (req, res) => {
+  sendPage(res, "feedback.html");
+});
+
 export default router;

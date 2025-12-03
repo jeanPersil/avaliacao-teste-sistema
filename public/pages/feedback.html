@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback</title>
+    <link rel="stylesheet" href="css/feedback.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body class="layout">
+    <aside class="menu">
+      <div>
+        <div class="user">
+          <h1>Painel de admin</h1>
+          <h2>Gerenciamento</h2>
+        </div>
+
+        <hr class="e" />
+
+        <ul>
+          <li>
+            <a href="/painelAdmin">
+              <img src="imgs/list.svg" alt="Ícone" width="16" /> Produtos</a
+            >
+          </li>
+          <li>
+            <a href="/cadprod">
+              <img src="imgs/plus-square.svg" alt="Ícone" width="16" />
+              Adicionar Produto</a
+            >
+          </li>
+          <li>
+            <a href="/listaUsuarios"
+              ><img src="imgs/people-fill.svg" alt="Ícone" width="16" />
+              Usuarios</a
+            >
+          </li>
+          <li>
+            <a href="/feedback">
+              <img src="imgs/flag.svg" alt="Ícone" width="16" /> Feedback</a
+            >
+          </li>
+        </ul>
+      </div>
+      <a href="/user/logout"
+        ><img src="imgs/box-arrow-right.svg" alt="Ícone" width="16" />
+        Logout
+      </a>
+    </aside>
+
+    <header class="cabecalho">
+      <div>
+        <h1>Sua opinião é importante!</h1>
+        <h3>Deixe seu feedback e contribua para uma melhor experiência.</h3>
+      </div>
+    </header>
+
+    <main class="conteudo">
+      <div class="filtros">
+        <div class="row">
+          <div class="grupo-input">
+            <label for="select-status">Status</label>
+            <select name="status" id="select-status">
+              <option value="todos">Todos</option>
+              <option value="pendente">Pendente</option>
+              <option value="em analise">Em analise</option>
+              <option value="em andamento">Em andamento</option>
+              <option value="finalizado">Finalizado</option>
+              <option value="cancelado">Cancelado</option>
+              <option value="recusado">Recusado</option>
+            </select>
+          </div>
+
+          <div class="grupo-input">
+            <label for="selecet-categoria">Categoria</label>
+            <select name="categoria" id="selecet-categoria">
+              <option value="todas">Todas</option>
+              <option value="bug">Bug</option>
+              <option value="melhoria">Melhoria</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="report" id="reportarFeedback">Reportar Feedback</button>
+      </div>
+      <div class="lista-cards">
+        <div class="feedback-card">
+          <div class="feedback-header">
+            <span class="feedback-tipo bug">Bug</span>
+            <span class="feedback-status pendente">Pendente</span>
+          </div>
+
+          <p class="feedback-mensagem">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Atque
+            exercitationem voluptate excepturi dignissimos velit dicta vel
+            ratione, quas, voluptas fugit, dolores porro non neque maiores
+          </p>
+
+          <div class="feedback-footer">
+            <span class="feedback-usuario">Usuário: João Silva</span>
+            <span class="feedback-data">03/12/2025</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="report-modal" id="modal-novo-report"></div>
+
+    <div id="modal-feedback" class="modal-overlay"></div>
+
+    <footer class="rodape"><h1>Desenvolvido by tenis</h1></footer>
+    <script type="module" src="js/feedback.js"></script>
+    <script type="module" src="js/modal.js"></script>
+  </body>
+</html>

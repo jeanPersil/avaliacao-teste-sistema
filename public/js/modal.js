@@ -87,4 +87,60 @@ if (formEdicao) {
   });
 }
 
-export { abrirModalEdicao, fecharModal };
+function abrirModalReportFeedback() {
+  const modal = document.getElementById("modal-novo-report");
+
+  // Adicionei id="form-feedback" na tag form abaixo e removi o erro de digitação
+  modal.innerHTML = `
+    <div class="modal-box">
+      <form id="form-feedback"> 
+      
+        <div class="modal-titulo">Novo Report</div>
+        <p style="color: #666; font-size: 13px; margin-bottom: 15px;">
+          Selecione a categoria e descreva o item detalhadamente.
+        </p>
+
+        <div style="margin-bottom: 15px;">
+          <label style="font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px;">Categoria</label>
+          <select id="novo-tipo" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+            <option value="bug">Bug (Erro)</option>
+            <option value="melhoria">Melhoria</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px;">Detalhes</label>
+          <textarea 
+            id="nova-mensagem" 
+            required 
+            rows="5" 
+            style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; resize: vertical;"
+            placeholder="Ex: O botão de login não responde..."
+          ></textarea>
+        </div>
+
+        <div class="modal-acoes" style="margin-top: 20px;">
+          <button type="button" class="btn-fechar" id="fecharFeedback">Cancelar</button>
+          
+          <button type="submit" class="btn-salvar">Enviar</button>
+        </div>
+
+      </form>
+    </div>
+  `;
+
+  modal.classList.add("aberto");
+}
+
+function fecharModalReportFeedback() {
+  const modal = document.getElementById("modal-novo-report");
+  modal.classList.remove("aberto");
+  modal.innerHTML = "";
+}
+
+export {
+  abrirModalEdicao,
+  fecharModal,
+  abrirModalReportFeedback,
+  fecharModalReportFeedback,
+};

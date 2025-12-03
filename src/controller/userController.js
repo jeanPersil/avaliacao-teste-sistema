@@ -170,6 +170,44 @@ class UserController {
       });
     }
   }
+
+  async feedback(req, res) {
+    try {
+      const token = req.cookies.authToken;
+      const { tipo, mensagem } = req.body;
+      const tiposValidos = ["bug", "melhoria"];
+
+      if (!tiposValidos.includes(tipo)) {
+        return res.status(400).json({
+          details: `Tipo inválido. Opções permitidas: ${tiposValidos.join(
+            ", "
+          )}`,
+        });
+      }
+
+      if (mensagem.lenght > 150) {
+        return res.status(401).json({
+          details: "Quantidade de caracteres invalida",
+        });
+      }
+
+      if (mensagem.lenght < 10 || !mensagem) {
+        return res.status(401).json({
+          details:
+            "A sua mensagem esta curta demais. Por favor, descreva melhor o que deseja relatar.",
+        });
+      }
+
+      await userService.feedbackUsuario(token, tipo, mensagem);
+
+      return res.sendStatus(200);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        details: "erro no servidor",
+      });
+    }
+  }
 }
 
 export default UserController;

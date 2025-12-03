@@ -7,6 +7,10 @@ export function validarCampos(nome, preco, quantidade, validade) {
     erro("Quantidade de caracteres invalidos no campo nome");
   }
 
+  if (nome.length < 5) {
+    erro("Quantidade de caracteres invalidos no campo nome");
+  }
+
   if (preco.length > 30) {
     erro("Quantidade de caracteres invalidos no campo preco");
   }

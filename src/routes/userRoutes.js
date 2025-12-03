@@ -13,5 +13,6 @@ router.get("/logout", userController.logout);
 router.get("/", userController.listarUsuarios);
 
 router.delete("/:id", userController.excluir);
+router.post("/feedback", userController.feedback);
 
 export default router;

@@ -1,5 +1,5 @@
 import { listarProduto, excluirProduto } from "./api.js";
-import { abrirModalEdicao } from "./modalEditar.js";
+import { abrirModalEdicao } from "./modal.js";
 import { formatarData } from "./utils.js";
 
 const tabela = document.getElementById("tabelaDeProdutos");
