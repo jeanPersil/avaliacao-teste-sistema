@@ -185,13 +185,13 @@ class UserController {
         });
       }
 
-      if (mensagem.lenght > 150) {
+      if (mensagem.length > 150) {
         return res.status(401).json({
-          details: "Quantidade de caracteres invalida",
+          details: "Quantidade maxima de caracteres permitida: 150",
         });
       }
 
-      if (mensagem.lenght < 10 || !mensagem) {
+      if (mensagem.length < 10 || !mensagem) {
         return res.status(401).json({
           details:
             "A sua mensagem esta curta demais. Por favor, descreva melhor o que deseja relatar.",

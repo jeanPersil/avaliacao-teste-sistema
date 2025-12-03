@@ -359,22 +359,21 @@ h3 {
   line-height: 1.4;
 }
 
-/* --- 2. Estilo do Modal (Janela Flutuante) --- */
 .modal-overlay {
-  display: none; /* Começa invisível */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro transparente */
-  z-index: 1000; /* Fica em cima de tudo */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
   justify-content: center;
   align-items: center;
 }
 
 .modal-overlay.aberto {
-  display: flex; /* Aparece quando tem a classe 'aberto' */
+  display: flex;
 }
 
 .modal-box {
@@ -467,10 +466,9 @@ h3 {
   box-shadow: 0 0 0 3px rgba(59, 91, 176, 0.1);
 }
 
-
 .report-modal {
-  display: none; 
-  position: fixed; 
+  display: none;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
