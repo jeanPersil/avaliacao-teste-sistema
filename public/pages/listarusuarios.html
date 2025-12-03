@@ -10,18 +10,43 @@
   </head>
   <body class="layout">
     <aside class="menu">
-      <div class="user">
-        <h1>Painel de admin</h1>
-        <h2>Gerenciamento</h2>
-      </div>
+      <div>
+        <div class="user">
+          <h1>Painel de admin</h1>
+          <h2>Gerenciamento</h2>
+        </div>
 
-      <hr />
-      <ul>
-        <li><a href="/painelAdmin">Produtos</a></li>
-        <li><a href="/cadprod">Adicionar Produto</a></li>
-        <li><a href="/listaUsuarios">Usuarios</a></li>
-        <li><a href="/user/logout"> Logout </a></li>
-      </ul>
+        <hr class="e" />
+
+        <ul>
+          <li>
+            <a href="/painelAdmin">
+              <img src="imgs/list.svg" alt="Ícone" width="16" /> Produtos</a
+            >
+          </li>
+          <li>
+            <a href="/cadprod">
+              <img src="imgs/plus-square.svg" alt="Ícone" width="16" />
+              Adicionar Produto</a
+            >
+          </li>
+          <li>
+            <a href="/listaUsuarios"
+              ><img src="imgs/people-fill.svg" alt="Ícone" width="16" />
+              Usuarios</a
+            >
+          </li>
+          <li>
+            <a href="#">
+              <img src="imgs/flag.svg" alt="Ícone" width="16" /> Feedback</a
+            >
+          </li>
+        </ul>
+      </div>
+      <a href="/user/logout"
+        ><img src="imgs/box-arrow-right.svg" alt="Ícone" width="16" />
+        Logout
+      </a>
     </aside>
 
     <header class="cabecalho">
