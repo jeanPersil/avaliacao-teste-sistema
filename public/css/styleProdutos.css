@@ -1,5 +1,3 @@
-
-/* Reset e estilos base */
 * {
     margin: 0;
     padding: 0;
@@ -19,7 +17,7 @@ body {
     line-height: 1.6;
 }
 
-/* Container principal */
+
 .container {
     max-width: 800px;
     width: 100%;
@@ -33,7 +31,7 @@ body {
     animation: fadeInUp 0.8s ease-out;
 }
 
-/* Header da compra */
+
 .header-compra {
     text-align: center;
     margin-bottom: 30px;
@@ -60,7 +58,6 @@ body {
     margin: 0;
 }
 
-/* Card da compra */
 .card-compra {
     background: #ffffff;
     padding: 30px;
@@ -70,7 +67,7 @@ body {
     margin-bottom: 30px;
 }
 
-/* Grupos de formulário */
+
 .form-group {
     margin-bottom: 2rem;
 }
@@ -88,7 +85,7 @@ body {
     width: 20px;
 }
 
-/* Campos de formulário */
+
 .form-control {
     width: 100%;
     padding: 12px 15px;
@@ -107,7 +104,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* Controle de quantidade */
+
 .quantidade-container {
     display: flex;
     align-items: center;
@@ -182,7 +179,6 @@ body {
     color: #6c757d;
 }
 
-/* Resumo da compra */
 .resumo-compra {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     padding: 20px;
@@ -209,7 +205,7 @@ body {
     color: #28a745;
 }
 
-/* Botão de compra */
+
 .btn-comprar {
     width: 100%;
     padding: 15px 30px;
@@ -240,7 +236,7 @@ body {
     transform: none;
 }
 
-/* Produtos em destaque */
+
 .produtos-destaque {
     background: white;
     padding: 25px;
@@ -296,7 +292,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* Botão Sair */
+
 .btn-logout {
     position: fixed;
     top: 20px;
@@ -378,7 +374,7 @@ body {
     }
 }
 
-/* Loading state */
+
 .btn-carregando {
     position: relative;
     color: transparent !important;
@@ -499,4 +495,239 @@ body {
 
 .visivel {
     display: block !important;
+}
+
+
+#containerParcelas {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #dee2e6;
+  margin-top: 10px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+#parcelas {
+  background: white;
+  border: 2px solid #e9ecef;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+#parcelas:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
+#parcelas:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+}
+
+
+.info-parcelas {
+  margin-top: 15px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.info-parcelas .info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.info-parcelas .info-item:last-child {
+  margin-bottom: 0;
+  padding-top: 8px;
+  border-top: 2px dashed #e9ecef;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.info-parcelas .info-label {
+  color: #495057;
+  font-weight: 600;
+}
+
+.info-parcelas .info-value {
+  color: #28a745;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+#metodoPagamento {
+  background: white;
+  border: 2px solid #e9ecef;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+#metodoPagamento option {
+  padding: 10px;
+  font-size: 1rem;
+}
+
+#metodoPagamento:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
+#metodoPagamento:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+}
+
+
+.form-label .icon {
+  margin-right: 8px;
+  display: inline-block;
+}
+
+
+#totalComJuros {
+  font-size: 1.15rem;
+  transition: all 0.3s ease;
+}
+
+
+@keyframes pulse-warning {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.info-parcelas .info-item:last-child .info-value {
+  animation: pulse-warning 2s ease-in-out infinite;
+}
+
+
+.metodo-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.metodo-badge.desconto {
+  background: #d4edda;
+  color: #155724;
+}
+
+.metodo-badge.juros {
+  background: #fff3cd;
+  color: #856404;
+}
+
+
+.resumo-compra {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  border: 2px solid #dee2e6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+
+@media (max-width: 768px) {
+  #containerParcelas {
+    padding: 15px;
+  }
+  
+  .info-parcelas .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .info-parcelas .info-value {
+    font-size: 1.2rem;
+    margin-top: 5px;
+  }
+  
+  #parcelas,
+  #metodoPagamento {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #containerParcelas {
+    padding: 12px;
+  }
+  
+  .info-parcelas {
+    padding: 12px;
+  }
+  
+  #parcelas option {
+    font-size: 0.9rem;
+  }
+}
+
+
+.mensagem-alerta.sucesso {
+  animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+#parcelas:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #f8f9fa;
+}
+
+.form-label[title] {
+  cursor: help;
+  position: relative;
+}
+
+.btn-comprar .icon {
+  margin-right: 8px;
+  transition: transform 0.3s ease;
+}
+
+.btn-comprar:hover .icon {
+  transform: scale(1.2) rotate(15deg);
 }

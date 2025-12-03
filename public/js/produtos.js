@@ -16,9 +16,16 @@ class VendasController {
     this.listaProdutosDestaque = document.getElementById(
       "listaProdutosDestaque"
     );
+    
+    
+    this.selectMetodoPagamento = document.getElementById("metodoPagamento");
+    this.selectParcelas = document.getElementById("parcelas");
+    this.containerParcelas = document.getElementById("containerParcelas");
+    this.valorParcela = document.getElementById("valorParcela");
 
     this.produtosDisponiveis = [];
     this.produtoSelecionado = null;
+    this.totalComJurosCalculado = 0;
 
     this.init();
   }
@@ -40,6 +47,14 @@ class VendasController {
       this.alterarQuantidade(-1)
     );
     this.btnAumentar.addEventListener("click", () => this.alterarQuantidade(1));
+    
+    // Eventos de pagamento
+    this.selectMetodoPagamento.addEventListener("change", () => 
+      this.handleMetodoPagamentoChange()
+    );
+    this.selectParcelas.addEventListener("change", () => 
+      this.calcularParcelas()
+    );
   }
 
   alterarQuantidade(valor) {
@@ -64,7 +79,6 @@ class VendasController {
         throw new Error(resposta.error);
       }
 
-      // Extraímos o array de produtos da resposta da API
       const produtos = resposta.produtos || [];
 
       console.log("Produtos carregados:", produtos);
@@ -73,7 +87,17 @@ class VendasController {
       this.selectProduto.innerHTML =
         '<option value="">Selecione um produto</option>';
 
-      produtos.forEach((produto) => {
+      
+      const produtosDisponiveis = produtos.filter(p => p.quantidade > 0);
+
+      if (produtosDisponiveis.length === 0) {
+        this.selectProduto.innerHTML = '<option value="">Nenhum produto disponível</option>';
+        this.selectProduto.disabled = true;
+        this.mostrarMensagem("Não há produtos disponíveis em estoque no momento.", "aviso");
+        return;
+      }
+
+      produtosDisponiveis.forEach((produto) => {
         const option = document.createElement("option");
         option.value = produto.id;
         option.textContent = `${produto.nome} - R$ ${produto.preco.toFixed(2)}`;
@@ -89,7 +113,6 @@ class VendasController {
       this.selectProduto.innerHTML =
         '<option value="">Erro ao carregar produtos</option>';
       this.selectProduto.disabled = true;
-      // Mostra o erro na tela se houver mensagem
       this.mostrarMensagem(error.message || "Erro de conexão", "erro");
     }
   }
@@ -100,6 +123,16 @@ class VendasController {
     const produtosComEstoque = produtos
       .filter((produto) => produto.quantidade > 0)
       .slice(0, 6);
+
+    if (produtosComEstoque.length === 0) {
+      this.listaProdutosDestaque.innerHTML = `
+        <div style="text-align: center; padding: 20px; color: #6c757d; width: 100%;">
+          <p style="font-size: 16px; margin: 0;">📦 Nenhum produto disponível</p>
+          <p style="font-size: 14px; margin-top: 8px;">Aguarde a reposição do estoque</p>
+        </div>
+      `;
+      return;
+    }
 
     produtosComEstoque.forEach((produto) => {
       const produtoElement = document.createElement("div");
@@ -165,6 +198,66 @@ class VendasController {
     this.precoUnitario.textContent = "R$ 0,00";
     this.quantidadeResumo.textContent = "0";
     this.totalCompra.textContent = "R$ 0,00";
+    this.containerParcelas.style.display = "none";
+  }
+
+  handleMetodoPagamentoChange() {
+    const metodo = this.selectMetodoPagamento.value;
+    
+    if (metodo === 'credito') {
+      this.containerParcelas.style.display = 'block';
+      this.calcularParcelas();
+    } else {
+      this.containerParcelas.style.display = 'none';
+      this.atualizarResumo();
+    }
+  }
+
+  calcularParcelas() {
+    if (!this.produtoSelecionado) return;
+
+    const quantidade = parseInt(this.inputQuantidade.value) || 0;
+    const totalBase = this.produtoSelecionado.preco * quantidade;
+    const numeroParcelas = parseInt(this.selectParcelas.value);
+
+    
+    const tabelaJuros = {
+      1: 0,      
+      2: 1.99,   
+      3: 2.49,   
+      4: 2.99,   
+      5: 3.49,   
+      6: 3.99,   
+      7: 4.49,  
+      8: 4.99,   
+      9: 5.49,   
+      10: 5.99,  
+      11: 6.49,  
+      12: 6.99   
+    };
+
+    const taxaJuros = tabelaJuros[numeroParcelas] || 0;
+    const totalComJuros = totalBase * (1 + taxaJuros / 100);
+    const valorParcela = totalComJuros / numeroParcelas;
+
+    
+    this.totalComJurosCalculado = totalComJuros;
+
+    this.valorParcela.textContent = `R$ ${valorParcela.toFixed(2)}`;
+
+    // Atualiza o total principal
+    this.totalCompra.textContent = `R$ ${totalComJuros.toFixed(2)}`;
+
+    s
+    if (taxaJuros > 0) {
+      this.valorParcela.style.color = '#dc3545';
+      this.valorParcela.style.fontWeight = 'bold';
+      this.totalCompra.style.color = '#28a745';
+    } else {
+      this.valorParcela.style.color = '#28a745';
+      this.valorParcela.style.fontWeight = '600';
+      this.totalCompra.style.color = '#28a745';
+    }
   }
 
   atualizarResumo() {
@@ -172,20 +265,32 @@ class VendasController {
 
     const quantidade = parseInt(this.inputQuantidade.value) || 0;
     const precoUnitario = this.produtoSelecionado.preco;
-    const total = precoUnitario * quantidade;
+    const totalBase = precoUnitario * quantidade;
 
     this.precoUnitario.textContent = `R$ ${precoUnitario.toFixed(2)}`;
     this.quantidadeResumo.textContent = quantidade;
-    this.totalCompra.textContent = `R$ ${total.toFixed(2)}`;
+
+    
+    if (this.selectMetodoPagamento.value === 'credito' && this.containerParcelas.style.display !== 'none') {
+      this.calcularParcelas();
+      
+    } else {
+     
+      this.totalCompra.textContent = `R$ ${totalBase.toFixed(2)}`;
+      this.totalCompra.style.color = "#28a745";
+    }
 
     if (quantidade > this.produtoSelecionado.quantidade) {
       this.totalCompra.style.color = "#dc3545";
       this.btnVender.disabled = true;
       this.btnVender.title = "Quantidade indisponível em estoque";
     } else {
-      this.totalCompra.style.color = "#28a745";
-      this.btnVender.disabled = false;
-      this.btnVender.title = "";
+      if (quantidade <= 0) {
+        this.btnVender.disabled = true;
+      } else {
+        this.btnVender.disabled = false;
+        this.btnVender.title = "";
+      }
     }
   }
 
@@ -194,10 +299,20 @@ class VendasController {
 
     const produtoId = this.selectProduto.value;
     const quantidade = Number(this.inputQuantidade.value);
+    const metodoPagamento = this.selectMetodoPagamento.value;
 
+    
     if (!produtoId || quantidade <= 0 || isNaN(quantidade)) {
       this.mostrarMensagem(
         "Selecione um produto e insira uma quantidade válida.",
+        "aviso"
+      );
+      return;
+    }
+
+    if (!metodoPagamento) {
+      this.mostrarMensagem(
+        "Selecione um método de pagamento.",
         "aviso"
       );
       return;
@@ -213,30 +328,36 @@ class VendasController {
       return;
     }
 
-    // Mostrar estado de carregamento
+    
+    const dadosVenda = {
+      produtoId,
+      quantidade,
+      metodoPagamento,
+      parcelas: metodoPagamento === 'credito' ? parseInt(this.selectParcelas.value) : 1
+    };
+
+    
     this.btnVender.disabled = true;
     this.btnVender.classList.add("btn-carregando");
     this.btnVender.textContent = "Processando...";
 
     try {
-      // AJUSTE: Removida a verificação manual do Supabase.
-      // A função realizarVenda() da API usa 'withCredentials: true',
-      // então o backend validará a sessão.
-
       const resultado = await realizarVenda(produtoId, quantidade);
 
-      // AJUSTE: Lógica de verificação de sucesso baseada na API fornecida
-      // Se tiver 'error' no objeto retornado, falhou. Se for undefined ou vazio, sucesso.
       if (resultado && resultado.error) {
         this.mostrarMensagem(resultado.error, "erro");
       } else {
-        // Sucesso
-        this.mostrarMensagem("Venda realizada com sucesso!", "sucesso");
+        this.mostrarMensagem(
+          `🎉 Compra realizada com sucesso! ${this.getTextoPagamento(dadosVenda)}`,
+          "sucesso"
+        );
 
-        // Resetar formulário após sucesso
-        await this.carregarProdutos(); // Recarrega para atualizar estoque
+        
+        await this.carregarProdutos();
         this.selectProduto.value = "";
         this.inputQuantidade.value = "1";
+        this.selectMetodoPagamento.value = "";
+        this.containerParcelas.style.display = "none";
         this.limparInfoProduto();
 
         setTimeout(() => this.selectProduto.focus(), 500);
@@ -249,6 +370,47 @@ class VendasController {
       this.btnVender.classList.remove("btn-carregando");
       this.btnVender.textContent = "Finalizar Compra";
     }
+  }
+
+  gerarConfirmacaoVenda(dados) {
+    const quantidade = parseInt(this.inputQuantidade.value);
+    const total = this.produtoSelecionado.preco * quantidade;
+    
+    let mensagem = `Confirmar compra?\n\n`;
+    mensagem += `Produto: ${this.produtoSelecionado.nome}\n`;
+    mensagem += `Quantidade: ${quantidade}\n`;
+    mensagem += `Pagamento: ${this.getTextoMetodo(dados.metodoPagamento)}`;
+    
+    if (dados.metodoPagamento === 'credito' && dados.parcelas > 1) {
+      const numeroParcelas = dados.parcelas;
+      const valorParcela = parseFloat(this.valorParcela.textContent.replace('R$ ', ''));
+      const totalComJuros = this.totalComJurosCalculado;
+      
+      mensagem += `\n\n${numeroParcelas}x de R$ ${valorParcela.toFixed(2)}`;
+      mensagem += `\nTotal: R$ ${totalComJuros.toFixed(2)}`;
+    } else {
+      mensagem += `\nTotal: R$ ${total.toFixed(2)}`;
+    }
+    
+    return mensagem;
+  }
+
+  getTextoMetodo(metodo) {
+    const metodos = {
+      'dinheiro': 'Dinheiro',
+      'pix': 'PIX',
+      'debito': 'Débito',
+      'credito': 'Crédito'
+    };
+    return metodos[metodo] || metodo;
+  }
+
+  getTextoPagamento(dados) {
+    if (dados.metodoPagamento === 'credito' && dados.parcelas > 1) {
+      const valorParcela = parseFloat(this.valorParcela.textContent.replace('R$ ', ''));
+      return `Pagamento: ${dados.parcelas}x de R$ ${valorParcela.toFixed(2)} no crédito`;
+    }
+    return `Pagamento: ${this.getTextoMetodo(dados.metodoPagamento)}`;
   }
 
   mostrarMensagem(texto, tipo = "sucesso") {
