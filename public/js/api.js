@@ -1,4 +1,4 @@
-const url = "http://localhost:3000";
+const url = "";
 
 export const cadastrarUsuario = async (email, senha, nome, telefone) => {
   try {
