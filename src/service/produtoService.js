@@ -124,7 +124,7 @@ class ProdutoService {
 
     const { error: vendaErro } = await supabase.from("compras").insert([
       {
-        cliente_Id: user.id,
+        cliente_id: user.id,
         produto_id: produtoId,
         quantidade,
         total: produto.preco * quantidade,
