@@ -2,7 +2,6 @@ import { listarProduto, excluirProduto } from "./api.js";
 import { abrirModalEdicao } from "./modalEditar.js";
 import { formatarData } from "./utils.js";
 
-const loader = document.getElementById("loader");
 const tabela = document.getElementById("tabelaDeProdutos");
 
 let paginaAtual = 1;
@@ -27,12 +26,14 @@ function exibirProdutos(produtos) {
     let estoqueAviso = "";
     let validadeAviso = "";
 
+    // ⚠ Estoque
     if (produto.quantidade == 0) {
       estoqueAviso = `<span class="aviso-zero">⚠ Sem estoque</span>`;
     } else if (produto.quantidade < 10) {
       estoqueAviso = `<span class="aviso-baixo">⚠ Quantidade baixa</span>`;
     }
 
+    // ⚠ Validade
     const hoje = new Date();
     const validadeData = new Date(produto.validade);
 
@@ -165,29 +166,23 @@ function adicionarEventosPaginacao() {
   });
 }
 
-function carregarProdutos(pagina = 1, limite = 5) {
-  loader.style.display = "block";
+async function carregarProdutos(pagina = 1, limite = 5) {
+  try {
+    listaProdutos = await listarProduto(pagina, limite);
+    console.log(listaProdutos);
 
-  listarProduto(pagina, limite)
-    .then((res) => {
-      listaProdutos = res;
-
-      if (res.error) {
-        console.error("Erro:", res.error);
-        exibirProdutos([]);
-        return;
-      }
-
-      exibirProdutos(res.produtos);
-      atualizarPaginacao(res.paginacao);
-    })
-    .catch((error) => {
-      console.error("Erro ao carregar produtos:", error);
+    if (listaProdutos.error) {
+      console.error("Erro:", listaProdutos.error);
       exibirProdutos([]);
-    })
-    .finally(() => {
-      loader.style.display = "none"; // Esconde o loading
-    });
+      return;
+    }
+
+    exibirProdutos(listaProdutos.produtos);
+    atualizarPaginacao(listaProdutos.paginacao);
+  } catch (error) {
+    console.error("Erro ao carregar produtos:", error);
+    exibirProdutos([]);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

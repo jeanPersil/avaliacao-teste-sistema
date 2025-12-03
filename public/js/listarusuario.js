@@ -129,32 +129,27 @@ function adicionarEventosPaginacao() {
   });
 }
 
-function carregarUsuarios(pagina = 1, limite = 7) {
-  loader.style.display = "block";
+async function carregarUsuarios(pagina = 1, limite = 7) {
+  try {
+    console.log(`Carregando página ${pagina}...`);
 
-  listar_usuarios(pagina, limite)
-    .then((res) => {
-      listaUsuario = res;
+    listaUsuario = await listar_usuarios(pagina, limite);
 
-      if (res.error) {
-        console.error("Erro:", res.error);
-        exibirUsuarios([]);
-        return;
-      }
-
-      console.log("Usuários carregados:", res.usuarios);
-      console.log("Dados paginação:", res.paginacao);
-
-      exibirUsuarios(res.usuarios);
-      atualizarPaginacao(res.paginacao);
-    })
-    .catch((error) => {
-      console.error("Erro ao carregar usuários:", error);
+    if (listaUsuario.error) {
+      console.error("Erro:", listaUsuario.error);
       exibirUsuarios([]);
-    })
-    .finally(() => {
-      loader.style.display = "none";
-    });
+      return;
+    }
+
+    console.log("Usuários carregados:", listaUsuario.usuarios);
+    console.log("Dados paginação:", listaUsuario.paginacao);
+
+    exibirUsuarios(listaUsuario.usuarios);
+    atualizarPaginacao(listaUsuario.paginacao);
+  } catch (error) {
+    console.error("Erro ao carregar usuários:", error);
+    exibirUsuarios([]);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
