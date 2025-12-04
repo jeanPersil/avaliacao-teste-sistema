@@ -31,6 +31,14 @@ class UserController {
 
       return res.sendStatus(200);
     } catch (error) {
+
+ if (error.message.toLowerCase().includes("email") && 
+    error.message.toLowerCase().includes("invalid")) {
+  return res.status(401).json({
+    details: "Email inválido"
+  });
+}
+
       if (error.message.includes("Nome inválido")) {
         return res.status(401).json({
           details: "Nome Completo invalido",
