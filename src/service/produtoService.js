@@ -120,7 +120,7 @@ class ProdutoService {
     if (!produto) throw new Error("Produto não foi encontrado");
 
     if (produto.quantidade < quantidade)
-      throw new Error("Estoque insuficiente.");
+      throw new Error("O produto ficou sem estoque para essa quantidade.");
 
     const { error: vendaErro } = await supabase.from("compras").insert([
       {
