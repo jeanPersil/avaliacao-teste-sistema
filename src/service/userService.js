@@ -5,6 +5,9 @@ class UserService {
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: email,
       password: senha,
+      options: {
+        emailRedirectTo: "https://cityshop-iota.vercel.app/",
+      },
     });
 
     if (authError) throw new Error(authError.message);
@@ -21,7 +24,7 @@ class UserService {
         },
       ])
       .select();
-
+ 
     if (userError) {
       await supabase.auth.admin.deleteUser(authData.user.id);
       throw new Error(userError.message);

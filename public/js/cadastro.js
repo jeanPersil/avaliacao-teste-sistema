@@ -56,17 +56,15 @@ document.addEventListener("DOMContentLoaded", async function () {
       );
 
       if (res.error) {
-        alert(res.error); 
+        alert(res.error);
         return;
       }
 
-      const login = await efetuarLogin(email, confirmaSenha);
-
       alert(
-        "Sua conta foi criada! Você será redirecionado para a tela de compras..."
+        "Verifique a caixa de entrada do seu email. Enviamos um link de confirmação."
       );
 
-      window.location.href = login;
+      window.location.href = "/";
     });
   }
 });
