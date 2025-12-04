@@ -7,31 +7,19 @@ class UserService {
       password: senha,
       options: {
         emailRedirectTo: "https://cityshop-iota.vercel.app/",
+        data: {
+          nome_completo: nome,
+          telefone: telefone,
+          role: role,
+        },
       },
     });
 
     if (authError) throw new Error(authError.message);
 
-    const { data: userData, error: userError } = await supabase
-      .from("usuarios")
-      .insert([
-        {
-          id: authData.user.id,
-          nome_completo: nome,
-          telefone: telefone,
-          email: email,
-          role: role,
-        },
-      ])
-      .select();
- 
-    if (userError) {
-      await supabase.auth.admin.deleteUser(authData.user.id);
-      throw new Error(userError.message);
-    }
-
     return true;
   }
+
   async logarUsuario(email, password) {
     const { data: login, error } = await supabase.auth.signInWithPassword({
       email,
@@ -46,10 +34,9 @@ class UserService {
       .eq("id", login.user.id)
       .single();
 
-    if (userError) throw new Error(userError.message);
+    if (userError) throw new Error("Erro ao recuperar perfil do usuário.");
 
     const roleDoUsuario = userData.role;
-
     const pagina = roleDoUsuario === "admin" ? "/painelAdmin" : "/produtos";
 
     return {
@@ -64,15 +51,16 @@ class UserService {
       const fim = inicio + limite - 1;
 
       const { data, error, count } = await supabase
-        .from("usuarios")
+        .from("view_usuarios_admin")
         .select("*", { count: "exact" })
+
+        .not("email_confirmed_at", "is", null)
         .order("created_at", { ascending: false })
         .range(inicio, fim);
 
       if (error) {
         throw new Error(`Erro ao buscar usuários: ${error.message}`);
       }
-
       if (!data) {
         return {
           usuarios: [],
@@ -107,20 +95,8 @@ class UserService {
 
     if (error) throw new Error(error.message);
 
-    if (data) {
-      if (data.role === "admin") {
-        throw new Error("user é admin");
-      }
-
-      const { error: userError } = await supabase
-        .from("usuarios")
-        .delete()
-        .eq("id", id);
-
-      if (userError)
-        throw new Error(
-          "Erro ao apagar dados (verifique vínculos): " + userError.message
-        );
+    if (data && data.role === "admin") {
+      throw new Error("Não é permitido excluir um administrador.");
     }
 
     const { error: authError } = await supabase.auth.admin.deleteUser(id);
