@@ -102,7 +102,7 @@ class ProdutoService {
 
     if (error) {
       console.error("Erro ao remover produto:", error);
-      return false;
+      throw new Error(error.message);
     }
     return true;
   }

@@ -5,7 +5,7 @@ import { formatarData } from "./utils.js";
 const tabela = document.getElementById("tabelaDeProdutos");
 
 let paginaAtual = 1;
-const limitePorPagina = 6;
+const limitePorPagina = 8;
 let totalPaginas = 1;
 let listaProdutos = [];
 

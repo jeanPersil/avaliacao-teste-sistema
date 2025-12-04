@@ -236,7 +236,7 @@ export const realizarVenda = async (produtoId, quantidade) => {
 export const enviarFeedback = async (tipo, mensagem) => {
   try {
     const dados = { tipo, mensagem };
-    await axios.post(`${url}/user/feedback`, dados, {
+    await axios.post(`${url}/feedback`, dados, {
       withCredentials: true,
     });
 
@@ -246,6 +246,84 @@ export const enviarFeedback = async (tipo, mensagem) => {
       console.error("Erro na requisição:", error.response.data);
       return {
         error: error.response.data.details || "Erro ao enviar feedback",
+      };
+    } else if (error.request) {
+      console.error("Erro de conexão:", error.request);
+      return {
+        error:
+          "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+      };
+    } else {
+      console.error("Erro desconhecido:", error.message);
+      return { error: "Ocorreu um erro inesperado." };
+    }
+  }
+};
+
+export const listarFeedbacks = async (pagina, limite) => {
+  try {
+    const response = await axios.get(`${url}/feedback`, {
+      params: { pagina: pagina, limite: limite },
+    });
+
+    return {
+      feedbacks: response.data.feedbacks,
+      paginacao: response.data.paginacao,
+    };
+  } catch (error) {
+    if (error.response) {
+      console.error("Erro na requisição:", error.response.data);
+      return {
+        error: error.response.data.details || "Erro ao listar feedbacks",
+      };
+    } else if (error.request) {
+      console.error("Erro de conexão:", error.request);
+      return {
+        error:
+          "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+      };
+    } else {
+      console.error("Erro desconhecido:", error.message);
+      return { error: "Ocorreu um erro inesperado." };
+    }
+  }
+};
+
+export const editarFeedback = async (status, id) => {
+  try {
+    const dados = { status, id };
+    await axios.put(`${url}/feedback`, dados);
+
+    return { success: true };
+  } catch (error) {
+    if (error.response) {
+      console.error("Erro na requisição:", error.response.data);
+      return {
+        error: error.response.data.details || "Erro ao editar feedback",
+      };
+    } else if (error.request) {
+      console.error("Erro de conexão:", error.request);
+      return {
+        error:
+          "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+      };
+    } else {
+      console.error("Erro desconhecido:", error.message);
+      return { error: "Ocorreu um erro inesperado." };
+    }
+  }
+};
+
+export const excluirFeedback = async (id) => {
+  try {
+    await axios.delete(`${url}/feedback/${id}`);
+
+    return { success: true };
+  } catch (error) {
+    if (error.response) {
+      console.error("Erro na requisição:", error.response.data);
+      return {
+        error: error.response.data.details || "Erro ao deletar produto",
       };
     } else if (error.request) {
       console.error("Erro de conexão:", error.request);

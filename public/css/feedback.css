@@ -512,3 +512,80 @@ h3 {
     opacity: 1;
   }
 }
+
+.paginacao ul {
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.paginacao a {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s;
+}
+
+.paginacao a:hover {
+  background-color: #f0f0f0;
+}
+
+.paginacao a.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.paginacao a.disabled {
+  color: #ccc;
+  pointer-events: none;
+  border-color: #eee;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    height: auto;
+    min-height: 100vh;
+
+    grid-template-columns: 1fr;
+
+    grid-template-rows: auto auto 1fr auto;
+
+    grid-template-areas:
+      "cabecalho"
+      "menu"
+      "conteudo"
+      "rodape";
+  }
+
+  .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: none;
+    border-bottom: 1px solid var(--menu-border);
+    padding: 10px;
+    text-align: center;
+  }
+
+  .menu ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .conteudo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow-x: auto;
+    width: 100%;
+    padding: 10px;
+  }
+}

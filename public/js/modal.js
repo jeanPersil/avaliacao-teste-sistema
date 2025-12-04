@@ -138,9 +138,69 @@ function fecharModalReportFeedback() {
   modal.innerHTML = "";
 }
 
+function abrirModalEditarFeedback(feedback) {
+  const modal = document.getElementById("modal-novo-report");
+
+  const statusPendente = feedback.status === "pendente" ? "selected" : "";
+  const statusResolvido = feedback.status === "resolvido" ? "selected" : "";
+
+  modal.innerHTML = `
+    <div class="modal-box">
+      <form id="form-editar-feedback">
+      
+        <div class="modal-titulo">Detalhes do Report #${feedback.id}</div>
+
+        <div style="margin-bottom: 15px;">
+           <label style="font-size: 12px; color: #666;">Usuário</label>
+           <input type="text" value="${
+             feedback.nome_usuario || "Anônimo"
+           }" disabled 
+             style="width: 100%; padding: 8px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+           <label style="font-size: 12px; color: #666;">Descrição</label>
+           <textarea disabled 
+             style="width: 100%; padding: 8px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; resize: none;" 
+             rows="4">${feedback.mensagem}</textarea>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px;">Atualizar Status</label>
+          <select id="edit-status" style="width: 100%; padding: 10px; border: 1px solid #333; border-radius: 6px; background: #fff;">
+              <option value="Pendente">Pendente</option>
+              <option value="Em analise">Em analise</option>
+              <option value="Em andamento">Em andamento</option>
+              <option value="Finalizado">Finalizado</option>
+              <option value="Cancelado">Cancelado</option>
+              <option value="Recusado">Recusado</option>
+          </select>
+        </div>
+
+        <div class="modal-acoes" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+          
+          <button type="button" id="btnExcluirFeedback" style="background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+            Excluir
+          </button>
+
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn-fechar" id="fecharEdicao">Cancelar</button>
+            <button type="submit" class="btn-salvar">Salvar</button>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  `;
+
+  modal.classList.add("aberto");
+}
+
 export {
   abrirModalEdicao,
   fecharModal,
   abrirModalReportFeedback,
   fecharModalReportFeedback,
+  abrirModalEditarFeedback,
 };

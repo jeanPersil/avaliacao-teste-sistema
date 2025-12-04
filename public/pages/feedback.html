@@ -38,7 +38,7 @@
             >
           </li>
           <li>
-            <a href="/feedback">
+            <a href="/feedbacks">
               <img src="imgs/flag.svg" alt="Ícone" width="16" /> Feedback</a
             >
           </li>
@@ -59,51 +59,17 @@
 
     <main class="conteudo">
       <div class="filtros">
-        <div class="row">
-          <div class="grupo-input">
-            <label for="select-status">Status</label>
-            <select name="status" id="select-status">
-              <option value="todos">Todos</option>
-              <option value="pendente">Pendente</option>
-              <option value="em analise">Em analise</option>
-              <option value="em andamento">Em andamento</option>
-              <option value="finalizado">Finalizado</option>
-              <option value="cancelado">Cancelado</option>
-              <option value="recusado">Recusado</option>
-            </select>
-          </div>
-
-          <div class="grupo-input">
-            <label for="selecet-categoria">Categoria</label>
-            <select name="categoria" id="selecet-categoria">
-              <option value="todas">Todas</option>
-              <option value="bug">Bug</option>
-              <option value="melhoria">Melhoria</option>
-            </select>
-          </div>
-        </div>
-
         <button class="report" id="reportarFeedback">Reportar Feedback</button>
       </div>
       <div class="lista-cards">
-        <div class="feedback-card">
-          <div class="feedback-header">
-            <span class="feedback-tipo bug">Bug</span>
-            <span class="feedback-status pendente">Pendente</span>
-          </div>
-
-          <p class="feedback-mensagem">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Atque
-            exercitationem voluptate excepturi dignissimos velit dicta vel
-            ratione, quas, voluptas fugit, dolores porro non neque maiores
-          </p>
-
-          <div class="feedback-footer">
-            <span class="feedback-usuario">Usuário: João Silva</span>
-            <span class="feedback-data">03/12/2025</span>
-          </div>
-        </div>
+        <div class="feedback-card"></div>
       </div>
+
+      <nav class="paginacao" aria-label="Navegação de páginas">
+        <ul id="paginacao-lista">
+          <!-- A paginação será gerada dinamicamente aqui -->
+        </ul>
+      </nav>
     </main>
 
     <div class="report-modal" id="modal-novo-report"></div>
