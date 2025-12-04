@@ -10,8 +10,9 @@
     <link rel="stylesheet" href="css/styleProdutos.css" />
   </head>
   <body>
-    <!-- Botão Sair -->
+  
     <button type="button" id="btnSair" class="btn-logout">Sair</button>
+    <button type="button" id="btnFeedback" class="btn-feedback">💬 Feedback</button>
 
     <div class="container">
       <div class="header-compra">
@@ -57,7 +58,7 @@
             </label>
             <select id="metodoPagamento" class="form-control" required>
               <option value="">Selecione o método</option>
-              <option value="dinheiro"> Dinheiro</option>
+              <option value="dinheiro">Dinheiro</option>
               <option value="pix"> PIX (Instantâneo)</option>
               <option value="debito"> Cartão de Débito</option>
               <option value="credito"> Cartão de Crédito</option>
@@ -92,7 +93,7 @@
             </div>
           </div>
 
-         
+          
           <div class="resumo-compra">
             <div class="resumo-item">
               <span>Preço unitário:</span>
@@ -121,7 +122,7 @@
         ></div>
       </div>
 
-      
+      <!-- Produtos em destaque -->
       <div class="produtos-destaque">
         <h4><span class="icon"></span> Produtos em Estoque</h4>
         <div id="listaProdutosDestaque" class="lista-destaque">
@@ -136,6 +137,10 @@
         if (confirm("Tem certeza que deseja sair?")) {
           window.location.href = "/";
         }
+      });
+      
+      document.getElementById("btnFeedback").addEventListener("click", function () {
+        window.location.href = "/meu-feedback";
       });
     </script>
   </body>

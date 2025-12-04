@@ -731,3 +731,45 @@ body {
 .btn-comprar:hover .icon {
   transform: scale(1.2) rotate(15deg);
 }
+
+/* Botão Feedback */
+.btn-feedback {
+  position: fixed;
+  top: 20px;
+  right: 160px;
+  z-index: 1000;
+  min-width: 140px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-feedback:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+}
+
+.btn-feedback:active {
+  transform: translateY(0);
+}
+
+/* Responsividade para o botão feedback */
+@media (max-width: 768px) {
+  .btn-feedback {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 0 auto 10px auto;
+    display: block;
+    width: 100%;
+    max-width: 200px;
+  }
+}

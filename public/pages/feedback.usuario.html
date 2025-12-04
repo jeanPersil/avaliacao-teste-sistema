@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enviar Feedback - CityShop</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="css/feedbackUsuario.css" />
+  </head>
+  <body>
+   
+    <button type="button" id="btnVoltar" class="btn-voltar">
+      ← Voltar às Compras
+    </button>
+
+    <div class="container">
+      <div class="header-feedback">
+        <div class="icon-header">💬</div>
+        <h1>Sua opinião importa!</h1>
+        <p class="subtitle">
+          Encontrou algum problema ou tem sugestões? Conte pra gente!
+        </p>
+      </div>
+
+      <div class="card-feedback">
+        <form id="formFeedback">
+          
+          <div class="form-group">
+            <label for="tipoFeedback" class="form-label">
+              <span class="icon"></span> Tipo de Feedback
+            </label>
+            <select id="tipoFeedback" class="form-control" required>
+              <option value="">Selecione o tipo</option>
+              <option value="bug"> Bug (Erro no sistema)</option>
+              <option value="melhoria"> Melhoria (Sugestão)</option>
+            </select>
+            <small class="form-hint">
+              Escolha "Bug" para reportar erros ou "Melhoria" para sugestões
+            </small>
+          </div>
+
+          
+          <div class="form-group">
+            <label for="mensagemFeedback" class="form-label">
+              <span class="icon"></span> Descreva seu feedback
+            </label>
+            <textarea
+              id="mensagemFeedback"
+              class="form-control form-textarea"
+              rows="6"
+              required
+              minlength="10"
+              maxlength="150"
+              placeholder="Descreva detalhadamente o problema ou sugestão..."
+            ></textarea>
+            <div class="char-counter">
+              <span id="charCount">0</span>/150 caracteres
+              <span class="char-min">(mínimo 10)</span>
+            </div>
+          </div>
+
+         
+          <div class="exemplos-feedback">
+            <h3> Exemplos de bons feedbacks:</h3>
+            <ul>
+              <li>
+                <strong>Bug:</strong> "Ao tentar comprar 5 unidades de arroz,
+                recebi mensagem de erro mesmo tendo estoque disponível."
+              </li>
+              <li>
+                <strong>Melhoria:</strong> "Seria útil ter um histórico das
+                minhas compras anteriores na tela principal."
+              </li>
+            </ul>
+          </div>
+
+          
+          <div class="form-actions">
+            <button type="reset" class="btn btn-reset">Limpar</button>
+            <button type="submit" class="btn btn-submit" id="btnEnviar">
+              <span class="btn-text">Enviar Feedback</span>
+              <span class="btn-loading" style="display: none">
+                Enviando...
+              </span>
+            </button>
+          </div>
+        </form>
+
+        
+        <div
+          id="mensagemResposta"
+          class="mensagem-alerta"
+          style="display: none"
+          role="alert"
+        ></div>
+      </div>
+
+      
+      <div class="meus-feedbacks">
+        <h2> Meus Feedbacks Enviados</h2>
+        <div id="listaFeedbacks" class="lista-feedbacks">
+          
+          <div class="loading">Carregando seus feedbacks...</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="js/feedbackUsuario.js"></script>
+  </body>
+</html>
