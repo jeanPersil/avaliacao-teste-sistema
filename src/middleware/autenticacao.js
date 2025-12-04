@@ -34,6 +34,7 @@ class AuthMiddleware {
     if (error) throw new Error(error.message);
 
     if (data.role !== "admin") {
+      res.clearCookie("authToken");
       return res.redirect("/");
     }
     next();
