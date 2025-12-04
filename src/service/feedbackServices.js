@@ -33,7 +33,7 @@ class FeedbackServices {
       const fim = inicio + limite - 1;
 
       const { data, error, count } = await supabase
-        .from("feedbacks_resumidos") // View simplificada
+        .from("feedbacks_resumidos") 
         .select("*", { count: "exact" })
         .order("data", { ascending: false })
         .range(inicio, fim);

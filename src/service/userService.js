@@ -96,7 +96,7 @@ class UserService {
     if (error) throw new Error(error.message);
 
     if (data && data.role === "admin") {
-      throw new Error("Não é permitido excluir um administrador.");
+      throw new Error("user é admin");
     }
 
     const { error: authError } = await supabase.auth.admin.deleteUser(id);
