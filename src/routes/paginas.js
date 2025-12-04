@@ -22,22 +22,34 @@ router.get("/cadastro", (req, res) => {
 router.get(
   "/painelAdmin",
   AuthMiddleware.verificar_autenticacao,
+  AuthMiddleware.verificarAdmin,
   (req, res) => {
     sendPage(res, "paineladm.html");
   }
 );
 
-router.get("/cadprod", AuthMiddleware.verificar_autenticacao, (req, res) => {
-  sendPage(res, "cadprod.html");
-});
+router.get(
+  "/cadprod",
+  AuthMiddleware.verificar_autenticacao,
+  AuthMiddleware.verificarAdmin,
+  (req, res) => {
+    sendPage(res, "cadprod.html");
+  }
+);
 
-router.get("/listprod", AuthMiddleware.verificar_autenticacao, (req, res) => {
-  sendPage(res, "listprod.html");
-});
+router.get(
+  "/listprod",
+  AuthMiddleware.verificar_autenticacao,
+  AuthMiddleware.verificarAdmin,
+  (req, res) => {
+    sendPage(res, "listprod.html");
+  }
+);
 
 router.get(
   "/listaUsuarios",
   AuthMiddleware.verificar_autenticacao,
+  AuthMiddleware.verificarAdmin,
   (req, res) => {
     sendPage(res, "listarusuarios.html");
   }
@@ -47,12 +59,21 @@ router.get("/produtos", AuthMiddleware.verificar_autenticacao, (req, res) => {
   sendPage(res, "produtos.html");
 });
 
-router.get("/feedbacks", AuthMiddleware.verificar_autenticacao, (req, res) => {
-  sendPage(res, "feedback.html");
-});
+router.get(
+  "/feedbacks",
+  AuthMiddleware.verificar_autenticacao,
+  AuthMiddleware.verificarAdmin,
+  (req, res) => {
+    sendPage(res, "feedback.html");
+  }
+);
 
-router.get("/meu-feedback", AuthMiddleware.verificar_autenticacao, (req, res) => {
-  sendPage(res, "feedback.usuario.html");
-});
+router.get(
+  "/meu-feedback",
+  AuthMiddleware.verificar_autenticacao,
+  (req, res) => {
+    sendPage(res, "feedback.usuario.html");
+  }
+);
 
 export default router;

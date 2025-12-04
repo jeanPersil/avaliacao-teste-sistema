@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="css/styleProdutos.css" />
   </head>
   <body>
-  
     <button type="button" id="btnSair" class="btn-logout">Sair</button>
-    <button type="button" id="btnFeedback" class="btn-feedback">💬 Feedback</button>
+    <button type="button" id="btnFeedback" class="btn-feedback">
+      💬 Feedback
+    </button>
 
     <div class="container">
       <div class="header-compra">
@@ -51,7 +52,6 @@
             </div>
           </div>
 
-          
           <div class="form-group">
             <label for="metodoPagamento" class="form-label">
               <span class="icon"></span> Método de Pagamento
@@ -59,14 +59,13 @@
             <select id="metodoPagamento" class="form-control" required>
               <option value="">Selecione o método</option>
               <option value="dinheiro">Dinheiro</option>
-              <option value="pix"> PIX (Instantâneo)</option>
-              <option value="debito"> Cartão de Débito</option>
-              <option value="credito"> Cartão de Crédito</option>
+              <option value="pix">PIX (Instantâneo)</option>
+              <option value="debito">Cartão de Débito</option>
+              <option value="credito">Cartão de Crédito</option>
             </select>
           </div>
 
-          
-          <div id="containerParcelas" class="form-group" style="display: none;">
+          <div id="containerParcelas" class="form-group" style="display: none">
             <label for="parcelas" class="form-label">
               <span class="icon"></span> Parcelamento
             </label>
@@ -84,7 +83,7 @@
               <option value="11">11x - Juros de 6,49%</option>
               <option value="12">12x - Juros de 6,99%</option>
             </select>
-            
+
             <div class="info-parcelas">
               <div class="info-item">
                 <span class="info-label"> Cada parcela:</span>
@@ -93,7 +92,6 @@
             </div>
           </div>
 
-          
           <div class="resumo-compra">
             <div class="resumo-item">
               <span>Preço unitário:</span>
@@ -135,13 +133,15 @@
     <script>
       document.getElementById("btnSair").addEventListener("click", function () {
         if (confirm("Tem certeza que deseja sair?")) {
-          window.location.href = "/";
+          window.location.href = "/user/logout";
         }
       });
-      
-      document.getElementById("btnFeedback").addEventListener("click", function () {
-        window.location.href = "/meu-feedback";
-      });
+
+      document
+        .getElementById("btnFeedback")
+        .addEventListener("click", function () {
+          window.location.href = "/meu-feedback";
+        });
     </script>
   </body>
 </html>

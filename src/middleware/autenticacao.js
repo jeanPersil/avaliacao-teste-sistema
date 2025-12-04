@@ -21,6 +21,23 @@ class AuthMiddleware {
     req.user = user;
     next();
   }
+
+  async verificarAdmin(req, res, next) {
+    const userId = req.user.id;
+
+    const { data, error } = await supabase
+      .from("usuarios")
+      .select("role")
+      .eq("id", userId)
+      .single();
+
+    if (error) throw new Error(error.message);
+
+    if (data.role !== "admin") {
+      return res.redirect("/");
+    }
+    next();
+  }
 }
 
 export default new AuthMiddleware();
