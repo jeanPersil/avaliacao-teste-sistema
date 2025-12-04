@@ -31,11 +31,6 @@ class UserController {
 
       return res.sendStatus(200);
     } catch (error) {
-      if (error.message.includes("Email not confirmed")) {
-        return res.status(401).json({
-          details: "Confirme seu e-mail para ativar sua conta.",
-        });
-      }
       if (error.message.includes("Nome inválido")) {
         return res.status(401).json({
           details: "Nome Completo invalido",
@@ -100,6 +95,13 @@ class UserController {
           .status(401)
           .json({ details: "O email ou a senha estão incorretos." });
       }
+
+      if (error.message.includes("Email not confirmed")) {
+        return res.status(401).json({
+          details: "Confirme seu e-mail para ativar sua conta.",
+        });
+      }
+
       console.error(error);
       return res.status(500).json({
         details: "erro no servidor",
