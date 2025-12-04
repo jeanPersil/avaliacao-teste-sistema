@@ -13,9 +13,13 @@ import userRoutes from "./routes/userRoutes.js";
 import produtoRoutes from "./routes/produtoRoutes.js";
 import feedbackRoutes from "./routes/feedbackRoutes.js";
 
+app.set("view engine", "ejs")
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+
+
 
 // Ajuste do static
 app.use(express.static(path.join(__dirname, "../public")));

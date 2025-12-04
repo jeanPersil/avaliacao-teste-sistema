@@ -2,10 +2,10 @@ import { efetuarLogin } from "./api.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const toggleSenha = document.getElementById("iconeSenha");
-
   const campoSenha = document.getElementById("senha");
   const campoEmail = document.getElementById("email");
   const formLogin = document.getElementById("loginForm");
+  const recaptchaInput = document.getElementById("recaptchaToken");
 
   if (toggleSenha && campoSenha) {
     toggleSenha.addEventListener("click", function () {
@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
         campoSenha.getAttribute("type") === "password" ? "text" : "password";
       campoSenha.setAttribute("type", tipo);
 
-      o;
       this.classList.toggle("fa-eye");
       this.classList.toggle("fa-eye-slash");
     });
@@ -28,14 +27,29 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      const result = await efetuarLogin(campoEmail.value, campoSenha.value);
+      grecaptcha.ready(function () {
+        grecaptcha
+          .execute("6LdUGyEsAAAAABDkyKgw62DKlp7vy8zDNUxO2gB6", {
+            action: "login",
+          })
+          .then(async function (token) {
+            recaptchaInput.value = token;
 
-      if (result.error) {
-        alert(result.error);
-        return;
-      }
+          
+            const result = await efetuarLogin(
+              campoEmail.value,
+              campoSenha.value,
+              token 
+            );
 
-      window.location.href = result;
+            if (result.error) {
+              alert(result.error);
+              return;
+            }
+
+            window.location.href = result;
+          });
+      });
     });
   }
 });

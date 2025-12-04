@@ -1,3 +1,5 @@
+
+import axios from "axios";
 import UserService from "../service/userService.js";
 import {
   validarEmail,
@@ -5,6 +7,7 @@ import {
   validarSenha,
   validarNomeCompleto,
 } from "../utils/validar.js";
+import { response } from "express";
 
 const userService = new UserService();
 
@@ -74,11 +77,35 @@ class UserController {
 
   async login(req, res) {
     try {
-      const { email, password } = req.body;
+      const { email, password, recapchaToken } = req.body;
+      console.log(`
+        email: ${email}
+        password: ${password}
+        recapchaToken: ${recapchaToken}
+        `)
 
       if (!email.trim() || !password.trim()) {
         return res.status(400).json({
           details: "Email e senha devem ser preenchidos.",
+        });
+      }
+
+      const response = await axios.post(
+        `https://www.google.com/recaptcha/api/siteverify`,
+        null,
+        {
+          params: {
+            secret: process.env.CHAVE_SECRETA,
+            response: recapchaToken
+          }
+        }
+      );
+
+      console.log("Resposta do reCAPTCHA:", response.data);
+
+      if (!response.data.success || response.data.score < 0.5) {
+        return res.status(400).json({
+          details: "Falha na verificação do reCAPTCHA. Tente novamente.",
         });
       }
 

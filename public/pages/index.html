@@ -7,14 +7,13 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdUGyEsAAAAABDkyKgw62DKlp7vy8zDNUxO2gB6"></script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="css/login.css" />
@@ -75,11 +74,21 @@
             <a class="link" href="/cadastro">Não tem uma conta? Cadastre-se</a>
           </div>
 
+          <input type="hidden" id="recaptchaToken" name="recaptchaToken" />
+
           <button class="botao" type="submit">Entrar</button>
         </form>
       </section>
     </main>
 
     <script type="module" src="js/login.js"></script>
+
+    <script>
+      grecaptcha.ready(function() {
+        grecaptcha.execute('6LdUGyEsAAAAABDkyKgw62DKlp7vy8zDNUxO2gB6', {action: 'login'}).then(function(token) {
+          document.getElementById('recaptchaToken').value = token;
+        });
+      });
+    </script>
   </body>
 </html>

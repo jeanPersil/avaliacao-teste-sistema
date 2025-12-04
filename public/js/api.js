@@ -24,9 +24,9 @@ export const cadastrarUsuario = async (email, senha, nome, telefone) => {
   }
 };
 
-export const efetuarLogin = async (email, password) => {
+export const efetuarLogin = async (email, password, recapchaToken) => {
   try {
-    const data = { email, password };
+    const data = { email, password, recapchaToken };
     const response = await axios.post(`${url}/user/login`, data);
 
     return response.data.redirect;
