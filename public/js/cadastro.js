@@ -1,4 +1,4 @@
-import { cadastrarUsuario, efetuarLogin } from "./api.js";
+import { cadastrarUsuario } from "./api.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   const toggleSenha = document.getElementById("iconeSenha");
@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   const cadastroForm = document.getElementById("cadastroForm");
 
   if (cadastroForm) {
+    const btnSubmit = cadastroForm.querySelector('button[type="submit"]');
+
     cadastroForm.addEventListener("submit", async function (evento) {
       evento.preventDefault();
 
@@ -48,23 +50,52 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
       }
 
-      const res = await cadastrarUsuario(
-        email,
-        confirmaSenha,
-        nomeCompleto,
-        telefone
-      );
-
-      if (res.error) {
-        alert(res.error);
+      const recaptchaToken = grecaptcha.getResponse();
+      if (recaptchaToken.length === 0) {
+        alert("Por favor, marque a caixa 'Não sou um robô'.");
         return;
       }
 
-      alert(
-        "Verifique a caixa de entrada do seu email. Enviamos um link de confirmação."
-      );
+      const textoOriginal = btnSubmit.innerText;
+      btnSubmit.disabled = true;
+      btnSubmit.innerText = "Enviando...";
+      btnSubmit.style.cursor = "not-allowed";
+      btnSubmit.style.opacity = "0.7";
 
-      window.location.href = "/";
+      try {
+        const res = await cadastrarUsuario(
+          email,
+          confirmaSenha,
+          nomeCompleto,
+          telefone,
+          recaptchaToken
+        );
+
+        if (res.error) {
+          alert(res.error);
+
+          grecaptcha.reset();
+          btnSubmit.disabled = false;
+          btnSubmit.innerText = textoOriginal;
+          btnSubmit.style.cursor = "pointer";
+          btnSubmit.style.opacity = "1";
+          return;
+        }
+
+        alert(
+          "Verifique a caixa de entrada do seu email. Enviamos um link de confirmação."
+        );
+        window.location.href = "/";
+      } catch (error) {
+        console.error("Erro no cadastro:", error);
+        alert("Ocorreu um erro ao tentar cadastrar. Tente novamente.");
+
+        grecaptcha.reset();
+        btnSubmit.disabled = false;
+        btnSubmit.innerText = textoOriginal;
+        btnSubmit.style.cursor = "pointer";
+        btnSubmit.style.opacity = "1";
+      }
     });
   }
 });

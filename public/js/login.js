@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const campoSenha = document.getElementById("senha");
   const campoEmail = document.getElementById("email");
   const formLogin = document.getElementById("loginForm");
-  const recaptchaInput = document.getElementById("recaptchaToken");
 
   if (toggleSenha && campoSenha) {
     toggleSenha.addEventListener("click", function () {
@@ -27,29 +26,33 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      grecaptcha.ready(function () {
-        grecaptcha
-          .execute("6LdUGyEsAAAAABDkyKgw62DKlp7vy8zDNUxO2gB6", {
-            action: "login",
-          })
-          .then(async function (token) {
-            recaptchaInput.value = token;
+      const recaptchaToken = grecaptcha.getResponse();
 
-          
-            const result = await efetuarLogin(
-              campoEmail.value,
-              campoSenha.value,
-              token 
-            );
+      if (recaptchaToken.length === 0) {
+        alert("Por favor, marque a caixa 'Não sou um robô'.");
+        return;
+      }
 
-            if (result.error) {
-              alert(result.error);
-              return;
-            }
+      try {
+        const result = await efetuarLogin(
+          campoEmail.value,
+          campoSenha.value,
+          recaptchaToken
+        );
 
-            window.location.href = result;
-          });
-      });
+        if (result.error) {
+          alert(result.error);
+
+          grecaptcha.reset();
+          return;
+        }
+
+        window.location.href = result;
+      } catch (erro) {
+        console.error("Erro na requisição:", erro);
+        alert("Ocorreu um erro ao tentar conectar.");
+        grecaptcha.reset();
+      }
     });
   }
 });

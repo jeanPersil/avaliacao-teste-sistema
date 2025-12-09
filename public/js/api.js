@@ -1,8 +1,14 @@
 const url = "";
 
-export const cadastrarUsuario = async (email, senha, nome, telefone) => {
+export const cadastrarUsuario = async (
+  email,
+  senha,
+  nome,
+  telefone,
+  recaptchaToken
+) => {
   try {
-    const data = { email, senha, nome, telefone };
+    const data = { email, senha, nome, telefone, recaptchaToken };
     await axios.post(`${url}/user/cadastrar`, data);
     return true;
   } catch (error) {
@@ -24,9 +30,9 @@ export const cadastrarUsuario = async (email, senha, nome, telefone) => {
   }
 };
 
-export const efetuarLogin = async (email, password, recapchaToken) => {
+export const efetuarLogin = async (email, password, recaptchaToken) => {
   try {
-    const data = { email, password, recapchaToken };
+    const data = { email, password, recaptchaToken };
     const response = await axios.post(`${url}/user/login`, data);
 
     return response.data.redirect;

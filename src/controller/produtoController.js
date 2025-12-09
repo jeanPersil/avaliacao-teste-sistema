@@ -125,13 +125,6 @@ class ProdutoController {
     const token = req.cookies.authToken;
     const { produtoId, quantidade } = req.body;
 
-    console.log(`
-      token: ${token}
-      produtoId : ${produtoId}
-      quantidade: ${quantidade}
-      
-      `);
-
     if (!token || !produtoId || !quantidade || quantidade <= 0) {
       return res.status(400).json({
         details:
