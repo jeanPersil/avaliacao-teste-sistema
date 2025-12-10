@@ -1,4 +1,3 @@
-import axios from "axios";
 import UserService from "../service/userService.js";
 import {
   validarEmail,
