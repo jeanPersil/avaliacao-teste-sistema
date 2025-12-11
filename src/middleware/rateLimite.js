@@ -16,14 +16,14 @@ const loginLimiter = rateLimit({
 });
 
 const cadastroLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000,
+  windowMs: 5 * 60 * 1000,
   max: 5,
   statusCode: 429,
   message: (req, res) => {
     res.setHeader("Content-Type", "application/json");
     return JSON.stringify({
       details:
-        "Muitas tentativas de cadastro a partir deste IP. Por favor, tente novamente em uma hora.",
+        "Muitas tentativas de cadastro a partir deste IP. Por favor, tente novamente em alguns minutos.",
     });
   },
   standardHeaders: true,

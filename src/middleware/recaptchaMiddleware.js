@@ -5,7 +5,7 @@ export const validarRecaptcha = async (req, res, next) => {
 
   if (!token) {
     return res.status(400).json({
-      error: "Token do reCAPTCHA não foi enviado.",
+      details: "Token do reCAPTCHA não foi enviado.",
     });
   }
 
